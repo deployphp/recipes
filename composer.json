@@ -6,7 +6,7 @@
         "deployer",
         "recipes",
         "deploy",
-        "deployment"
+        "deployment",
         "cachetool",
         "newrelic"
     ],
