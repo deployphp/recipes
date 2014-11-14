@@ -1,0 +1,35 @@
+{
+    "name": "deployphp/recipes",
+    "description": "3rd party deployer recipes",
+    "type": "library",
+    "keywords": [
+        "deployer",
+        "recipes",
+        "deploy",
+        "deployment"
+        "cachetool",
+        "newrelic"
+    ],
+    "homepage": "https://github.com/deployphp/recipes",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Samuel Gordalina",
+            "email": "samuel.gordalina@gmail.com",
+            "homepage": "https://gordalina.com",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/deployphp/recipes/issues",
+        "forum": "https://gitter.im/deployphp/recipes",
+        "source": "https://github.com/deployphp/recipes"
+    },
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
