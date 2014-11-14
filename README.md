@@ -1,6 +1,23 @@
 # Deployer Recipes
 
 This repository contains third party recipes to integrate with deployer.
+
+## Using these recipes
+
+First install this repository as a dev dependency.
+
+```bash
+$ composer require-dev "deployphp/recipes >=1.0"
+```
+
+Include the recipes to your will.
+
+```php
+// deploy.php
+
+require 'vendor/deployphp/recipes/recipes/cachetool.php';
+```
+
 ## Recipes
 
 | Recipe    | Use | Docs
