@@ -6,6 +6,8 @@ This repository contains third party recipes to integrate with deployer.
 | Recipe    | Use | Docs
 | ------    | --- | -----
 | cachetool | ```require 'vendor/deployphp/recipes/recipes/cachetool.yml';``` | [read](http://github.com/deployphp/recipes/docs/cachetool.md)
+| newrelic  | ```require 'vendor/deployphp/recipes/recipes/newrelic.yml';``` | [read](http://github.com/deployphp/recipes/docs/newrelic.md)
+
 ### License
 
 Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
