@@ -6,8 +6,8 @@ This repository contains third party recipes to integrate with deployer.
 
 First install this repository as a dev dependency.
 
-```bash
-$ composer require-dev "deployphp/recipes >=1.0"
+```sh
+$ composer require --dev "deployphp/recipes >=1.0@dev"
 ```
 
 Include the recipes to your will.
