@@ -20,10 +20,10 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 
 ## Recipes
 
-| Recipe    | Use | Docs
-| ------    | --- | -----
-| cachetool | ```require 'vendor/deployphp/recipes/recipes/cachetool.yml';``` | [read](http://github.com/deployphp/recipes/docs/cachetool.md)
-| newrelic  | ```require 'vendor/deployphp/recipes/recipes/newrelic.yml';``` | [read](http://github.com/deployphp/recipes/docs/newrelic.md)
+| Recipe    | Docs                                                          | Usage
+| ------    | ----                                                          | -----
+| cachetool | [read](http://github.com/deployphp/recipes/docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.yml';`
+| newrelic  | [read](http://github.com/deployphp/recipes/docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.yml';`
 
 ## Contributing a recipe
 
