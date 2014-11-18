@@ -22,7 +22,7 @@
     ],
     "support": {
         "issues": "https://github.com/deployphp/recipes/issues",
-        "forum": "https://gitter.im/deployphp/recipes",
+        "forum": "https://gitter.im/elfet/deployer",
         "source": "https://github.com/deployphp/recipes"
     },
     "minimum-stability": "stable",
