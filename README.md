@@ -22,8 +22,8 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 
 | Recipe    | Docs                                                                      | Usage
 | ------    | ----                                                                      | -----
-| cachetool | [read](http://github.com/deployphp/recipes/blob/master/docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.yml';`
-| newrelic  | [read](http://github.com/deployphp/recipes/blob/master/docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.yml';`
+| cachetool | [read](http://github.com/deployphp/recipes/blob/master/docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
+| newrelic  | [read](http://github.com/deployphp/recipes/blob/master/docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
 
 ## Contributing a recipe
 
