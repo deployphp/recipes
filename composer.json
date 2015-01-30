@@ -8,7 +8,8 @@
         "deploy",
         "deployment",
         "cachetool",
-        "newrelic"
+        "newrelic",
+        "slack"
     ],
     "homepage": "https://github.com/deployphp/recipes",
     "license": "MIT",
@@ -18,6 +19,12 @@
             "email": "samuel.gordalina@gmail.com",
             "homepage": "https://gordalina.com",
             "role": "Maintainer"
+        },
+        {
+            "name": "Tomas Majer",
+            "email": "tomasmajer@gmail.com",
+            "homepage": "http://tomaj.sk",
+            "role": "Contributor"  
         }
     ],
     "support": {
