@@ -10,12 +10,14 @@ require 'vendor/deployphp/recipes/recipes/slack.php';
 
 ### Configuration options
 
-- **slack** *(required)*: accepts an *array* with the api token and team name. Token can be generated on (slack api website)[https://api.slack.com/web]. You can provide also other configuration options:
+- **slack** *(required)*: accepts an *array* with the api token and team name. Token can be generated on [slack api website](https://api.slack.com/web]).
 
-* message - default is Deployment successful
-* channel - default is #general
-* icon - default is :sunny:
-* username - default is Deploy
+You can provide also other configuration options:
+
+ - *message* - default is **Deployment to '{$host}' on *{$prod}* was successful\n({$releasePath})**
+ - *channel* - default is **#general**
+ - *icon* - default is **:sunny:**
+ - *username* - default is **Deploy**
 
 
 ```php
