@@ -5,6 +5,10 @@
  * file that was distributed with this source code.
  */
 
+use PhpAmqpLib\Connection\AMQPConnection;
+use PhpAmqpLib\Message\AMQPMessage;
+
+
 /**
  * Notify Rabbit of successful deployment
  */
@@ -37,10 +41,10 @@ task('deploy:rabbit', function () {
         throw new \RuntimeException("<comment>Please configure rabbit config:</comment> <info>set('rabbit', array('channel' => 'channel', 'host' => 'host', 'port' => 'port', 'username' => 'username', 'password' => 'password'));</info>");
     }
 
-    $connection = new \PhpAmqpLib\Connection\AMQPConnection($config['host'], $config['port'], $config['username'], $config['password']);
+    $connection = new AMQPConnection($config['host'], $config['port'], $config['username'], $config['password']);
     $channel = $connection->channel();
 
-    $msg = new \PhpAmqpLib\Message\AMQPMessage($config['message']);
+    $msg = new AMQPMessage($config['message']);
     $channel->basic_publish($msg, '', $config['channel']);
 
     $channel->close();
