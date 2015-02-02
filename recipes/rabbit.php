@@ -8,11 +8,15 @@
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-
 /**
  * Notify Rabbit of successful deployment
  */
 task('deploy:rabbit', function () {
+    
+    if (!class_exists('AMQPConnection')) {
+        throw new \RuntimeException("<comment>Please install php package</comment> <info>videlalvaro/php-amqplib</info> <comment>to use rabbitmq</comment>");
+    }
+
     $config = get('rabbit', []);
 
     if (!isset($config['message'])) {

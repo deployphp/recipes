@@ -33,9 +33,7 @@
         "source": "https://github.com/deployphp/recipes"
     },
     "minimum-stability": "stable",
-    "require": {
-        "videlalvaro/php-amqplib": "v2.1.0"
-    },
+    "require": { },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
