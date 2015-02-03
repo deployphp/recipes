@@ -33,7 +33,7 @@
         "source": "https://github.com/deployphp/recipes"
     },
     "minimum-stability": "stable",
-    "require": {},
+    "require": { },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"

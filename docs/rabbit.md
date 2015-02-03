@@ -1,0 +1,50 @@
+# Rabbit recipe
+
+### Installing
+
+```php
+// deploy.php
+
+require 'vendor/deployphp/recipes/recipes/rabbit.php';
+```
+
+### Configuration options
+
+- **rabbit** *(required)*: accepts an *array* with the connection information to [rabbitmq](http://www.rabbitmq.com) server token and team name.
+
+
+You can provide also other configuration options:
+
+ - *host* - default is localhost
+ - *port* - default is 5672
+ - *username* - default is *guest*
+ - *password* - default is *guest*
+ - *channel* - no default value, need to be specified via config
+ - *message* - default is **Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)**
+
+
+```php
+// deploy.php
+
+set('rabbit', [
+    'host' => 'localhost',
+    'port' => '5672',
+    'username' => 'guest',
+    'password' => 'guest',
+    'channel' => 'notify-channel',
+]);
+```
+
+### Tasks
+
+- `deploy:rabbit` send message to rabbit
+
+### Suggested Usage
+
+Since you should only notify RabbitMQ channel of a successfull deployment, the `deploy:rabbit` task should be executed right at the end.
+
+```php
+// deploy.php
+
+before('deploy:end', 'deploy:rabbit');
+```
