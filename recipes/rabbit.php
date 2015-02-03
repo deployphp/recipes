@@ -13,7 +13,7 @@ use PhpAmqpLib\Message\AMQPMessage;
  */
 task('deploy:rabbit', function () {
     
-    if (!class_exists('AMQPConnection')) {
+    if (!class_exists('PhpAmqpLib\Connection\AMQPConnection')) {
         throw new \RuntimeException("<comment>Please install php package</comment> <info>videlalvaro/php-amqplib</info> <comment>to use rabbitmq</comment>");
     }
 
