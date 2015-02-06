@@ -21,6 +21,7 @@ You can provide also other configuration options:
  - *password* - default is *guest*
  - *channel* - no default value, need to be specified via config
  - *message* - default is **Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)**
+ - *vhost* - default is **/**
 
 
 ```php
@@ -32,6 +33,7 @@ set('rabbit', [
     'username' => 'guest',
     'password' => 'guest',
     'channel' => 'notify-channel',
+    'vhost' => '/my-app'
 ]);
 ```
 
