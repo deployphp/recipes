@@ -26,12 +26,13 @@ task('deploy:rabbit', function () {
         $config['message'] = "Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)";
     }
 
-    $defaultConfig = array(
+    $defaultConfig = [
         'host' => 'localhost',
         'port' => 5672,
         'username' => 'guest',
         'password' => 'guest',
-    );
+        'vhost' => '/',
+    ];
 
     $config = array_merge($defaultConfig, $config);
 
@@ -40,16 +41,17 @@ task('deploy:rabbit', function () {
         !isset($config['host']) ||
         !isset($config['port']) ||
         !isset($config['username']) ||
-        !isset($config['password']))
+        !isset($config['password']) ||
+        !isset($config['vhost']) )
     {
         throw new \RuntimeException("<comment>Please configure rabbit config:</comment> <info>set('rabbit', array('channel' => 'channel', 'host' => 'host', 'port' => 'port', 'username' => 'username', 'password' => 'password'));</info>");
     }
 
-    $connection = new AMQPConnection($config['host'], $config['port'], $config['username'], $config['password']);
+    $connection = new AMQPConnection($config['host'], $config['port'], $config['username'], $config['password'], $config['vhost']);
     $channel = $connection->channel();
 
     $msg = new AMQPMessage($config['message']);
-    $channel->basic_publish($msg, '', $config['channel']);
+    $channel->basic_publish($msg, $config['channel'], $config['channel']);
 
     $channel->close();
     $connection->close();
