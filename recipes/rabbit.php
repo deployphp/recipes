@@ -26,13 +26,13 @@ task('deploy:rabbit', function () {
         $config['message'] = "Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)";
     }
 
-    $defaultConfig = [
+    $defaultConfig = array(
         'host' => 'localhost',
         'port' => 5672,
         'username' => 'guest',
         'password' => 'guest',
         'vhost' => '/',
-    ];
+    );
 
     $config = array_merge($defaultConfig, $config);
 
