@@ -6,8 +6,16 @@ This repository contains third party recipes to integrate with deployer.
 
 First install this repository as a dev dependency.
 
+**For Deployer 3.x**
+
 ```sh
-$ php composer.phar require --dev "deployphp/recipes >=1.0@dev"
+$ php composer.phar require --dev "deployphp/recipes ~3.0"
+```
+
+**For Deployer 2.x**
+
+```sh
+$ php composer.phar require --dev "deployphp/recipes ~2.0"
 ```
 
 Include the recipes to your will.
@@ -33,8 +41,8 @@ All code contributions must go through a pull request and approved by a core dev
 
 * [Fork and clone](https://help.github.com/articles/fork-a-repo).
 * Create a branch.
-  * If the recipe is for Deployer3 then create your branch based on `master`
-  * If the recipe is for Deployer2 then create your branch based on the `2.x` branch
+  * If the recipe is for Deployer `3.x` then create your branch based on `master`
+  * If the recipe is for Deployer `2.x` then create your branch based on the `2.x` branch
 * Add your recipe to the `recipes` folder, it must be licensed as MIT.
 * Add documentation in Markdown for your recipe to the `docs` folder, you can base your documentation from [cachetool.md](http://github.com/deployphp/recipes/blob/master/docs/cachetool.md) as it is fairly complete.
 * Add your recipe to the table above in `README.md`, please use alphabetical order.
