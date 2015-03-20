@@ -12,7 +12,7 @@ use PhpAmqpLib\Message\AMQPMessage;
  * Notify Rabbit of successful deployment
  */
 task('deploy:rabbit', function () {
-    
+
     if (!class_exists('PhpAmqpLib\Connection\AMQPConnection')) {
         throw new \RuntimeException("<comment>Please install php package</comment> <info>videlalvaro/php-amqplib</info> <comment>to use rabbitmq</comment>");
     }
@@ -20,7 +20,7 @@ task('deploy:rabbit', function () {
     $config = get('rabbit', []);
 
     if (!isset($config['message'])) {
-        $releasePath = env()->getReleasePath();
+        $releasePath = env('release_path');
         $host = config()->getHost();
         $prod = get('env', 'production');
         $config['message'] = "Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)";

@@ -9,7 +9,7 @@
  * Clear apc cache
  */
 task('cachetool:clear:apc', function () {
-    $releasePath = env()->getReleasePath();
+    $releasePath = env('release_path');
     $options = get('cachetool', '');
 
     if (strlen($options)) {
@@ -30,7 +30,7 @@ task('cachetool:clear:apc', function () {
  * Clear opcache cache
  */
 task('cachetool:clear:opcache', function () {
-    $releasePath = env()->getReleasePath();
+    $releasePath = env('release_path');
     $options = get('cachetool', '');
 
     if (strlen($options)) {
