@@ -9,13 +9,13 @@ First install this repository as a dev dependency.
 **For Deployer 3.x**
 
 ```sh
-$ php composer.phar require "deployphp/recipes ~3.0"
+$ php composer.phar require --dev "deployphp/recipes ~3.0"
 ```
 
 **For Deployer 2.x**
 
 ```sh
-$ php composer.phar require "deployphp/recipes ~2.0"
+$ php composer.phar require --dev "deployphp/recipes ~2.0"
 ```
 
 Include the recipes to your will.
