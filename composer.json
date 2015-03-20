@@ -24,7 +24,7 @@
             "name": "Tomas Majer",
             "email": "tomasmajer@gmail.com",
             "homepage": "http://tomaj.sk",
-            "role": "Contributor"  
+            "role": "Contributor"
         }
     ],
     "support": {
@@ -36,7 +36,7 @@
     "require": { },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "3.0-dev"
         }
     }
 }
