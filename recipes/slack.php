@@ -11,30 +11,29 @@
 task('deploy:slack', function () {
     global $php_errormsg;
 
-    $config = get('slack', array());
+    $config = get('slack', []);
 
     if (!isset($config['message'])) {
         $releasePath = env('release_path');
-        $host = config()->getHost();
-        $prod = get('env', 'production');
-        $config['message'] = "Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)";
+        $host = env('server.host');
+        $stage = env('stages')[0];
+        $config['message'] = "Deployment to '{$host}' on *{$stage}* was successful\n($releasePath)";
     }
 
-    $defaultConfig = array(
+    $defaultConfig = [
         'channel' => '#general',
         'icon' => ':sunny:',
         'username' => 'Deploy',
         'parse' => '',
-    );
+    ];
 
     $config = array_merge($defaultConfig, $config);
-
     if (!is_array($config) ||
         !isset($config['token']) ||
         !isset($config['team']) ||
         !isset($config['channel']))
     {
-        throw new \RuntimeException("<comment>Please configure new slack:</comment> <info>set('slack', array('token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send'));</info>");
+        throw new \RuntimeException("Please configure new slack: set('slack', array('token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send'));");
     }
 
     $url = 'https://slack.com/api/chat.postMessage?token=' . $config['token'] .
