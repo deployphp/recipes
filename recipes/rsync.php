@@ -14,18 +14,19 @@ set('rsync',[
     'releases',
     'deploy.php',
     ],
-  'user'=> false,
   'local_release_dir' => '/tmp'
 ]);
 
 env('local_release_path', function () {
-    $dir = get('rsync.local_release_dir');
+    $config = get('rsync');
+    $dir = $config['local_release_dir'];
     return str_replace("\n", '', runLocally("readlink $dir/deployer_release"));
 });
 
 task('deploy:local_release', function () {
     $release = date('YmdHis');
-    $dir = get('rsync.local_release_dir');
+    $config = get('rsync');
+    $dir = $config['local_release_dir'];
     
     $releasePath = "$dir/releases/$release";
 
@@ -61,16 +62,20 @@ task('deploy:update_code', function () {
 
 task('deploy:rsync', function(){
   
-  $server = env('server.host');
-  $user = !get('rsync.user') ? '' : get('rsync.user').'@';
+  $config = get('rsync');
   
-  $excludes = get('rsync.excludes');
+  $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
+  $host = $server->getHost();
+  $port = $server->getPort() ? ' -p'.$server->getPort(): '';
+  $user = !$server->getUser() ? '' : $server->getUser().'@';
+  
+  $excludes = $config['excludes'];
   $excludesRsync='';
   foreach($excludes as $exclude){
     $excludesRsync.=' --exclude='.escapeshellarg($exclude);
   }
   
-  runLocally("rsync -rav -e 'ssh' $excludesRsync {{local_release_path}}/ $user$server:{{release_path}}/");
+  runLocally("rsync -ravz -e 'ssh$port' $excludesRsync {{local_release_path}}/ $user$host:{{release_path}}/");
   
   
 })->desc('Rsync local->remote');

@@ -13,7 +13,6 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 - **rsync**: Accepts an array with following rsync options:
 
 - *excludes* *(optional)*: accepts a *array* with files/dirs to be excluded from sending to server
-- *user* *(optional)*: accepts a *string* with username to server
 - *local_release_dir* *(optional)*: accepts a *string* with dirname where temporary repository cloning should take place before being sent to server
 
 ```php
@@ -26,7 +25,6 @@ set('rsync',[
     'releases',
     'deploy.php',
     ],
-  'user'=> false,
   'local_release_dir' => '/tmp'
 ]);
 ```
