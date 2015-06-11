@@ -10,10 +10,18 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 
 ### Configuration options
 
-- **rsync**: Accepts an array with following rsync options:
+- **rsync**: Accepts an array with following rsync options (all are optional and defaults are ok):
 
-- *excludes* *(optional)*: accepts a *array* with files/dirs to be excluded from sending to server
-- *local_release_dir* *(optional)*: accepts a *string* with dirname where temporary repository cloning should take place before being sent to server
+- *exclude*: accepts an *array* with patterns to be excluded from sending to server
+- *exclude-file*: accepts a *string* containing absolute path to file, which contains exclude patterns
+- *include*: accepts an *array* with patterns to be included in sending to server
+- *include-file*: accepts a *string* containing absolute path to file, which contains include patterns
+- *filter*: accepts an *array* of rsync filter rules
+- *filter-file*: accepts a *string* containing merge-file filename.
+- *filter-perdir*: accepts a *string* containing merge-file filename to be scanned and merger per each directory in rsync list offiles to send
+- *flags*: accepts a *string* of flags to set when calling rsync command. Please **avoid** flags that accept params, and use *options* instead.
+- *options*: accepts an *array* of options to set when calling rsync command. **DO NOT** prefix options with `--` as it's automaticly added.
+- *local_release_dir*: accepts a *string* with dirname where temporary repository cloning should take place before being sent to server
 
 ```php
 // deploy.php
