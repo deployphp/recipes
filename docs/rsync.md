@@ -10,23 +10,25 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 
 ### Configuration options
 
-- **rsync_excludes** *(optional)*: accepts a *array* with files/dirs to be excluded from sending to server
-- **rsync_user** *(optional)*: accepts a *string* with username to server
-- **rsync_local_release_dir** *(optional)*: accepts a *string* with dirname where temporary repository cloning should take place before being sent to server
+- **rsync**: Accepts an array with following rsync options:
+
+- *excludes* *(optional)*: accepts a *array* with files/dirs to be excluded from sending to server
+- *user* *(optional)*: accepts a *string* with username to server
+- *local_release_dir* *(optional)*: accepts a *string* with dirname where temporary repository cloning should take place before being sent to server
 
 ```php
 // deploy.php
 
-set('rsync_excludes', [
+set('rsync',[
+  'excludes'=> [
     '.git',
     'deployer_release',
     'releases',
     'deploy.php',
+    ],
+  'user'=> false,
+  'local_release_dir' => '/tmp'
 ]);
-
-set('rsync_user', 'server_user');
-
-set('rsync_local_release_dir', '/tmp');
 ```
 
 ### Tasks
