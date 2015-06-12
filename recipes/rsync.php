@@ -5,8 +5,6 @@
  * file that was distributed with this source code.
  */
 
-require 'recipe/common.php';
-
 set('rsync',[
   'exclude'=> [
     '.git',
@@ -22,14 +20,10 @@ set('rsync',[
   'filter-perdir' => false,
   'flags' => 'rz',
   'options' => ['delete'],
-  'local_release_dir' => '/tmp'
 ]);
 
-env('local_release_path', function () {
-    $config = get('rsync');
-    $dir = $config['local_release_dir'];
-    return str_replace("\n", '', runLocally("readlink $dir/{{server.host}}_deployer"));
-});
+env('rsync_src', __DIR__);
+env('rsync_dest','{{release_path}}');
 
 env('rsync_excludes', function () {
   $config = get('rsync');
@@ -89,44 +83,7 @@ env('rsync_options', function () {
   return $optionsRsync;
 });
 
-task('deploy:local_release', function () {
-    $release = date('YmdHis');
-    $config = get('rsync');
-    $dir = $config['local_release_dir'];
-    
-    $releasePath = "$dir/releases/$release";
-
-    $i = 0;
-    while (is_dir(env()->parse($releasePath)) && $i < 42) {
-        $releasePath .= '.' . ++$i;
-    }
-
-    runLocally("mkdir -p $releasePath");
-
-    runLocally("cd $dir && if [ -h {{server.host}}_deployer ]; then rm {{server.host}}_deployer; fi");
-
-    runLocally("ln -s $releasePath $dir/{{server.host}}_deployer");
-})->desc('Prepare local release');
-
-task('deploy:update_code', function () {
-    $repository = get('repository');
-    $branch = env('branch');
-    if (input()->hasOption('tag')) {
-        $tag = input()->getOption('tag');
-    }
-
-    $at = '';
-    if (!empty($tag)) {
-        $at = "-b $tag";
-    } else if (!empty($branch)) {
-        $at = "-b $branch";
-    }
-
-    runLocally("git clone $at --depth 1 --recursive -q $repository {{local_release_path}} 2>&1");
-
-})->desc('Updating code locally');
-
-task('deploy:rsync', function(){
+task('rsync', function(){
   
   $config = get('rsync');
   
@@ -135,19 +92,7 @@ task('deploy:rsync', function(){
   $port = $server->getPort() ? ' -p'.$server->getPort(): '';
   $user = !$server->getUser() ? '' : $server->getUser().'@';
   
-  runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} {{local_release_path}}/ $user$host:{{release_path}}/");
+  runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} {{rsync_src}}/ $user$host:{{rsync_dest}}/");
   
   
 })->desc('Rsync local->remote');
-
-task('deploy', [
-    'deploy:prepare',
-    'deploy:local_release',
-    'deploy:release',
-    'deploy:update_code',
-    'deploy:rsync',
-    'deploy:symlink',
-    'cleanup',
-])->desc('Deploy your project');
-
-after('deploy', 'success');

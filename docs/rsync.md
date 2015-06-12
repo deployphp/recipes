@@ -21,31 +21,42 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 - *filter-perdir*: accepts a *string* containing merge-file filename to be scanned and merger per each directory in rsync list offiles to send
 - *flags*: accepts a *string* of flags to set when calling rsync command. Please **avoid** flags that accept params, and use *options* instead.
 - *options*: accepts an *array* of options to set when calling rsync command. **DO NOT** prefix options with `--` as it's automaticly added.
-- *local_release_dir*: accepts a *string* with dirname where temporary repository cloning should take place before being sent to server
+
+### Environimental Variables
+
+- **rsync_src**: per-environment rsync source. This can be server, stage or whatever-dependent. By default it's set to current directory
+- **rsync_src**: per-environment rsync deestination. This can be server, stage or whatever-dependent. by default it's equivalent to release deploy destination.
+
 
 ```php
 // deploy.php
 
 set('rsync',[
-  'excludes'=> [
+  'exclude'=> [
     '.git',
-    'deployer_release',
+    '*_deployer',
     'releases',
     'deploy.php',
     ],
-  'local_release_dir' => '/tmp'
+  'exclude-file' => false,
+  'include'=> [],
+  'include-file' => false,
+  'filter'=> [],
+  'filter-file' => false,
+  'filter-perdir' => false,
+  'flags' => 'rz',
+  'options' => ['delete'],
 ]);
+
+env('rsync_src', __DIR__);
+env('rsync_dest','{{release_path}}');
 ```
 
 ### Tasks
 
-- `deploy:local_release` Creates local release directory
-- `deploy:update_code` overrides standard `deploy:update_code` to update code locally instead of remotelly
-- `deploy:rsync` perorms rsync from local release to remote
+- `rsync` perorms rsync from local `rsync_src` dir to remote `rsync_dest` dir
 
 ### Suggested Usage
 
-This recipe performs all repository-related tasks locally, so the best way to use it, would be to use this instead of `common.php` recipe.
-
-For using composer or other tools, You'd need to override `deploy:vendors` task and plug it in `deploy` chain.
+Set `rsync_src` to locally cloned repository and rsync to `rsync_dest` instead of `deploy:update_code` if Your hosting provider does not allow git.
 
