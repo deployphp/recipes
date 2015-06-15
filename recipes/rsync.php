@@ -8,8 +8,6 @@
 set('rsync',[
   'exclude'=> [
     '.git',
-    '*_deployer',
-    'releases',
     'deploy.php',
     ],
   'exclude-file' => false,

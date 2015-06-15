@@ -22,11 +22,7 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 - *flags*: accepts a *string* of flags to set when calling rsync command. Please **avoid** flags that accept params, and use *options* instead.
 - *options*: accepts an *array* of options to set when calling rsync command. **DO NOT** prefix options with `--` as it's automaticly added.
 
-### Environimental Variables
-
-- **rsync_src**: per-environment rsync source. This can be server, stage or whatever-dependent. By default it's set to current directory
-- **rsync_src**: per-environment rsync deestination. This can be server, stage or whatever-dependent. by default it's equivalent to release deploy destination.
-
+#### Sample default Configuration:
 
 ```php
 // deploy.php
@@ -34,8 +30,6 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 set('rsync',[
   'exclude'=> [
     '.git',
-    '*_deployer',
-    'releases',
     'deploy.php',
     ],
   'exclude-file' => false,
@@ -44,12 +38,42 @@ set('rsync',[
   'filter'=> [],
   'filter-file' => false,
   'filter-perdir' => false,
-  'flags' => 'rz',
+  'flags' => 'rz', // Recursive, with compress
   'options' => ['delete'],
 ]);
+```
+
+### Environimental Variables
+
+- **rsync_src**: per-environment rsync source. This can be server, stage or whatever-dependent. By default it's set to current directory
+- **rsync_src**: per-environment rsync deestination. This can be server, stage or whatever-dependent. by default it's equivalent to release deploy destination.
+
+#### Sample configurations:
+
+This is default configuration: 
+
+```php
+// deploy.php 
+
 
 env('rsync_src', __DIR__);
 env('rsync_dest','{{release_path}}');
+```
+
+If You use local deploy recipe You can set src to local release:
+
+```php
+// deploy.php
+
+server('local_deploy','local_deploy.host',22)
+        ->env('deploy_path','/var/www/vhosts/app')
+        ->env('rsync_src', function(){
+          $local_src = env('local_release_path');
+          if(is_callable($local_src)){
+            $local_src = $local_src();
+          }
+          return $local_src;
+        });
 ```
 
 ### Tasks
