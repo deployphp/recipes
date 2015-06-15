@@ -5,7 +5,7 @@
  * file that was distributed with this source code.
  */
 
-env('git_cache', true);
+env('local_git_cache', true);
 
 env('local_deploy_path', '/tmp/deployer');
 
@@ -76,7 +76,7 @@ task('deploy:local:release', function () {
 task('deploy:local:update_code', function () {
     $repository = get('repository');
     $branch = env('branch');
-    $gitCache = env('git_cache');
+    $gitCache = env('local_git_cache');
     
     $depth = $gitCache ? '' : "--depth 1";
     
