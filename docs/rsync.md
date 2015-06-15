@@ -55,8 +55,27 @@ env('rsync_dest','{{release_path}}');
 ### Tasks
 
 - `rsync` perorms rsync from local `rsync_src` dir to remote `rsync_dest` dir
+- `deploy:rsync_warmup` performs a warmup rsync on remote. Useful only when using `rsync` task instead of `deploy:update_code`
 
 ### Suggested Usage
 
-Set `rsync_src` to locally cloned repository and rsync to `rsync_dest` instead of `deploy:update_code` if Your hosting provider does not allow git.
+#### `rsync` task
 
+Set `rsync_src` to locally cloned repository and rsync to `rsync_dest`. Then set this task instead of `deploy:update_code` in Your `deploy` task if Your hosting provider does not allow git.
+
+#### `deploy:rsync_warmup` task
+
+If Your deploy task looks like:
+
+```php
+task('deploy', [
+    'deploy:prepare',
+    'deploy:release',
+    'rsync',
+    'deploy:vendors',
+    'deploy:symlink',
+    'cleanup',
+])->desc('Deploy your project');
+```
+
+And Your `rsync_dest` is set to `{{release_path}}` then You could add this task to run before `rsync` task or after `deploy:release`, whatever's more convinient.

@@ -83,6 +83,21 @@ env('rsync_options', function () {
   return $optionsRsync;
 });
 
+task('deploy:rsync_warmup', function(){
+  $config = get('rsync');
+  
+  $releases = env('releases_list');
+  
+  if (isset($releases[1])) {
+        $source = "{{deploy_path}}/releases/{$releases[1]}";
+        $destination = "{{deploy_path}}/releases/{$releases[0]}";
+
+        run("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} $source/ $destination/");
+    } else {
+        writeln("<comment>No way to warmup rsync.</comment>");
+    }
+})->desc('Warmup remote Rsync target');
+
 task('rsync', function(){
   
   $config = get('rsync');
