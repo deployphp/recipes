@@ -22,7 +22,9 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 - *flags*: accepts a *string* of flags to set when calling rsync command. Please **avoid** flags that accept params, and use *options* instead.
 - *options*: accepts an *array* of options to set when calling rsync command. **DO NOT** prefix options with `--` as it's automaticly added.
 
-#### Sample default Configuration:
+#### Sample Configuration:
+
+Following is default configuration. By default rsync ignores only git dir and `deploy.php` file.
 
 ```php
 // deploy.php
@@ -42,6 +44,25 @@ set('rsync',[
   'options' => ['delete'],
 ]);
 ```
+
+If You have multiple excludes, You can put them in file and reference that instead. If You use `deploy:rsync_warmup` You could set additional options that could speed-up and/or affect way things are working. For example:
+
+```php
+// deploy.php
+
+set('rsync',[
+  'exclude'=> ['excludes_file'],
+  'exclude-file' => /tmp/localdeploys/excludes_file, //Use absolute path to avoid possible rsync problems
+  'include'=> [],
+  'include-file' => false,
+  'filter'=> [],
+  'filter-file' => false,
+  'filter-perdir' => false,
+  'flags' => 'rzcE', // Recursive, with compress, check based on checksum rather than time/size, preserve Executable flag
+  'options' => ['delete', 'delete-after', 'force'], //Delete after successful trasfer, delete even if deleted dir is not empty
+]);
+```
+
 
 ### Environimental Variables
 
