@@ -54,7 +54,7 @@ env('local_current', function () {
 /**
  * Preparing for local deployment.
  */
-task('deploy:local:prepare', function () {
+task('local:prepare', function () {
   
     runLocally('mkdir -p {{local_deploy_path}}'); //just to make sure everything exists
     
@@ -70,7 +70,7 @@ task('deploy:local:prepare', function () {
 /**
  * Release
  */
-task('deploy:local:release', function () {
+task('local:release', function () {
     $release = date('YmdHis');
 
     $releasePath = "{{local_deploy_path}}/releases/$release";
@@ -90,7 +90,7 @@ task('deploy:local:release', function () {
 /**
  * Update project code
  */
-task('deploy:local:update_code', function () {
+task('local:update_code', function () {
     $repository = get('repository');
     $branch = env('branch');
     $gitCache = env('local_git_cache');
@@ -137,7 +137,7 @@ function commandExistLocally($command)
 /**
  * Installing vendors tasks.
  */
-task('deploy:local:vendors', function () {
+task('local:vendors', function () {
     if (commandExistLocally('composer')) {
         $composer = 'composer';
     } else {
@@ -152,7 +152,7 @@ task('deploy:local:vendors', function () {
 /**
  * Create symlink to last release.
  */
-task('deploy:local:symlink', function () {
+task('local:symlink', function () {
     runLocally("cd {{local_deploy_path}} && ln -sfn {{local_release_path}} current"); // Atomic override symlink.
     runLocally("cd {{local_deploy_path}} && rm release"); // Remove release link.
 })->desc('Creating symlink to local release');
@@ -160,14 +160,14 @@ task('deploy:local:symlink', function () {
 /**
  * Show current release number.
  */
-task('current:local', function () {
+task('local:current', function () {
     writeln('Current local release: ' . basename(env('local_current')));
 })->desc('Show current local release.');
 
 /**
  * Cleanup old releases.
  */
-task('cleanup:local', function () {
+task('local:cleanup', function () {
     $releases = env('local_releases_list');
 
     $keep = get('keep_releases');

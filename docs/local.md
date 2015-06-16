@@ -28,13 +28,13 @@ env('local_deploy_path', '/tmp/deployer');
 
 ### Tasks
 
-- `deploy:local:prepare` - Prepares local dirs for deployment. Instead of failing when `local_deploy_path` does not exist - tries to create it.
-- `deploy:local:release` - Prepare release directory
-- `deploy:local:update_code` - Clones repository into local release directory
-- `deploy:local:vendors` - Run composer locally in release directory
-- `deploy:local:symlink` - Symlink atomicly to newest release
-- `current:local` - Show current symlinked release
-- `cleanup:local` - Cleanup local releases.
+- `local:prepare` - Prepares local dirs for deployment. Instead of failing when `local_deploy_path` does not exist - tries to create it.
+- `local:release` - Prepare release directory
+- `local:update_code` - Clones repository into local release directory
+- `local:vendors` - Run composer locally in release directory
+- `local:symlink` - Symlink atomicly to newest release
+- `local:current` - Show current symlinked release
+- `local:cleanup` - Cleanup local releases.
 
 
 ### Suggested Usage
@@ -58,13 +58,13 @@ env('local_release_path', '/tmp/my_application');
 task('deploy', [
     'deploy:prepare',
     'deploy:release',
-    'deploy:local:update_code',
-    'deploy:local:vendors',
+    'local:update_code',
+    'local:vendors',
     'deploy:symlink',
     'cleanup',
 ])->desc('Deploy your project');
 
-after('deploy:local:vendors', function() {
+after('local:vendors', function() {
   upload(env('local_release_path'), env('release_path'));
 })->desc('Upload local to remote');
 ```
@@ -83,17 +83,17 @@ env('rsync_src', function(){
 });
 
 task('deploy', [
-    'deploy:local:prepare',
+    'local:prepare',
     'deploy:prepare',
-    'deploy:local:release',
+    'local:release',
     'deploy:release',
-    'deploy:rsync_warmup',
-    'deploy:local:update_code',
+    'rsync:warmup',
+    'local:update_code',
     'rsync',
-    'deploy:local:symlink',
+    'local:symlink',
     'deploy:symlink',
     'cleanup',
-    'cleanup:local'
+    'local:cleanup'
 ])->desc('Deploy your project');
 
 ```
