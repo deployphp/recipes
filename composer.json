@@ -25,6 +25,12 @@
             "email": "tomasmajer@gmail.com",
             "homepage": "http://tomaj.sk",
             "role": "Contributor"
+        },
+        {
+            "name": "Hubert Kowalski",
+            "email": "h.kowalski@hakger.pl",
+            "homepage": "https://hakger.pl",
+            "role": "Contributor"
         }
     ],
     "support": {

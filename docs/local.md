@@ -1,4 +1,4 @@
-# Local_common recipe
+# Local recipe
 
 This recipe is a re-implementation of `common.php` recipe, for running some of the tasks locally instead of remotelly. This recipe is especially useful if hosting provider that You're deploying to has some limitations of what can/can't be run. Best example is a *Shared Hosting* environment.
 
@@ -7,12 +7,12 @@ This recipe is a re-implementation of `common.php` recipe, for running some of t
 ```php
 // deploy.php
 
-require 'vendor/deployphp/recipes/recipes/local_common.php';
+require 'vendor/deployphp/recipes/recipes/local.php';
 ```
 
 ### Configuration options
 
-The `local_common.php` recipe doesn't expose any configuration options. Instead uses same options as standard `common.php` recipe.
+The `local.php` recipe doesn't expose any configuration options. Instead uses same options as standard `common.php` recipe.
 
 ### Environmental variables
 
