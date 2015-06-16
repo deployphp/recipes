@@ -5,7 +5,24 @@
  * file that was distributed with this source code.
  */
 
-env('local_git_cache', true);
+/**
+ * Check if we can use local git cache. by default it checks if we're using 
+ * git in version at least 2.3. 
+ * You can override it if You prefer shalow clones or do not use full
+ *  release workflow, that allows You to take advantage of this setting
+ */
+env('local_git_cache', function(){
+  $gitVersion = runLocally('git version');
+  $regs = [];
+  echo $gitVersion;
+  if (preg_match('/((\d+\.?)+)/', $gitVersion, $regs)) {
+    $version = $regs[1];
+  } else {
+    $version = "1.0.0";
+  }
+  $compare = version_compare($version, '2.3', '>=');
+  return $compare;
+});
 
 env('local_deploy_path', '/tmp/deployer');
 
@@ -78,8 +95,6 @@ task('deploy:local:update_code', function () {
     $branch = env('branch');
     $gitCache = env('local_git_cache');
     
-    $depth = $gitCache ? '' : "--depth 1";
-    
     if (input()->hasOption('tag')) {
         $tag = input()->getOption('tag');
     }
@@ -95,13 +110,13 @@ task('deploy:local:update_code', function () {
     
     if($gitCache && isset($releases[1])){
       try {
-       runLocally("git clone $at $depth --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1");  
+       runLocally("git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1");  
       } catch (RuntimeException $exc) {
         // If {{local_deploy_path}}/releases/{$releases[1]} has a failed git clone, is empty, shallow etc, git would throw error and give up. So we're forcing it to act without reference in this situation
-        runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1"); 
+        runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1"); 
       }
     } else{
-      runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1"); 
+      runLocally("git clone $at --depth 1 --recursive -q $repository {{local_release_path}} 2>&1"); 
     }
 
 })->desc('Updating code');

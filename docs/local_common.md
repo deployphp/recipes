@@ -16,14 +16,15 @@ The `local_common.php` recipe doesn't expose any configuration options. Instead 
 
 ### Environmental variables
 
-- **local_git_cache** - Accepts *boolean*. Set to true if You wish to speed up cloning and You use full local-release workflow. This uses git with `--reference` and `--dissociate` set in order to speed up cloning.
 - **local_deploy_path** - Accepts *string* specifying from where should deploys be done. This is functionally identical with `deploy_path` of `common.php` recipe.
-- **local_release_path** - Accepts *string* specifying from where should deploys be done. This is functionally identical with `release_path` of `common.php` recipe. If You use full local release scenario, You do **not** wish to set this, as it's relative to `local_deploy_path`.
 
 ```php
-env('local_git_cache', true);
 env('local_deploy_path', '/tmp/deployer');
 ```
+#### Additional/relative env variables
+
+- **local_release_path** - Accepts *string* specifying from where should deploys be done. This is functionally identical with `release_path` of `common.php` recipe. If You use full local release scenario, You do **not** wish to set this, as it's relative to `local_deploy_path`.
+- **local_git_cache** - Accepts *boolean*. By default it checks if Your git version supports required options (minimum git version is 2.3). If You do not use release workflow, You would not see benefits to this option. Set this to false to use shallow clones, that slims down cloned repository size.
 
 ### Tasks
 
