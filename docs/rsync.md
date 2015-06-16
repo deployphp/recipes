@@ -100,7 +100,7 @@ server('local_deploy','local_deploy.host',22)
 ### Tasks
 
 - `rsync` perorms rsync from local `rsync_src` dir to remote `rsync_dest` dir
-- `deploy:rsync_warmup` performs a warmup rsync on remote. Useful only when using `rsync` task instead of `deploy:update_code`
+- `rsync:warmup` performs a warmup rsync on remote. Useful only when using `rsync` task instead of `deploy:update_code`
 
 ### Suggested Usage
 
@@ -108,7 +108,7 @@ server('local_deploy','local_deploy.host',22)
 
 Set `rsync_src` to locally cloned repository and rsync to `rsync_dest`. Then set this task instead of `deploy:update_code` in Your `deploy` task if Your hosting provider does not allow git.
 
-#### `deploy:rsync_warmup` task
+#### `rsync:warmup` task
 
 If Your deploy task looks like:
 

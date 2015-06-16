@@ -81,7 +81,7 @@ env('rsync_options', function () {
   return $optionsRsync;
 });
 
-task('deploy:rsync_warmup', function(){
+task('rsync:warmup', function(){
   $config = get('rsync');
   
   $releases = env('releases_list');
