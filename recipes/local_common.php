@@ -94,6 +94,7 @@ task('deploy:local:update_code', function () {
     $repository = get('repository');
     $branch = env('branch');
     $gitCache = env('local_git_cache');
+    $depth = $gitCache ? '' : '--depth 1';
     
     if (input()->hasOption('tag')) {
         $tag = input()->getOption('tag');
@@ -116,7 +117,8 @@ task('deploy:local:update_code', function () {
         runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1"); 
       }
     } else{
-      runLocally("git clone $at --depth 1 --recursive -q $repository {{local_release_path}} 2>&1"); 
+      // if we're using git cache this would be identical to above code in catch - full clone. If not, it would create shallow clone.
+      runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1"); 
     }
 
 })->desc('Updating code');
