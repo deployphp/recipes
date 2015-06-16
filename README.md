@@ -32,8 +32,9 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 | ------    | ----                                                                      | -----
 | cachetool | [read](http://github.com/deployphp/recipes/blob/master/docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
 | newrelic  | [read](http://github.com/deployphp/recipes/blob/master/docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
-| slack     | [read](http://github.com/deployphp/recipes/blob/master/docs/slack.md)     | `require 'vendor/deployphp/recipes/recipes/slack.php';`
 | rabbit    | [read](http://github.com/deployphp/recipes/blob/master/docs/rabbit.md)    | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
+| rsync     | [read](http://github.com/deployphp/recipes/blob/master/docs/rsync.md)     | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
+| slack     | [read](http://github.com/deployphp/recipes/blob/master/docs/slack.md)     | `require 'vendor/deployphp/recipes/recipes/slack.php';`
 
 ## Contributing a recipe
 
