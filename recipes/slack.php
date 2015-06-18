@@ -46,7 +46,7 @@ task('deploy:slack', function () {
     ];
     
     if (isset($config['icon_url'])) {
-        unset($urlParams['icon_emoji']);
+        unset($urlParams['icon']);
         $urlParams['icon_url'] = $config['icon_url'];
     }
     
