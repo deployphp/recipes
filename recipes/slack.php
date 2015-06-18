@@ -35,14 +35,22 @@ task('deploy:slack', function () {
     {
         throw new \RuntimeException("Please configure new slack: set('slack', array('token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send'));");
     }
-
-    $url = 'https://slack.com/api/chat.postMessage?token=' . $config['token'] .
-        '&channel=' . urlencode($config['channel']) .
-        '&text=' . urlencode($config['message']) .
-        '&username=' . urlencode($config['username']) .
-        '&icon_emoji=' . urlencode($config['icon']) .
-        '&pretty=1';
-
+    
+    $urlParams = [
+        'channel' => $config['channel'],
+        'token' => $config['token'],
+        'text' => $config['message'],
+        'username' => $config['username'],
+        'icon_emoji' => $config['icon'],
+        'pretty' => true
+    ];
+    
+    if (isset($config['icon_url'])) {
+        unset($urlParams['icon_emoji']);
+        $urlParams['icon_url'] = $config['icon_url'];
+    }
+    
+    $url = 'https://slack.com/api/chat.postMessage?' . http_build_query($urlParams);
     $result = @file_get_contents($url);
 
     if (!$result) {
