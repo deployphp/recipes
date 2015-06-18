@@ -36,6 +36,7 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 | local     | [read](docs/local.md)     | `require 'vendor/deployphp/recipes/recipes/local.php';`
 | newrelic  | [read](docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
 | rabbit    | [read](docs/rabbit.md)    | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
+| rsync     | [read](docs/rsync.md)     | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
 | slack     | [read](docs/slack.md)     | `require 'vendor/deployphp/recipes/recipes/slack.php';`
 
 ## Contributing a recipe
@@ -53,6 +54,18 @@ All code contributions must go through a pull request and approved by a core dev
 * You can use the documentation of your recipe as a description to your pull request.
 
 To ensure a consistent code base, you should make sure the code follows the [Coding Standards](http://symfony.com/doc/current/contributing/code/standards.html) which we borrowed from Symfony.
+
+### Recipe Do's and Don'ts 
+
+For easier integration in existing project, and fewer changes in your recipe and/or docs for it, you should try and follow this general guidelines:
+
+* Use short file names for recipes.  Eg `ftp` instead of `ftp_upload_to_server_recype_by_me`
+* Prefix all tasks in recipe with recipe name. if You have task named `mytest` in `myrecipe` it should be named `myrecipe:mytest`
+* Use global settings keyed by your recipe name. If You have one setting, name it the same as Your recipe. If You have multiple settings, use associative array
+* Use environment variables prefixed by Your recipe name. If You have environment varaible named `better_path` in recipe `myrecipe`, call it `myrecipe_better_path`
+* Do not override existing tasks (for example - those in `common.php`). Instead document throughtly how tasks from your recipe can be integrated into workflow
+* If your recipe depends on another (be it included in deployer or 3rd party) - document it throughtly. It's better for user to use `require_once` in `deploy.php`, rather than force dependecies.
+
 
 ### License
 
