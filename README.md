@@ -28,16 +28,6 @@ Include the recipes to your will.
 require 'vendor/deployphp/recipes/recipes/cachetool.php';
 ```
 
-## Recipes
-
-| Recipe    | Docs                                                                      | Usage
-| ------    | ----                                                                      | -----
-| cachetool | [read](docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
-| local     | [read](docs/local.md)     | `require 'vendor/deployphp/recipes/recipes/local.php';`
-| newrelic  | [read](docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
-| rabbit    | [read](docs/rabbit.md)    | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
-| slack     | [read](docs/slack.md)     | `require 'vendor/deployphp/recipes/recipes/slack.php';`
-
 ## Contributing a recipe
 
 All code contributions must go through a pull request and approved by a core developer before being merged. This is to ensure proper review of all the code.
