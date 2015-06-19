@@ -100,12 +100,21 @@ task('rsync', function(){
   
   $config = get('rsync');
   
+  $src = env('rsync_src');
+  while(is_callable($src)){
+    $src = $src();
+  }
+  $dst = env('rsync_dest');
+  while(is_callable($dst)){
+    $dst = $dst();
+  }
+  
   $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
   $host = $server->getHost();
   $port = $server->getPort() ? ' -p'.$server->getPort(): '';
   $user = !$server->getUser() ? '' : $server->getUser().'@';
   
-  runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} {{rsync_src}}/ $user$host:{{rsync_dest}}/");
+  runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src' '$user$host:$dst/'");
   
   
 })->desc('Rsync local->remote');
