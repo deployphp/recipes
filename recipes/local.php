@@ -11,17 +11,17 @@
  * You can override it if You prefer shalow clones or do not use full
  *  release workflow, that allows You to take advantage of this setting
  */
-env('local_git_cache', function(){
-  $gitVersion = runLocally('git version');
-  $regs = [];
-  echo $gitVersion;
-  if (preg_match('/((\d+\.?)+)/', $gitVersion, $regs)) {
-    $version = $regs[1];
-  } else {
-    $version = "1.0.0";
-  }
-  $compare = version_compare($version, '2.3', '>=');
-  return $compare;
+env('local_git_cache', function() {
+    $gitVersion = runLocally('git version');
+    $regs = [];
+    output()->write($gitVersion, true);
+    if (preg_match('/((\d+\.?)+)/', $gitVersion, $regs)) {
+        $version = $regs[1];
+    } else {
+        $version = "1.0.0";
+    }
+
+    return version_compare($version, '2.3', '>=');
 });
 
 env('local_deploy_path', '/tmp/deployer');
@@ -55,9 +55,9 @@ env('local_current', function () {
  * Preparing for local deployment.
  */
 task('local:prepare', function () {
-  
+
     runLocally('mkdir -p {{local_deploy_path}}'); //just to make sure everything exists
-    
+
     runLocally('if [ ! -d {{local_deploy_path}} ]; then echo ""; fi');
 
     // Create releases dir.
@@ -95,7 +95,7 @@ task('local:update_code', function () {
     $branch = env('branch');
     $gitCache = env('local_git_cache');
     $depth = $gitCache ? '' : '--depth 1';
-    
+
     if (input()->hasOption('tag')) {
         $tag = input()->getOption('tag');
     }
@@ -106,21 +106,20 @@ task('local:update_code', function () {
     } else if (!empty($branch)) {
         $at = "-b $branch";
     }
-    
-    $releases = env('local_releases_list');
-    
-    if($gitCache && isset($releases[1])){
-      try {
-       runLocally("git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1");  
-      } catch (RuntimeException $exc) {
-        // If {{local_deploy_path}}/releases/{$releases[1]} has a failed git clone, is empty, shallow etc, git would throw error and give up. So we're forcing it to act without reference in this situation
-        runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1"); 
-      }
-    } else{
-      // if we're using git cache this would be identical to above code in catch - full clone. If not, it would create shallow clone.
-      runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1"); 
-    }
 
+    $releases = env('local_releases_list');
+
+    if ($gitCache && isset($releases[1])) {
+        try {
+            runLocally("git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1");
+        } catch (RuntimeException $exc) {
+            // If {{local_deploy_path}}/releases/{$releases[1]} has a failed git clone, is empty, shallow etc, git would throw error and give up. So we're forcing it to act without reference in this situation
+            runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1");
+        }
+    } else {
+        // if we're using git cache this would be identical to above code in catch - full clone. If not, it would create shallow clone.
+        runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1");
+    }
 })->desc('Updating code');
 
 /**
@@ -146,7 +145,6 @@ task('local:vendors', function () {
     }
 
     runLocally("cd {{local_release_path}} && {{env_vars}} $composer {{composer_options}}");
-
 })->desc('Installing vendors locally');
 
 /**
@@ -183,5 +181,4 @@ task('local:cleanup', function () {
 
     runLocally("cd {{local_deploy_path}} && if [ -e release ]; then rm release; fi");
     runLocally("cd {{local_deploy_path}} && if [ -h release ]; then rm release; fi");
-
 })->desc('Cleaning up old local releases');
