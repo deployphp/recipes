@@ -10,12 +10,12 @@ require 'vendor/deployphp/recipes/recipes/configure.php';
 
 ### Configuration options
 
-Make `shared` directory and put configure template files to it. 
-Template file extension is `.tpl` and it is removed on filename of compiled filed.
-> Note: All configure files will be created with the same structure with template files.
-> Eg:
-> `shared/config/app.php.tpl` -> `shared/config/app.php`
-> `shared/server/apache.conf.tpl` -> `shared/server/apache.conf`
+Make `shared` directory and put configure template files to it.   
+Template file extension is `.tpl` and it is removed on filename of compiled files.   
+> Note: All configure files will be created with the same structure with template files.   
+> Eg:   
+> `shared/config/app.php.tpl` -> `shared/config/app.php`   
+> `shared/server/apache.conf.tpl` -> `shared/server/apache.conf`   
 
 ### Tasks
 
