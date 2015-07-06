@@ -14,7 +14,6 @@
 env('local_git_cache', function() {
     $gitVersion = runLocally('git version');
     $regs = [];
-    output()->write($gitVersion, true);
     if (preg_match('/((\d+\.?)+)/', $gitVersion, $regs)) {
         $version = $regs[1];
     } else {
