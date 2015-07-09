@@ -38,8 +38,9 @@ task('deploy:configure', function () {
 
     $finder   = new \Symfony\Component\Finder\Finder();
     $iterator = $finder
+        ->ignoreDotFiles(false)
         ->files()
-        ->name('*.tpl')
+        ->name('/\.tpl$/')
         ->in(__DIR__ . '/shared');
 
     $tmpDir = sys_get_temp_dir();
