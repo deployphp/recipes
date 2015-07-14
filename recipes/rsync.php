@@ -18,6 +18,7 @@ set('rsync', [
     'filter-perdir' => false,
     'flags' => 'rz',
     'options' => ['delete'],
+    'timeout' => 60,
 ]);
 
 env('rsync_src', __DIR__);
@@ -114,5 +115,5 @@ task('rsync', function() {
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
-    runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'");
+    runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
 })->desc('Rsync local->remote');
