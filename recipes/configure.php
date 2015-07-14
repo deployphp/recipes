@@ -38,11 +38,13 @@ task('deploy:configure', function () {
 
     $finder   = new \Symfony\Component\Finder\Finder();
     $iterator = $finder
+        ->ignoreDotFiles(false)
         ->files()
-        ->name('*.tpl')
+        ->name('/\.tpl$/')
         ->in(__DIR__ . '/shared');
 
     $tmpDir = sys_get_temp_dir();
+    $deployDir = env('deploy_path');
 
     /* @var $file \Symfony\Component\Finder\SplFileInfo */
     foreach ($iterator as $file) {
@@ -55,8 +57,8 @@ task('deploy:configure', function () {
                 $target   = preg_replace('/\.tpl$/', '', $file->getRelativePathname());
                 // Put contents and upload tmp file to server
                 if (file_put_contents($tmpFile, $contents) > 0) {
-                    run('mkdir -p {{deploy_path}}/shared/' . dirname($target));
-                    upload($tmpFile, 'shared/' . $target);
+                    run("mkdir -p $deployDir/shared/" . dirname($target));
+                    upload($tmpFile, "$deployDir/shared/" . $target);
                     $success = true;
                 }
             } catch (\Exception $e) {
