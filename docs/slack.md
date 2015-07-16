@@ -24,7 +24,7 @@ You can provide also other configuration options:
 // deploy.php
 
 set('slack', [
-    'license' => 'xoxp-...',
+    'token' => 'xoxp-...',
     'team' => 'team name',
 ]);
 ```
@@ -40,5 +40,5 @@ Since you should only notify Slack channel of a successfull deployment, the `dep
 ```php
 // deploy.php
 
-before('deploy:end', 'deploy:slack');
+after('deploy', 'deploy:slack');
 ```
