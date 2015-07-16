@@ -41,7 +41,7 @@ task('deploy:configure', function () {
         ->ignoreDotFiles(false)
         ->files()
         ->name('/\.tpl$/')
-        ->in(__DIR__ . '/shared');
+        ->in(getcwd() . '/shared');
 
     $tmpDir = sys_get_temp_dir();
     $deployDir = env('deploy_path');
