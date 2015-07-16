@@ -24,7 +24,6 @@ task('deploy:slack', function () {
         'channel' => '#general',
         'icon' => ':sunny:',
         'username' => 'Deploy',
-        'parse' => '',
     ];
 
     $config = array_merge($defaultConfig, $config);
@@ -44,12 +43,12 @@ task('deploy:slack', function () {
         'icon_emoji' => $config['icon'],
         'pretty' => true
     ];
-    
+
     if (isset($config['icon_url'])) {
         unset($urlParams['icon_emoji']);
         $urlParams['icon_url'] = $config['icon_url'];
     }
-    
+
     $url = 'https://slack.com/api/chat.postMessage?' . http_build_query($urlParams);
 
     $result = @file_get_contents($url);
