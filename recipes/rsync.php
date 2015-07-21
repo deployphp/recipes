@@ -1,5 +1,5 @@
 <?php
-/* (c) HAKGER[hakger.pl] Hubert Kowalski <h.kowalski@hakger.pl> 
+/* (c) HAKGER[hakger.pl] Hubert Kowalski <h.kowalski@hakger.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,6 +17,7 @@ set('rsync', [
     'filter-file' => false,
     'filter-perdir' => false,
     'flags' => 'rz',
+    'timeout' => '60',
     'options' => ['delete'],
 ]);
 
@@ -90,7 +91,12 @@ task('rsync:warmup', function() {
         $source = "{{deploy_path}}/releases/{$releases[1]}";
         $destination = "{{deploy_path}}/releases/{$releases[0]}";
 
-        run("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} $source/ $destination/");
+        run(
+            sprintf(
+                "rsync -%s {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} %s/ %s/",
+                $config['flags'], $source, $destination
+            )
+        );
     } else {
         writeln("<comment>No way to warmup rsync.</comment>");
     }
@@ -114,5 +120,11 @@ task('rsync', function() {
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
-    runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'");
+    runLocally(
+        sprintf(
+            "rsync -%s -e 'ssh%s' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '%s/' '%s%s:%s/'",
+            $config['flags'], $port, $src, $user, $host, $dst
+        ),
+        $config['timeout']
+    );
 })->desc('Rsync local->remote');

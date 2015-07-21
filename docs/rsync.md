@@ -20,6 +20,7 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 - *filter-file*: accepts a *string* containing merge-file filename.
 - *filter-perdir*: accepts a *string* containing merge-file filename to be scanned and merger per each directory in rsync list offiles to send
 - *flags*: accepts a *string* of flags to set when calling rsync command. Please **avoid** flags that accept params, and use *options* instead.
+- *timeout*: accepts an *integer* setting the max number of seconds before the rsync process expires (default: 60)
 - *options*: accepts an *array* of options to set when calling rsync command. **DO NOT** prefix options with `--` as it's automaticly added.
 
 #### Sample Configuration:
@@ -30,18 +31,19 @@ Following is default configuration. By default rsync ignores only git dir and `d
 // deploy.php
 
 set('rsync',[
-  'exclude'=> [
-    '.git',
-    'deploy.php',
+    'exclude'=> [
+        '.git',
+        'deploy.php',
     ],
-  'exclude-file' => false,
-  'include'=> [],
-  'include-file' => false,
-  'filter'=> [],
-  'filter-file' => false,
-  'filter-perdir' => false,
-  'flags' => 'rz', // Recursive, with compress
-  'options' => ['delete'],
+    'exclude-file' => false,
+    'include'=> [],
+    'include-file' => false,
+    'filter'=> [],
+    'filter-file' => false,
+    'filter-perdir' => false,
+    'flags' => 'rz', // Recursive, with compress
+    'timeout' => '100',
+    'options' => ['delete'],
 ]);
 ```
 
@@ -51,15 +53,15 @@ If You have multiple excludes, You can put them in file and reference that inste
 // deploy.php
 
 set('rsync',[
-  'exclude'=> ['excludes_file'],
-  'exclude-file' => /tmp/localdeploys/excludes_file, //Use absolute path to avoid possible rsync problems
-  'include'=> [],
-  'include-file' => false,
-  'filter'=> [],
-  'filter-file' => false,
-  'filter-perdir' => false,
-  'flags' => 'rzcE', // Recursive, with compress, check based on checksum rather than time/size, preserve Executable flag
-  'options' => ['delete', 'delete-after', 'force'], //Delete after successful trasfer, delete even if deleted dir is not empty
+    'exclude'=> ['excludes_file'],
+    'exclude-file' => /tmp/localdeploys/excludes_file, //Use absolute path to avoid possible rsync problems
+    'include'=> [],
+    'include-file' => false,
+    'filter'=> [],
+    'filter-file' => false,
+    'filter-perdir' => false,
+    'flags' => 'rzcE', // Recursive, with compress, check based on checksum rather than time/size, preserve Executable flag
+    'options' => ['delete', 'delete-after', 'force'], //Delete after successful trasfer, delete even if deleted dir is not empty
 ]);
 ```
 
@@ -71,10 +73,10 @@ set('rsync',[
 
 #### Sample configurations:
 
-This is default configuration: 
+This is default configuration:
 
 ```php
-// deploy.php 
+// deploy.php
 
 
 env('rsync_src', __DIR__);
@@ -86,15 +88,15 @@ If You use local deploy recipe You can set src to local release:
 ```php
 // deploy.php
 
-server('local_deploy','local_deploy.host',22)
-        ->env('deploy_path','/var/www/vhosts/app')
-        ->env('rsync_src', function(){
-          $local_src = env('local_release_path');
-          if(is_callable($local_src)){
+server('local_deploy', 'local_deploy.host', 22)
+    ->env('deploy_path','/var/www/vhosts/app')
+    ->env('rsync_src', function() {
+        $local_src = env('local_release_path');
+        if(is_callable($local_src)) {
             $local_src = $local_src();
-          }
-          return $local_src;
-        });
+        }
+        return $local_src;
+    });
 ```
 
 ### Tasks
