@@ -21,6 +21,7 @@ require 'vendor/deployphp/recipes/recipes/rsync.php';
 - *filter-perdir*: accepts a *string* containing merge-file filename to be scanned and merger per each directory in rsync list offiles to send
 - *flags*: accepts a *string* of flags to set when calling rsync command. Please **avoid** flags that accept params, and use *options* instead.
 - *options*: accepts an *array* of options to set when calling rsync command. **DO NOT** prefix options with `--` as it's automaticly added.
+- *timeout*: accepts an *int* defining timeout for rsync command to run locally.
 
 #### Sample Configuration:
 
@@ -42,6 +43,7 @@ set('rsync',[
   'filter-perdir' => false,
   'flags' => 'rz', // Recursive, with compress
   'options' => ['delete'],
+  'timeout' => 60,
 ]);
 ```
 
@@ -60,6 +62,7 @@ set('rsync',[
   'filter-perdir' => false,
   'flags' => 'rzcE', // Recursive, with compress, check based on checksum rather than time/size, preserve Executable flag
   'options' => ['delete', 'delete-after', 'force'], //Delete after successful trasfer, delete even if deleted dir is not empty
+  'timeout' => 3600, //for those huge repos or crappy connection
 ]);
 ```
 
