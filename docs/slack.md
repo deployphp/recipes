@@ -14,7 +14,14 @@ require 'vendor/deployphp/recipes/recipes/slack.php';
 
 You can provide also other configuration options:
 
- - *message* - default is **Deployment to '{$host}' on *{$prod}* was successful\n({$releasePath})**
+ - *message* - default is **Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})**
+  - the available placeholders for the message parameter are:
+    - {{release_path}}
+    - {{host}}
+    - {{stage}}
+    - {{user}}
+    - {{branch}}
+    - {{app_name}} - set through env('slack_app_name') and defaults to app-name
  - *channel* - default is **#general**
  - *icon* - default is **:sunny:**
  - *username* - default is **Deploy**
