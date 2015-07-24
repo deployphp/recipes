@@ -54,7 +54,7 @@ All code contributions must go through a pull request and approved by a core dev
 * Commit, push and send us a [pull request](https://help.github.com/articles/using-pull-requests).
 * You can use the documentation of your recipe as a description to your pull request.
 
-To ensure a consistent code base, you should make sure the code follows the [Coding Standards](http://symfony.com/doc/current/contributing/code/standards.html) which we borrowed from Symfony.
+To ensure a consistent code base, you should make sure the code follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
 
 ### Recipe Do's and Don'ts 
 
