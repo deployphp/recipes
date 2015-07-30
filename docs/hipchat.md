@@ -10,7 +10,7 @@ require 'vendor/deployphp/recipes/recipes/hipchat.php';
 
 ### Configuration options
 
-- **hipchat** *(required)*: accepts an *array* with the auth token and room id. Token can be generated on [hipchat website](https://hipchat.com]).
+- **hipchat** *(required)*: accepts an *array* with the auth token and room id. Token can be generated on the "Group Admin / API" page on the [hipchat website](https://hipchat.com/).
 
  - *auth_token* - Hipchat V1 auth token
  - *room_id* - Room ID or name
