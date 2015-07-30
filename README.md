@@ -39,6 +39,7 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 | rsync     | [read](docs/rsync.md)     | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
 | slack     | [read](docs/slack.md)     | `require 'vendor/deployphp/recipes/recipes/slack.php';`
 | configure | [read](docs/configure.md) | `require 'vendor/deployphp/recipes/recipes/configure.php';`
+| hipchat   | [read](docs/hipchat.md)   | `require 'vendor/deployphp/recipes/recipes/hipchat.php';`
 
 ## Contributing a recipe
 
@@ -56,7 +57,7 @@ All code contributions must go through a pull request and approved by a core dev
 
 To ensure a consistent code base, you should make sure the code follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
 
-### Recipe Do's and Don'ts 
+### Recipe Do's and Don'ts
 
 For easier integration in existing project, and fewer changes in your recipe and/or docs for it, you should try and follow this general guidelines:
 
