@@ -29,6 +29,7 @@ task('deploy:hipchat', function () {
         'color' => 'green',
         'format' => 'json',
         'notify' => 0,
+        'endpoint' => 'https://api.hipchat.com/v1/rooms/message',
     ];
 
     $config = array_merge($defaultConfig, $config);
@@ -38,6 +39,9 @@ task('deploy:hipchat', function () {
     {
         throw new \RuntimeException("Please configure new hipchat: set('hipchat', array('auth_token' => 'xxx', 'room_id' => 'yyy'));");
     }
+
+    $endpoint = $config['endpoint'];
+    unset($config['endpoint']);
 
     $urlParams = [
         'room_id' => $config['room_id'],
@@ -49,7 +53,7 @@ task('deploy:hipchat', function () {
         'format' => $config['format'],
     ];
 
-    $url = 'https://api.hipchat.com/v1/rooms/message?' . http_build_query($urlParams);
+    $url = $endpoint . '?' . http_build_query($urlParams);
 
     $result = @file_get_contents($url);
 
