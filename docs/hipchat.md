@@ -20,7 +20,7 @@ You can provide also other configuration options:
  - *message* - Deploy message, default is **Deployment to '{$host}' on *{$prod}* was successful\n({$releasePath})**
  - *color* - Message color, default is **green**
  - *notify* - Notify, default is **0**
-
+ - *endpoint* - API endpoint, change this if you run your own hipchat instance, default is **https://api.hipchat.com/v1/rooms/message**
 
 ```php
 // deploy.php
