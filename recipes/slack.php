@@ -14,16 +14,27 @@ task('deploy:slack', function () {
     $config = get('slack', []);
 
     if (!isset($config['message'])) {
-        $releasePath = env('release_path');
-        $host = env('server.host');
-        $stage = env('stages')[0];
-        $config['message'] = "Deployment to '{$host}' on *{$stage}* was successful\n($releasePath)";
+        $config['message'] = "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})";
     }
+
+    $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
+    $host = $server->getHost();
+    $user = !$server->getUser() ? null : $server->getUser();
+    $messagePlaceHolders = [
+        '{{release_path}}' => env('release_path'),
+        '{{host}}' => env('server.host'),
+        '{{stage}}' => env('stages')[0],
+        '{{user}}' => $user,
+        '{{branch}}' => env('branch'),
+        '{{app_name}}' => isset($config['app']) ? ['app'] : 'app-name',
+    ];
+    $config['message'] = strtr($config['message'], $messagePlaceHolders);
 
     $defaultConfig = [
         'channel' => '#general',
         'icon' => ':sunny:',
         'username' => 'Deploy',
+        'message' => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
     ];
 
     $config = array_merge($defaultConfig, $config);
@@ -50,7 +61,6 @@ task('deploy:slack', function () {
     }
 
     $url = 'https://slack.com/api/chat.postMessage?' . http_build_query($urlParams);
-
     $result = @file_get_contents($url);
 
     if (!$result) {
