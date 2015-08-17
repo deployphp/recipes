@@ -26,7 +26,7 @@ task('deploy:slack', function () {
         '{{stage}}' => env('stages')[0],
         '{{user}}' => $user,
         '{{branch}}' => env('branch'),
-        '{{app_name}}' => env()->get('slack_app_name', 'app-name'),
+        '{{app_name}}' => isset($config['app']) ? ['app'] : 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
 

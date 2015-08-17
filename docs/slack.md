@@ -21,7 +21,7 @@ You can provide also other configuration options:
     - {{stage}}
     - {{user}}
     - {{branch}}
-    - {{app_name}} - set through env('slack_app_name') and defaults to "app-name"
+    - {{app_name}}
  - *channel* - default is **#general**
  - *icon* - default is **:sunny:**
  - *username* - default is **Deploy**
@@ -33,6 +33,7 @@ You can provide also other configuration options:
 set('slack', [
     'token' => 'xoxp-...',
     'team' => 'team name',
+    'app' => 'app name',
 ]);
 ```
 
