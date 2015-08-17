@@ -17,12 +17,6 @@ task('deploy:slack', function () {
         $config['message'] = "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})";
     }
 
-    try {
-        env('slack_app_name');
-    } catch(\RuntimeException $e) {
-        env('slack_app_name', 'app-name');
-    }
-
     $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
     $host = $server->getHost();
     $user = !$server->getUser() ? null : $server->getUser();
@@ -32,7 +26,7 @@ task('deploy:slack', function () {
         '{{stage}}' => env('stages')[0],
         '{{user}}' => $user,
         '{{branch}}' => env('branch'),
-        '{{app_name}}' => env('slack_app_name'),
+        '{{app_name}}' => env()->get('slack_app_name', 'app-name'),
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
 
@@ -40,7 +34,7 @@ task('deploy:slack', function () {
         'channel' => '#general',
         'icon' => ':sunny:',
         'username' => 'Deploy',
-        'message' => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})";,
+        'message' => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
     ];
 
     $config = array_merge($defaultConfig, $config);
