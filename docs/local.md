@@ -65,7 +65,7 @@ task('deploy', [
 ])->desc('Deploy your project');
 
 after('local:vendors', function() {
-  upload(env('local_release_path'), env('release_path'));
+    upload(env('local_release_path'), env('release_path'));
 })->desc('Upload local to remote');
 ```
 
@@ -74,12 +74,12 @@ after('local:vendors', function() {
 You use full local release *and* full remote release. Plus You wish to take advantage of `rsync.php` recipe.
 
 ```php
-env('rsync_src', function(){
-  $local_src = env('local_release_path');
-  if(is_callable($local_src)){
-    $local_src = $local_src();
-  }
-  return $local_src;
+env('rsync_src', function() {
+    $local_src = env('local_release_path');
+    if(is_callable($local_src)){
+        $local_src = $local_src();
+    }
+    return $local_src;
 });
 
 task('deploy', [

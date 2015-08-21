@@ -27,7 +27,7 @@ You can provide also other configuration options:
 
 set('hipchat', [
     'auth_token' => 'abcdef...',
-    'room_id' => 'my room',
+    'room_id'    => 'my room',
 ]);
 ```
 

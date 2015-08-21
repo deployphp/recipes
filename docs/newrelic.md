@@ -16,7 +16,7 @@ require 'vendor/deployphp/recipes/recipes/newrelic.php';
 // deploy.php
 
 set('newrelic', [
-    'license' => 'xad3...',
+    'license'        => 'xad3...',
     'application_id' => '12873',
     // or
     'app_name' => 'your_app_name'

@@ -32,8 +32,8 @@ You can provide also other configuration options:
 
 set('slack', [
     'token' => 'xoxp-...',
-    'team' => 'team name',
-    'app' => 'app name',
+    'team'  => 'team name',
+    'app'   => 'app name',
 ]);
 ```
 

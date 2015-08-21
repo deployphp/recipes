@@ -31,19 +31,19 @@ Following is default configuration. By default rsync ignores only git dir and `d
 // deploy.php
 
 set('rsync',[
-  'exclude'=> [
-    '.git',
-    'deploy.php',
+    'exclude'      => [
+        '.git',
+        'deploy.php',
     ],
-  'exclude-file' => false,
-  'include'=> [],
-  'include-file' => false,
-  'filter'=> [],
-  'filter-file' => false,
-  'filter-perdir' => false,
-  'flags' => 'rz', // Recursive, with compress
-  'options' => ['delete'],
-  'timeout' => 60,
+    'exclude-file' => false,
+    'include'      => [],
+    'include-file' => false,
+    'filter'       => [],
+    'filter-file'  => false,
+    'filter-perdir'=> false,
+    'flags'        => 'rz', // Recursive, with compress
+    'options'      => ['delete'],
+    'timeout'      => 60,
 ]);
 ```
 
@@ -53,16 +53,16 @@ If You have multiple excludes, You can put them in file and reference that inste
 // deploy.php
 
 set('rsync',[
-  'exclude'=> ['excludes_file'],
-  'exclude-file' => /tmp/localdeploys/excludes_file, //Use absolute path to avoid possible rsync problems
-  'include'=> [],
-  'include-file' => false,
-  'filter'=> [],
-  'filter-file' => false,
-  'filter-perdir' => false,
-  'flags' => 'rzcE', // Recursive, with compress, check based on checksum rather than time/size, preserve Executable flag
-  'options' => ['delete', 'delete-after', 'force'], //Delete after successful trasfer, delete even if deleted dir is not empty
-  'timeout' => 3600, //for those huge repos or crappy connection
+    'exclude'       => ['excludes_file'],
+    'exclude-file'  => /tmp/localdeploys/excludes_file, //Use absolute path to avoid possible rsync problems
+    'include'       => [],
+    'include-file'  => false,
+    'filter'        => [],
+    'filter-file'   => false,
+    'filter-perdir' => false,
+    'flags'         => 'rzcE', // Recursive, with compress, check based on checksum rather than time/size, preserve Executable flag
+    'options'       => ['delete', 'delete-after', 'force'], //Delete after successful trasfer, delete even if deleted dir is not empty
+    'timeout'       => 3600, //for those huge repos or crappy connection
 ]);
 ```
 
@@ -70,7 +70,7 @@ set('rsync',[
 ### Environimental Variables
 
 - **rsync_src**: per-environment rsync source. This can be server, stage or whatever-dependent. By default it's set to current directory
-- **rsync_src**: per-environment rsync deestination. This can be server, stage or whatever-dependent. by default it's equivalent to release deploy destination.
+- **rsync_dest**: per-environment rsync destination. This can be server, stage or whatever-dependent. by default it's equivalent to release deploy destination.
 
 #### Sample configurations:
 
@@ -92,11 +92,11 @@ If You use local deploy recipe You can set src to local release:
 server('local_deploy','local_deploy.host',22)
         ->env('deploy_path','/var/www/vhosts/app')
         ->env('rsync_src', function(){
-          $local_src = env('local_release_path');
-          if(is_callable($local_src)){
-            $local_src = $local_src();
-          }
-          return $local_src;
+            $local_src = env('local_release_path');
+            if(is_callable($local_src)) {
+                $local_src = $local_src();
+            }
+            return $local_src;
         });
 ```
 

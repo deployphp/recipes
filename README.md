@@ -30,8 +30,8 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 
 ## Recipes
 
-| Recipe    | Docs                                                                      | Usage
-| ------    | ----                                                                      | -----
+| Recipe    | Docs                      | Usage
+| ------    | ----                      | -----
 | cachetool | [read](docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
 | local     | [read](docs/local.md)     | `require 'vendor/deployphp/recipes/recipes/local.php';`
 | newrelic  | [read](docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`

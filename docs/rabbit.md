@@ -28,12 +28,12 @@ You can provide also other configuration options:
 // deploy.php
 
 set('rabbit', [
-    'host' => 'localhost',
-    'port' => '5672',
+    'host'     => 'localhost',
+    'port'     => '5672',
     'username' => 'guest',
     'password' => 'guest',
-    'channel' => 'notify-channel',
-    'vhost' => '/my-app'
+    'channel'  => 'notify-channel',
+    'vhost'    => '/my-app'
 ]);
 ```
 
