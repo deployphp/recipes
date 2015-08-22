@@ -75,11 +75,11 @@ env('rsync_filter', function () {
 env('rsync_options', function () {
     $config = get('rsync');
     $options = $config['options'];
-    $optionsRsync = '';
+    $optionsRsync = [];
     foreach ($options as $option) {
-        $optionsRsync .= "--$option";
+        $optionsRsync[] = "--$option";
     }
-    return $optionsRsync;
+    return implode(' ', $optionsRsync);
 });
 
 task('rsync:warmup', function() {
