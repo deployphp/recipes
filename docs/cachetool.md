@@ -20,6 +20,18 @@ set('cachetool', '/var/run/php5-fpm.sock');
 set('cachetool', '127.0.0.1:9000');
 ```
 
+You can also specify different cachetool settings for each server:
+```php
+// deploy.php
+
+server('staging', 'staging.example.com', 22)
+    ->env('cachetool', '127.0.0.1:9000');
+server('production', 'production.example.com', 22)
+    ->env('cachetool', '/var/run/php5-fpm.sock');
+```
+
+By default, if no env setting is provided, this recipe will fallback to the global setting.
+
 ### Tasks
 
 - `cachetool:clear:apc` Clears APC *system* cache
