@@ -4,13 +4,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
+set('cachetool', '');
 /**
  * Clear apc cache
  */
 task('cachetool:clear:apc', function () {
     $releasePath = env('release_path');
-    $options = get('cachetool', '');
+    $env = env();
+    $options = $env->has('cachetool') ? $env->get('cachetool') : get('cachetool');
 
     if (strlen($options)) {
         $options = "--fcgi={$options}";
@@ -31,7 +32,8 @@ task('cachetool:clear:apc', function () {
  */
 task('cachetool:clear:opcache', function () {
     $releasePath = env('release_path');
-    $options = get('cachetool', '');
+    $env = env();
+    $options = $env->has('cachetool') ? $env->get('cachetool') : get('cachetool');
 
     if (strlen($options)) {
         $options = "--fcgi={$options}";
