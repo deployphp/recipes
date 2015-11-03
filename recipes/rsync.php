@@ -19,6 +19,7 @@ set('rsync', [
     'flags' => 'rz',
     'options' => ['delete'],
     'timeout' => 60,
+    'identity-file' => '',
 ]);
 
 env('rsync_src', __DIR__);
@@ -82,6 +83,23 @@ env('rsync_options', function () {
     return implode(' ', $optionsRsync);
 });
 
+env('rsync_identity', function() {
+    $identityRsync = '';
+    $config = get('rsync');
+    $identityFile = $config['identity-file'];
+
+    // convert from relative path to absolute path
+    if (substr($identityFile, 0, 1) === '~') {
+        $dir = posix_getpwuid(posix_geteuid())['dir'];
+        $identityFile = str_replace('~', $dir, $identityFile);
+    }
+
+    if (!empty($identityFile) && file_exists($identityFile) && is_file($identityFile)) {
+        $identityRsync .= "-i $identityFile";
+    }
+    return $identityRsync;
+});
+
 task('rsync:warmup', function() {
     $config = get('rsync');
 
@@ -115,5 +133,5 @@ task('rsync', function() {
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
-    runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
+    runLocally("rsync -{$config['flags']} -e 'ssh$port {{rsync_identity}}' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
 })->desc('Rsync local->remote');
