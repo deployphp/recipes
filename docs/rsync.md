@@ -54,7 +54,7 @@ If You have multiple excludes, You can put them in file and reference that inste
 
 set('rsync',[
     'exclude'       => ['excludes_file'],
-    'exclude-file'  => /tmp/localdeploys/excludes_file, //Use absolute path to avoid possible rsync problems
+    'exclude-file'  => '/tmp/localdeploys/excludes_file', //Use absolute path to avoid possible rsync problems
     'include'       => [],
     'include-file'  => false,
     'filter'        => [],
