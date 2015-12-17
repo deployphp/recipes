@@ -18,13 +18,14 @@ task('cachetool:clear:apc', function () {
     }
 
     cd($releasePath);
-    $hasCachetool = run("if [ -e $releasePath/cachetool.phar ]; then echo 'true'; fi");
-
-    if ('true' !== $hasCachetool) {
+    if (commandExist('cachetool')) {
+        $cacheTool = 'cachetool';
+    } else {
         run("curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar");
+        $cacheTool = 'php cachetool.phar';
     }
 
-    run("php cachetool.phar apc:cache:clear system {$options}");
+    run("{$cacheTool} apce:cache:clear system {$options}");
 })->desc('Clearing APC system cache');
 
 /**
@@ -39,12 +40,14 @@ task('cachetool:clear:opcache', function () {
         $options = "--fcgi={$options}";
     }
 
-    cd($releasePath);
-    $hasCachetool = run("if [ -e $releasePath/cachetool.phar ]; then echo 'true'; fi");
-
-    if ('true' !== $hasCachetool) {
+    if (commandExist('cachetool')) {
+        $cacheTool = 'cachetool';
+    } else {
         run("curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar");
+        $cacheTool = 'php cachetool.phar';
     }
 
-    run("php cachetool.phar opcache:reset {$options}");
+    cd($releasePath);
+
+    run("{$cacheTool} opcache:reset {$options}");
 })->desc('Clearing OPcode cache');
