@@ -105,6 +105,14 @@ task('rsync', function() {
     while (is_callable($src)) {
         $src = $src();
     }
+
+    if (!trim($src)) {
+        // if $src is not set here rsync is going to do a directory listing
+        // exiting with code 0, since only doing a directory listing clearly
+        // is not what we want to achieve we need to throw an exception
+        throw new \RuntimeException('You need to specify a source path.');
+    }
+
     $dst = env('rsync_dest');
     while (is_callable($dst)) {
         $dst = $dst();
