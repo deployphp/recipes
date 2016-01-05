@@ -110,6 +110,13 @@ task('rsync', function() {
         $dst = $dst();
     }
 
+    if (!trim($dst)) {
+        // if $dst is not set here we are going to sync to root
+        // and even worse - depending on rsync flags and permission -
+        // might end up deleting everything we have write permission to
+        throw new \RuntimeException('You need to specify a destination path.');
+    }
+
     $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
     $host = $server->getHost();
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
