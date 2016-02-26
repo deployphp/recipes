@@ -6,6 +6,13 @@
  */
 
 /**
+ * Get local username
+ */
+env('local_user', function () {
+    return trim(run("whoami"));
+});
+
+/**
  * Notify Slack of successful deployment
  */
 task('deploy:slack', function () {
@@ -20,9 +27,14 @@ task('deploy:slack', function () {
     ];
 
     $config = array_merge($defaultConfig, (array) get('slack', []));
-    
-    $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
-    $user = !$server->getUser() ? null : $server->getUser();
+
+    $server = \Deployer\Task\Context::get()->getServer();
+    if ($server instanceof \Deployer\Server\Local) {
+        $user = env('local_user');
+    } else {
+        $user = $server->getConfiguration()->getUser() ? : null;
+    }
+
     $messagePlaceHolders = [
         '{{release_path}}' => env('release_path'),
         '{{host}}'         => env('server.host'),
@@ -32,12 +44,8 @@ task('deploy:slack', function () {
         '{{app_name}}'     => isset($config['app']) ? $config['app'] : 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
-    
-    if (!is_array($config) ||
-        !isset($config['token']) ||
-        !isset($config['team']) ||
-        !isset($config['channel']))
-    {
+
+    if (!is_array($config) || !isset($config['token']) || !isset($config['team']) || !isset($config['channel'])) {
         throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
     }
 
