@@ -128,7 +128,8 @@ task('rsync', function() {
     $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
     $host = $server->getHost();
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
+    $identityFile = $server->getPrivateKey() ? ' -i ' . $server->getPrivateKey() : '';
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
-    runLocally("rsync -{$config['flags']} -e 'ssh$port' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
+    runLocally("rsync -{$config['flags']} -e 'ssh$port$identityFile' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
 })->desc('Rsync local->remote');
