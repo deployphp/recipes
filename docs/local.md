@@ -12,7 +12,23 @@ require 'vendor/deployphp/recipes/recipes/local.php';
 
 ### Configuration options
 
-The `local.php` recipe doesn't expose any configuration options. Instead uses same options as standard `common.php` recipe.
+The `local.php` uses same options as standard `common.php` recipe and few specific options.
+
+- **local**: Accepts an array with following local options (all are optional and defaults are ok):
+
+- *timeout*: accepts an *int* defining timeout for local command to run locally.
+
+#### Sample Configuration:
+
+Following is default configuration.
+
+```php
+// deploy.php
+
+set('local',[
+    'timeout'      => 60,
+]);
+```
 
 ### Environmental variables
 
