@@ -5,6 +5,13 @@
  * file that was distributed with this source code.
  */
 
+
+set('local', [
+    'git' => [
+        'timeout' => 60,
+    ]
+]);
+
 /**
  * Check if we can use local git cache. by default it checks if we're using 
  * git in version at least 2.3. 
@@ -90,12 +97,11 @@ task('local:release', function () {
  * Update project code
  */
 task('local:update_code', function () {
+    $config = get('local');
     $repository = get('repository');
     $branch = env('branch');
     $gitCache = env('local_git_cache');
     $depth = $gitCache ? '' : '--depth 1';
-    $gitCloneTimeout = env('local_git_clone_timeout');
-    $gitCloneTimeout = $gitCloneTimeout ? $gitCloneTimeout : 60;
 
     if (input()->hasOption('tag')) {
         $tag = input()->getOption('tag');
@@ -112,14 +118,14 @@ task('local:update_code', function () {
 
     if ($gitCache && isset($releases[1])) {
         try {
-            runLocally("git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1", $gitCloneTimeout);
+            runLocally("git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1", $config['git']['timeout']);
         } catch (RuntimeException $exc) {
             // If {{local_deploy_path}}/releases/{$releases[1]} has a failed git clone, is empty, shallow etc, git would throw error and give up. So we're forcing it to act without reference in this situation
-            runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1", $gitCloneTimeout);
+            runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1", $config['git']['timeout']);
         }
     } else {
         // if we're using git cache this would be identical to above code in catch - full clone. If not, it would create shallow clone.
-        runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1", $gitCloneTimeout);
+        runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1", $config['git']['timeout']);
     }
 })->desc('Updating code');
 
