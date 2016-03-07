@@ -94,6 +94,8 @@ task('local:update_code', function () {
     $branch = env('branch');
     $gitCache = env('local_git_cache');
     $depth = $gitCache ? '' : '--depth 1';
+    $gitCloneTimeout = env('local_git_clone_timeout');
+    $gitCloneTimeout = $gitCloneTimeout ? $gitCloneTimeout : 60;
 
     if (input()->hasOption('tag')) {
         $tag = input()->getOption('tag');
@@ -110,14 +112,14 @@ task('local:update_code', function () {
 
     if ($gitCache && isset($releases[1])) {
         try {
-            runLocally("git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1");
+            runLocally("git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1", $gitCloneTimeout);
         } catch (RuntimeException $exc) {
             // If {{local_deploy_path}}/releases/{$releases[1]} has a failed git clone, is empty, shallow etc, git would throw error and give up. So we're forcing it to act without reference in this situation
-            runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1");
+            runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1", $gitCloneTimeout);
         }
     } else {
         // if we're using git cache this would be identical to above code in catch - full clone. If not, it would create shallow clone.
-        runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1");
+        runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1", $gitCloneTimeout);
     }
 })->desc('Updating code');
 
