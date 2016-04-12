@@ -24,7 +24,7 @@ task('cachetool:clear:apc', function () {
         run("curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar");
     }
 
-    run("php cachetool.phar apc:cache:clear system {$options}");
+    run("{{bin/php}} cachetool.phar apc:cache:clear system {$options}");
 })->desc('Clearing APC system cache');
 
 /**
@@ -46,5 +46,5 @@ task('cachetool:clear:opcache', function () {
         run("curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar");
     }
 
-    run("php cachetool.phar opcache:reset {$options}");
+    run("{{bin/php}} cachetool.phar opcache:reset {$options}");
 })->desc('Clearing OPcode cache');

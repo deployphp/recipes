@@ -122,28 +122,10 @@ task('local:update_code', function () {
 })->desc('Updating code');
 
 /**
- * Check if command exist in bash.
- *
- * @param string $command
- * @return bool
- */
-function commandExistLocally($command)
-{
-    return runLocally("if hash $command 2>/dev/null; then echo 'true'; fi")->toBool();
-}
-
-/**
  * Installing vendors tasks.
  */
 task('local:vendors', function () {
-    if (commandExistLocally('composer')) {
-        $composer = 'composer';
-    } else {
-        runLocally("cd {{local_release_path}} && curl -sS https://getcomposer.org/installer | php");
-        $composer = 'php composer.phar';
-    }
-
-    runLocally("cd {{local_release_path}} && {{env_vars}} $composer {{composer_options}}");
+    runLocally("cd {{local_release_path}} && {{env_vars}} {{bin/composer}} {{composer_options}}");
 })->desc('Installing vendors locally');
 
 /**
