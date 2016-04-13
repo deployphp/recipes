@@ -10,7 +10,7 @@ require 'vendor/deployphp/recipes/recipes/slack.php';
 
 ### Configuration options
 
-- **slack** *(required)*: accepts an *array* with the api token and team name. Token can be generated on [slack api website](https://api.slack.com/web]).
+- **slack** *(required)*: accepts an *array* with the api token and team name. Token can be generated on [slack api website](https://api.slack.com/docs/oauth-test-tokens).
 
 You can provide also other configuration options:
 

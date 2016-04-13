@@ -1,5 +1,5 @@
 <?php
-/* (c) HAKGER[hakger.pl] Hubert Kowalski <h.kowalski@hakger.pl> 
+/* (c) HAKGER[hakger.pl] Hubert Kowalski <h.kowalski@hakger.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -136,32 +136,11 @@ task('local:update_code', function () {
 })->desc('Updating code');
 
 /**
- * Check if command exist in bash.
- *
- * @param string $command
- * @return bool
- */
-function commandExistLocally($command)
-{
-    $config = get('local');
-
-    return runLocally("if hash $command 2>/dev/null; then echo 'true'; fi", $config['timeout'])->toBool();
-}
-
-/**
  * Installing vendors tasks.
  */
 task('local:vendors', function () {
     $config = get('local');
-
-    if (commandExistLocally('composer')) {
-        $composer = 'composer';
-    } else {
-        runLocally("cd {{local_release_path}} && curl -sS https://getcomposer.org/installer | php", $config['timeout']);
-        $composer = 'php composer.phar';
-    }
-
-    runLocally("cd {{local_release_path}} && {{env_vars}} $composer {{composer_options}}", $config['timeout']);
+    runLocally("cd {{local_release_path}} && {{env_vars}} {{bin/composer}} {{composer_options}}", $config['timeout']);
 })->desc('Installing vendors locally');
 
 /**
