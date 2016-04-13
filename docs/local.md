@@ -12,11 +12,11 @@ require 'vendor/deployphp/recipes/recipes/local.php';
 
 ### Configuration options
 
-The `local.php` uses same options as standard `common.php` recipe and few specific options.
+The `local.php` uses the same options as the standard `common.php` recipe and a few specific options.
 
-- **local**: Accepts an array with following local options (all are optional and defaults are ok):
+- **local**: Accepts an array with the following local options (all are optional and defaults are ok):
 
-- *timeout*: accepts an *int* defining timeout for local command to run locally.
+- *timeout*: accepts an *int* defining the timeout for the local command.
 
 #### Sample Configuration:
 
@@ -57,14 +57,14 @@ env('local_deploy_path', '/tmp/deployer');
 
 Depending on what *actually* is possible on remote deploy target or if You want to test deployment locally, there's many ways to utilize this recipe.
 
-#### Scenario #1 
+#### Scenario #1
 
 You just want to clone locally and run composer locally. Everything else can be done remotelly.
 
 This can be set as follows:
 
 ```php
-// deploy.php 
+// deploy.php
 
 env('local_release_path', '/tmp/my_application');
 
@@ -85,7 +85,7 @@ after('local:vendors', function() {
 })->desc('Upload local to remote');
 ```
 
-#### Scenario #2 
+#### Scenario #2
 
 You use full local release *and* full remote release. Plus You wish to take advantage of `rsync.php` recipe.
 
