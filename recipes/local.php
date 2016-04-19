@@ -6,13 +6,34 @@
  */
 
 /**
+ * Custom bins for local.
+ * Auto detectors have non-UNIX OS problems, so we are highly recommended
+ * using your paths instead of it.
+ */
+env('local_bin/php', function () {
+    return runLocally('which php')->toString();
+});
+env('local_bin/git', function () {
+    return runLocally('which git')->toString();
+});
+env('local_bin/composer', function () {
+    $composer = runLocally('which composer')->toString();
+
+    if (empty($composer)) {
+        runLocally("cd {{release_path}} && curl -sS https://getcomposer.org/installer | {{local_bin/php}}");
+        $composer = '{{local_bin/php}} {{local_release_path}}/composer.phar';
+    }
+
+    return $composer;
+});
+/**
  * Check if we can use local git cache. by default it checks if we're using 
  * git in version at least 2.3. 
  * You can override it if You prefer shalow clones or do not use full
  *  release workflow, that allows You to take advantage of this setting
  */
 env('local_git_cache', function() {
-    $gitVersion = runLocally('git version');
+    $gitVersion = runLocally('{{local_bin/git}} version');
     $regs = [];
     if (preg_match('/((\d+\.?)+)/', $gitVersion, $regs)) {
         $version = $regs[1];
@@ -90,8 +111,9 @@ task('local:release', function () {
  * Update project code
  */
 task('local:update_code', function () {
-    $repository = get('repository');
+    $repository = trim(get('repository'));
     $branch = env('branch');
+    $git = env('local_bin/git');
     $gitCache = env('local_git_cache');
     $depth = $gitCache ? '' : '--depth 1';
 
@@ -110,14 +132,14 @@ task('local:update_code', function () {
 
     if ($gitCache && isset($releases[1])) {
         try {
-            runLocally("git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1");
-        } catch (RuntimeException $exc) {
+            runLocally("$git clone $at --recursive -q --reference {{local_deploy_path}}/releases/{$releases[1]} --dissociate $repository  {{local_release_path}} 2>&1");
+        } catch (\RuntimeException $e) {
             // If {{local_deploy_path}}/releases/{$releases[1]} has a failed git clone, is empty, shallow etc, git would throw error and give up. So we're forcing it to act without reference in this situation
-            runLocally("git clone $at --recursive -q $repository {{local_release_path}} 2>&1");
+            runLocally("$git clone $at --recursive -q $repository {{local_release_path}} 2>&1");
         }
     } else {
         // if we're using git cache this would be identical to above code in catch - full clone. If not, it would create shallow clone.
-        runLocally("git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1");
+        runLocally("$git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1");
     }
 })->desc('Updating code');
 
@@ -125,7 +147,7 @@ task('local:update_code', function () {
  * Installing vendors tasks.
  */
 task('local:vendors', function () {
-    runLocally("cd {{local_release_path}} && {{env_vars}} {{bin/composer}} {{composer_options}}");
+    runLocally("cd {{local_release_path}} && {{env_vars}} {{local_bin/composer}} {{composer_options}}");
 })->desc('Installing vendors locally');
 
 /**

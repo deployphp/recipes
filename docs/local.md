@@ -26,6 +26,14 @@ env('local_deploy_path', '/tmp/deployer');
 - **local_release_path** - Accepts *string* specifying from where should deploys be done. This is functionally identical with `release_path` of `common.php` recipe. If You use full local release scenario, You do **not** wish to set this, as it's relative to `local_deploy_path`.
 - **local_git_cache** - Accepts *boolean*. By default it checks if Your git version supports required options (minimum git version is 2.3). If You do not use release workflow, You would not see benefits to this option. Set this to false to use shallow clones, that slims down cloned repository size.
 
+#### Locally bin paths
+
+> Auto detectors have non-UNIX OS problems, so we are highly recommended using your bin paths instead of it.
+
+- **local_bin/php** - Accepts *string*. By default it checks if your locally php bin path, but it only run on UNIX OS.
+- **local_bin/git** - Accepts *string*. By default it checks if your locally git bin path, but it only run on UNIX OS.
+- **local_bin/composer** -Accepts *string*. By default it checks if your locally composer bin path, but it only run on UNIX OS.
+
 ### Tasks
 
 - `local:prepare` - Prepares local dirs for deployment. Instead of failing when `local_deploy_path` does not exist - tries to create it.
