@@ -28,6 +28,10 @@ task('deploy:slack', function () {
 
     $config = array_merge($defaultConfig, (array) get('slack', []));
 
+    if (!is_array($config) || !isset($config['token']) || !isset($config['team']) || !isset($config['channel'])) {
+        throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
+    }
+
     $server = \Deployer\Task\Context::get()->getServer();
     if ($server instanceof \Deployer\Server\Local) {
         $user = env('local_user');
@@ -44,10 +48,6 @@ task('deploy:slack', function () {
         '{{app_name}}'     => isset($config['app']) ? $config['app'] : 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
-
-    if (!is_array($config) || !isset($config['token']) || !isset($config['team']) || !isset($config['channel'])) {
-        throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
-    }
 
     $urlParams = [
         'channel'    => $config['channel'],
