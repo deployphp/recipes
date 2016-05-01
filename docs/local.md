@@ -1,6 +1,6 @@
 # Local recipe
 
-This recipe is a re-implementation of `common.php` recipe, for running some of the tasks locally instead of remotelly. This recipe is especially useful if hosting provider that You're deploying to has some limitations of what can/can't be run. Best example is a *Shared Hosting* environment.
+This recipe is a re-implementation of `common.php` recipe, for running some of the tasks locally instead of remotely. This recipe is especially useful if hosting provider that You're deploying to has some limitations of what can/can't be run. Best example is a *Shared Hosting* environment.
 
 ### Installing
 
