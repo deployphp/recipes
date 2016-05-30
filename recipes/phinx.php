@@ -14,16 +14,6 @@
  */
 
 //Default configuration
-env(
-    'phinx', [
-        'environment' => '',
-        'date' => '',
-        'configuration' => '', 
-        'target' => '',
-        'seed' => '',
-        'parser' => ''
-    ]
-);
 env('phinx_path', 'getPhinx'); 
 
 /**
@@ -43,9 +33,7 @@ function getPhinxCmd($cmdName, $conf)
     $options = '';
 
     foreach ($conf as $name => $value) {
-        if ($value !== '') {
-            $options .= " --$name $value";
-        }
+        $options .= " --$name $value";
     }
 
     $phinxCmd .= $options;
@@ -54,8 +42,7 @@ function getPhinxCmd($cmdName, $conf)
 }
 
 /**
- * Get Phinx command(by default it returns phinx in your ~/.composer if it is 
- * not in $PATH)
+ * Get Phinx command
  *
  * @return Path to Phinx
  */
@@ -106,10 +93,13 @@ function getAllowedConfig($allowedOptions)
 {
     $opts = [];
 
-    foreach (env('phinx') as $key => $val) {
-        if (in_array($key, $allowedOptions)) {
-            $opts[$key] = $val;
+    try { 
+        foreach (env('phinx') as $key => $val) {
+            if (in_array($key, $allowedOptions)) {
+                $opts[$key] = $val;
+            }
         }
+    } catch (\RuntimeException $e) {
     }
 
     return $opts;
@@ -146,7 +136,6 @@ task(
             'target',
             'parser'
         ];
-
 
         $conf = getAllowedConfig($ALLOWED_OPTIONS); 
 
