@@ -13,8 +13,47 @@
  * @see https://phinx.org
  */
 
-//Default configuration
-env('phinx_path', 'getPhinx'); 
+/**
+ * Get Phinx command
+ *
+ * @return Path to Phinx
+ */
+env(
+    'phinx_path', function () {
+        $isExistsCmd = 'if [ -f %s ]; then echo true; fi';
+
+        try {
+            $phinxPath = run('which phinx')->toString();
+        } catch (\RuntimeException $e) {
+            $phinxPath = null;
+        }
+
+        if ($phinxPath !== null) {
+            return "phinx";
+        } else if (run(
+            sprintf(
+                $isExistsCmd,
+                '{{release_path}}/vendor/bin/phinx'
+            )
+        )->toBool()
+        ) {
+            return "{{release_path}}/vendor/bin/phinx";
+        } else if (run(
+            sprintf(
+                $isExistsCmd,
+                '~/.composer/vendor/bin/phinx'
+            )
+        )->toBool()
+        ) {
+            return '~/.composer/vendor/bin/phinx';
+        } else {
+            throw new \RuntimeException(
+                'Cannot find phinx. 
+            Please specify path to phinx manually'
+            );
+        }
+    }
+); 
 
 /**
  * Make Phinx command from env options 
@@ -24,63 +63,23 @@ env('phinx_path', 'getPhinx');
  *
  * @return string Phinx command to execute
  */
-function getPhinxCmd($cmdName, $conf)
-{
-    $phinx = env('phinx_path');
+set(
+    'phinx_get_cmd', function ($cmdName, $conf) {
+        $phinx = env('phinx_path');
     
-    $phinxCmd = "$phinx $cmdName";
+        $phinxCmd = "$phinx $cmdName";
 
-    $options = '';
+        $options = '';
 
-    foreach ($conf as $name => $value) {
-        $options .= " --$name $value";
+        foreach ($conf as $name => $value) {
+            $options .= " --$name $value";
+        }
+
+        $phinxCmd .= $options;
+
+        return $phinxCmd;
     }
-
-    $phinxCmd .= $options;
-
-    return $phinxCmd;
-}
-
-/**
- * Get Phinx command
- *
- * @return Path to Phinx
- */
-function getPhinx()
-{
-    $isExistsCmd = 'if [ -f %s ]; then echo true; fi';
-
-    try {
-        $phinxPath = run('which phinx')->toString();
-    } catch (\RuntimeException $e) {
-        $phinxPath = null;
-    }
-
-    if ($phinxPath !== null) {
-        return "phinx";
-    } else if (run(
-        sprintf(
-            $isExistsCmd,
-            '{{release_path}}/vendor/bin/phinx'
-        )
-    )->toBool()
-    ) {
-        return "{{release_path}}/vendor/bin/phinx";
-    } else if (run(
-        sprintf(
-            $isExistsCmd,
-            '~/.composer/vendor/bin/phinx'
-        )
-    )->toBool()
-    ) {
-        return '~/.composer/vendor/bin/phinx';
-    } else {
-        throw new \RuntimeException(
-            'Cannot find phinx. 
-            Please specify path to phinx manually'
-        );
-    }
-}
+);
 
 /**
  * Returns options array that allowed for command
@@ -89,21 +88,22 @@ function getPhinx()
  *
  * @return array Array of options
  */
-function getAllowedConfig($allowedOptions)
-{
-    $opts = [];
+set(
+    'phinx_get_allowed_config', function ($allowedOptions) {
+        $opts = [];
 
-    try { 
-        foreach (env('phinx') as $key => $val) {
-            if (in_array($key, $allowedOptions)) {
-                $opts[$key] = $val;
+        try { 
+            foreach (env('phinx') as $key => $val) {
+                if (in_array($key, $allowedOptions)) {
+                    $opts[$key] = $val;
+                }
             }
+        } catch (\RuntimeException $e) {
         }
-    } catch (\RuntimeException $e) {
-    }
 
-    return $opts;
-}
+        return $opts;
+    }
+);
 
 task(
     'phinx:migrate', function () {
@@ -115,11 +115,11 @@ task(
             'parser'
         ];
 
-        $conf = getAllowedConfig($ALLOWED_OPTIONS); 
+        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
 
         cd('{{release_path}}');
         
-        $phinxCmd = getPhinxCmd('migrate', $conf);
+        $phinxCmd = get('phinx_get_cmd')('migrate', $conf);
 
         run($phinxCmd);
 
@@ -137,11 +137,11 @@ task(
             'parser'
         ];
 
-        $conf = getAllowedConfig($ALLOWED_OPTIONS); 
+        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
 
         cd('{{release_path}}');
 
-        $phinxCmd = getPhinxCmd('rollback', $conf);
+        $phinxCmd = get('phinx_get_cmd')('rollback', $conf);
 
         run($phinxCmd);        
 
@@ -158,11 +158,11 @@ task(
             'seed'
         ];
 
-        $conf = getAllowedConfig($ALLOWED_OPTIONS); 
+        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
 
         cd('{{release_path}}');
 
-        $phinxCmd = getPhinxCmd('seed:run', $conf);
+        $phinxCmd = get('phinx_get_cmd')('seed:run', $conf);
 
         run($phinxCmd);
 
