@@ -30,16 +30,17 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 
 ## Recipes
 
-| Recipe    | Docs                      | Usage
-| ------    | ----                      | -----
-| cachetool | [read](docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
-| local     | [read](docs/local.md)     | `require 'vendor/deployphp/recipes/recipes/local.php';`
-| newrelic  | [read](docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
-| rabbit    | [read](docs/rabbit.md)    | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
-| rsync     | [read](docs/rsync.md)     | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
-| slack     | [read](docs/slack.md)     | `require 'vendor/deployphp/recipes/recipes/slack.php';`
-| configure | [read](docs/configure.md) | `require 'vendor/deployphp/recipes/recipes/configure.php';`
-| hipchat   | [read](docs/hipchat.md)   | `require 'vendor/deployphp/recipes/recipes/hipchat.php';`
+| Recipe     | Docs                       | Usage
+| ------     | ----                       | -----
+| cachetool  | [read](docs/cachetool.md)  | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
+| local      | [read](docs/local.md)      | `require 'vendor/deployphp/recipes/recipes/local.php';`
+| newrelic   | [read](docs/newrelic.md)   | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
+| rabbit     | [read](docs/rabbit.md)     | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
+| rsync      | [read](docs/rsync.md)      | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
+| slack      | [read](docs/slack.md)      | `require 'vendor/deployphp/recipes/recipes/slack.php';`
+| configure  | [read](docs/configure.md)  | `require 'vendor/deployphp/recipes/recipes/configure.php';`
+| hipchat    | [read](docs/hipchat.md)    | `require 'vendor/deployphp/recipes/recipes/hipchat.php';`
+| cloudflare | [read](docs/cloudflare.md) | `require 'vendor/deployphp/recipes/recipes/cloudflare.php';`
 
 ## Contributing a recipe
 
