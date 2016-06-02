@@ -10,29 +10,24 @@ task('deploy:cloudflare', function () {
 
     //validate config and set headers
 
-    if (empty($config['service_key'])) {
-        if (empty($config['email']) || empty($config['api_key'])) {
-            throw new RuntimeException("Set a service key or email / api key");
-        } else {
-            $headers = [
-                'X-Auth-Key'   => $config['api_key'],
-                'X-Auth-Email' => $config['email']
-            ];
-        }
-    } else {
+    if (!empty($config['service_key'])) {
         $headers = [
             'X-Auth-User-Service-Key' => $config['service_key']
         ];
+    } elseif (!empty($config['email']) && !empty($config['api_key'])) {
+        $headers = [
+            'X-Auth-Key'   => $config['api_key'],
+            'X-Auth-Email' => $config['email']
+        ];
+    } else {
+        throw new RuntimeException("Set a service key or email / api key");
     }
 
-
     $headers['Content-Type'] = 'application/json';
-
 
     if (empty($config['domain'])) {
         throw new RuntimeException("Set a domain");
     }
-
 
     $makeRequest = function ($url, $opts = []) use ($headers) {
         $ch = curl_init("https://api.cloudflare.com/client/v4/$url");
@@ -57,7 +52,6 @@ task('deploy:cloudflare', function () {
         curl_close($ch);
 
         return $res;
-
     };
 
     // get the mysterious zone id from Cloud Flare
@@ -85,6 +79,4 @@ task('deploy:cloudflare', function () {
             ),
         ]
     );
-
-
 })->desc('Clearing Cloudflare Cache');
