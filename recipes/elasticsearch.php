@@ -52,10 +52,8 @@ env('elasticsearch_cmd', function () {
         '{{revision}}'     => env('elasticsearch_get_revision'),
         '{{host}}'         => env('server.host'),
         '{{stage}}'        => env('stages')[0],
-        '{{branch}}'       => env('branch'),
 
     ];
-
 
     $insecure = '';
     if ($config['insecure']) {
@@ -63,9 +61,12 @@ env('elasticsearch_cmd', function () {
     }
 
     $payload = [
-        'revision' => '{{revision}}',
+        'title'    => 'Deployer PHP Job',
+        'tags'     => ['{{stage}}', '{{revision}}', '{{host}}'],
         'stage'    => '{{stage}}',
-        'branch'   => '{{branch}}',
+        'revision' => '{{revision}}',
+        'host'     => '{{host}}',
+        'message'  => 'Successfully deployed  \'{{stage}}\' stage to {{host}} ',
         'datetime' => date(DateTime::ISO8601),
     ];
 
