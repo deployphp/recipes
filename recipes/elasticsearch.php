@@ -77,7 +77,7 @@ env('elasticsearch_cmd', function () {
         env('elasticsearch_index_name'),
         $config['doc_type'],
         addslashes(strtr(json_encode($payload), $messagePlaceHolders))
-        );
+    );
 
     return $basicQueryString;
 });
