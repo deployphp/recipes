@@ -20,7 +20,7 @@ task('deploy:cloudflare', function () {
             'X-Auth-Email' => $config['email']
         ];
     } else {
-        throw new RuntimeException("Set a service key or email / api key");
+        throw new \RuntimeException("Set a service key or email / api key");
     }
 
     $headers['Content-Type'] = 'application/json';
@@ -46,7 +46,7 @@ task('deploy:cloudflare', function () {
         $res = curl_exec($ch);
 
         if (curl_errno($ch)) {
-            throw new RuntimeException("Error making curl request (result: $res)");
+            throw new \RuntimeException("Error making curl request (result: $res)");
         }
 
         curl_close($ch);
@@ -56,12 +56,12 @@ task('deploy:cloudflare', function () {
 
     // get the mysterious zone id from Cloud Flare
 
-    $zones = @json_decode($makeRequest(
+    $zones = json_decode($makeRequest(
         "zones?name={$config['domain']}"
     ), true);
 
     if (empty($zones['success']) || !empty($zones['errors'])) {
-        throw new RuntimeException("Problem with zone data");
+        throw new \RuntimeException("Problem with zone data");
     } else {
         $zoneId = current($zones['result'])['id'];
     }
