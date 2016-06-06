@@ -52,11 +52,11 @@ This is to ensure proper review of all the code.
   * If the recipe is for Deployer `3.x` then create your branch based on `master`
   * If the recipe is for Deployer `2.x` then create your branch based on the `2.x` branch
 * Add your recipe to the `recipes` folder, it must be licensed as MIT.
-* Add documentation in Markdown for your recipe to the `docs` folder, you can base your documentation from
+* Add documentation in Markdown for your recipe to the `docs` folder; you could base your documentation on
 [cachetool.md](docs/cachetool.md) as it is fairly complete.
 * Add your recipe to the table above in `README.md`. Please use alphabetical order.
 * Commit, push and send us a [pull request](https://help.github.com/articles/using-pull-requests).
-* You can use the documentation of your recipe as a description to your pull request.
+* You can use the documentation of your recipe as a description for your pull request.
 
 To ensure a consistent code base, you should make sure the code follows
 [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
