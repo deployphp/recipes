@@ -25,15 +25,60 @@ task('deploy:slack', function () {
 
     global $php_errormsg;
 
+    $user = trim(runLocally('git config --get user.name'));
+    $revision = trim(runLocally('git log -n 1 --format="%h"'));
+
     $defaultConfig = [
-        'channel'  => '#general',
-        'icon'     => ':sunny:',
-        'username' => 'Deploy',
-        'message'  => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
-        'app'      => 'app-name',
+        'channel'     => '#general',
+        'icon'        => ':sunny:',
+        'username'    => 'Deploy',
+        'message'     => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
+        'app'         => 'app-name',
+        'unset_text'  => true,
+        'attachments' => [
+            [
+                'text' => sprintf(
+                    'Revision %s deployed to %s by %s',
+                    substr($revision, 0, 6),
+                    env('stages')[0],
+                    $user
+                ),
+                'title'    => 'Deployment Complete',
+                'fallback' => sprintf('Deployment to %s complete.', env('stages')[0]),
+                'color'    => '#7CD197',
+                'fields'   => [
+                    [
+                        'title' => 'User',
+                        'value' => $user,
+                        'short' => true,
+                    ],
+                    [
+                        'title' => 'Stage',
+                        'value' => env('stages')[0],
+                        'short' => true,
+                    ],
+                    [
+                        'title' => 'Branch',
+                        'value' => env('branch'),
+                        'short' => true,
+                    ],
+                    [
+                        'title' => 'Host',
+                        'value' => env('server.name'),
+                        'short' => true,
+                    ],
+                ],
+            ]
+        ]
     ];
 
-    $config = array_merge($defaultConfig, (array) get('slack'));
+    $newConfig = get('slack');
+
+    if (is_callable($newConfig)) {
+        $newConfig = $newConfig();
+    }
+
+    $config = array_merge($defaultConfig, (array) $newConfig);
 
     if (!is_array($config) || !isset($config['token']) || !isset($config['team']) || !isset($config['channel'])) {
         throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
@@ -65,9 +110,22 @@ task('deploy:slack', function () {
         'pretty'     => true
     ];
 
+    if ($config['unset_text']) {
+        unset($urlParams['text']);
+    }
+
+    foreach (['parse', 'link_names', 'icon_url', 'unfurl_links', 'unfurl_media', 'as_user'] as $option) {
+        if (isset($config[$option])) {
+            $urlParams[$option] = $config[$option];
+        }
+    }
+
+    if (isset($config['attachments'])) {
+        $urlParams['attachments'] = json_encode($config['attachments']);
+    }
+
     if (isset($config['icon_url'])) {
         unset($urlParams['icon_emoji']);
-        $urlParams['icon_url'] = $config['icon_url'];
     }
 
     $url = 'https://slack.com/api/chat.postMessage?' . http_build_query($urlParams);
@@ -76,4 +134,10 @@ task('deploy:slack', function () {
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-});
+
+    $response = @json_decode($result);
+
+    if (!$response || isset($response->error)) {
+        throw new \RuntimeException($response->error);
+    }
+})->desc('Notifying Slack channel of deployment');
