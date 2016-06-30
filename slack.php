@@ -18,6 +18,10 @@ set('local_user', function () {
 
 desc('Notifying Slack channel of deployment');
 task('deploy:slack', function () {
+    if (true === env('slack_skip_notification')) {
+        return;
+    }
+
     global $php_errormsg;
 
     $defaultConfig = [
