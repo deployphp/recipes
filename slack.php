@@ -18,7 +18,7 @@ set('local_user', function () {
 
 desc('Notifying Slack channel of deployment');
 task('deploy:slack', function () {
-    if (true === env('slack_skip_notification')) {
+    if (true === env('slack_skip_notification', false)) {
         return;
     }
 
