@@ -28,11 +28,11 @@ env('local_deploy_path', '/tmp/deployer');
 
 #### Locally bin paths
 
-> Auto detectors have non-UNIX OS problems, so we are highly recommended using your bin paths instead of it.
+> Autodetection has issues with non-UNIX OS, thus you are highly recommended to use your own paths instead.
 
-- **local_bin/php** - Accepts *string*. By default it checks if your locally php bin path, but it only run on UNIX OS.
-- **local_bin/git** - Accepts *string*. By default it checks if your locally git bin path, but it only run on UNIX OS.
-- **local_bin/composer** -Accepts *string*. By default it checks if your locally composer bin path, but it only run on UNIX OS.
+- **local_bin/php** - Accepts *string*. By default it checks for your local PHP bin path, which only works on UNIX OS.
+- **local_bin/git** - Accepts *string*. By default it checks for your local Git bin path, which only works on UNIX OS.
+- **local_bin/composer** -Accepts *string*. By default it checks for your local Composer bin path, which only works on UNIX OS.
 
 ### Tasks
 
