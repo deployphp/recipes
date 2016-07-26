@@ -20,7 +20,7 @@ $ php composer.phar require --dev "deployphp/recipes ~3.0"
 $ php composer.phar require --dev "deployphp/recipes ~2.0"
 ```
 
-Include the recipes to your will.
+Include recipes as desired.
 
 ```php
 // deploy.php
@@ -30,43 +30,53 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 
 ## Recipes
 
-| Recipe    | Docs                      | Usage
-| ------    | ----                      | -----
-| cachetool | [read](docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
-| local     | [read](docs/local.md)     | `require 'vendor/deployphp/recipes/recipes/local.php';`
-| newrelic  | [read](docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
-| rabbit    | [read](docs/rabbit.md)    | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
-| rsync     | [read](docs/rsync.md)     | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
-| slack     | [read](docs/slack.md)     | `require 'vendor/deployphp/recipes/recipes/slack.php';`
-| configure | [read](docs/configure.md) | `require 'vendor/deployphp/recipes/recipes/configure.php';`
-| hipchat   | [read](docs/hipchat.md)   | `require 'vendor/deployphp/recipes/recipes/hipchat.php';`
+| Recipe     | Docs                       | Usage
+| ------     | ----                       | -----
+| cachetool  | [read](docs/cachetool.md)  | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
+| cloudflare | [read](docs/cloudflare.md) | `require 'vendor/deployphp/recipes/recipes/cloudflare.php';`
+| configure  | [read](docs/configure.md)  | `require 'vendor/deployphp/recipes/recipes/configure.php';`
+| hipchat    | [read](docs/hipchat.md)    | `require 'vendor/deployphp/recipes/recipes/hipchat.php';`
+| local      | [read](docs/local.md)      | `require 'vendor/deployphp/recipes/recipes/local.php';`
+| newrelic   | [read](docs/newrelic.md)   | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
+| rabbit     | [read](docs/rabbit.md)     | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
+| rsync      | [read](docs/rsync.md)      | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
+| slack      | [read](docs/slack.md)      | `require 'vendor/deployphp/recipes/recipes/slack.php';`
 
 ## Contributing a recipe
 
-All code contributions must go through a pull request and approved by a core developer before being merged. This is to ensure proper review of all the code.
+All code contributions must go through a pull request and be approved by a core developer before being merged.
+This is to ensure proper review of all the code.
 
 * [Fork and clone](https://help.github.com/articles/fork-a-repo).
 * Create a branch.
   * If the recipe is for Deployer `3.x` then create your branch based on `master`
   * If the recipe is for Deployer `2.x` then create your branch based on the `2.x` branch
 * Add your recipe to the `recipes` folder, it must be licensed as MIT.
-* Add documentation in Markdown for your recipe to the `docs` folder, you can base your documentation from [cachetool.md](docs/cachetool.md) as it is fairly complete.
-* Add your recipe to the table above in `README.md`, please use alphabetical order.
+* Add documentation in Markdown for your recipe to the `docs` folder; you could base your documentation on
+[cachetool.md](docs/cachetool.md) as it is fairly complete.
+* Add your recipe to the table above in `README.md`. Please use alphabetical order.
 * Commit, push and send us a [pull request](https://help.github.com/articles/using-pull-requests).
-* You can use the documentation of your recipe as a description to your pull request.
+* You can use the documentation of your recipe as a description for your pull request.
 
-To ensure a consistent code base, you should make sure the code follows the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
+To ensure a consistent code base, you should make sure the code follows
+[PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md).
 
 ### Recipe Do's and Don'ts
 
-For easier integration in existing project, and fewer changes in your recipe and/or docs for it, you should try and follow this general guidelines:
+For easier integration in existing projects and fewer changes in your recipe (and/or docs for it) you should try and
+follow these general guidelines:
 
-* Use short file names for recipes.  Eg `ftp` instead of `ftp_upload_to_server_recype_by_me`
-* Prefix all tasks in recipe with recipe name. if You have task named `mytest` in `myrecipe` it should be named `myrecipe:mytest`
-* Use global settings keyed by your recipe name. If You have one setting, name it the same as Your recipe. If You have multiple settings, use associative array
-* Use environment variables prefixed by Your recipe name. If You have environment varaible named `better_path` in recipe `myrecipe`, call it `myrecipe_better_path`
-* Do not override existing tasks (for example - those in `common.php`). Instead document throughtly how tasks from your recipe can be integrated into workflow
-* If your recipe depends on another (be it included in deployer or 3rd party) - document it throughtly. It's better for user to use `require_once` in `deploy.php`, rather than force dependecies.
+* Use short file names for recipes, e.g. `ftp` instead of `ftp_upload_to_server_recipe_by_me`
+* Prefix all tasks in recipe with your recipe name. If you have a task named `mytest` in
+`myrecipe` it should be named `myrecipe:mytest`
+* Use global settings prefixed by your recipe name. If you have one setting, give it the same name as your recipe.
+If you have multiple settings, use an associative array
+* Use environment variables prefixed by your recipe name. If you have an environment variable named `better_path`
+in recipe `myrecipe`, call it `myrecipe_better_path`
+* Do not override existing tasks (for example those in `common.php`). Instead document thoroughly how tasks from your
+recipe can be integrated into the workflow
+* If your recipe depends on another (be it included in deployer or 3rd party) document it thoroughly.
+It's better for the end user to use `require_once` in `deploy.php` than to force dependencies.
 
 
 ### License
