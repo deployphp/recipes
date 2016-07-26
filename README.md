@@ -35,6 +35,7 @@ require 'vendor/deployphp/recipes/recipes/cachetool.php';
 | cachetool | [read](docs/cachetool.md) | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
 | local     | [read](docs/local.md)     | `require 'vendor/deployphp/recipes/recipes/local.php';`
 | newrelic  | [read](docs/newrelic.md)  | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
+| phinx     | [read](docs/phinx.md)     | `require 'vendor/deployphp/recipes/recipes/phinx.php'`
 | rabbit    | [read](docs/rabbit.md)    | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
 | rsync     | [read](docs/rsync.md)     | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
 | slack     | [read](docs/slack.md)     | `require 'vendor/deployphp/recipes/recipes/slack.php';`
