@@ -125,11 +125,17 @@ task('rsync', function() {
         throw new \RuntimeException('You need to specify a destination path.');
     }
 
-    $server = \Deployer\Task\Context::get()->getServer()->getConfiguration();
-    $host = $server->getHost();
-    $port = $server->getPort() ? ' -p' . $server->getPort() : '';
-    $identityFile = $server->getPrivateKey() ? ' -i ' . $server->getPrivateKey() : '';
-    $user = !$server->getUser() ? '' : $server->getUser() . '@';
+    $server = \Deployer\Task\Context::get()->getServer();
+    if ($server instanceof \Deployer\Server\Local) {
+        runLocally("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$dst/'", $config['timeout']);
+    } else {
+        $server = $server->getConfiguration();
+        $host = $server->getHost();
+        $port = $server->getPort() ? ' -p' . $server->getPort() : '';
+        $identityFile = $server->getPrivateKey() ? ' -i ' . $server->getPrivateKey() : '';
+        $user = !$server->getUser() ? '' : $server->getUser() . '@';
+    }
+    
 
     runLocally("rsync -{$config['flags']} -e 'ssh$port$identityFile' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
 })->desc('Rsync local->remote');
