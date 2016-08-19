@@ -12,11 +12,14 @@ env('local_user', function () {
     return trim(run("whoami"));
 });
 
+// Skip slack notifications by default
+env('slack_skip_notification', true);
+
 /**
  * Notify Slack of successful deployment
  */
 task('deploy:slack', function () {
-    if (true === env('slack_skip_notification', false)) {
+    if (true === env('slack_skip_notification')) {
         return;
     }
 
