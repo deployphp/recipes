@@ -33,7 +33,7 @@ task('deploy:slack', function () {
         'app'      => 'app-name',
     ];
 
-    $config = array_merge($defaultConfig, (array) get('slack', []));
+    $config = array_merge($defaultConfig, (array) get('slack'));
 
     if (!is_array($config) || !isset($config['token']) || !isset($config['team']) || !isset($config['channel'])) {
         throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
