@@ -20,6 +20,7 @@ Template file extension is `.tpl` and it is removed on filename of compiled file
 ### Tasks
 
 - `deploy:configure` compile configure files and upload to servers
+- `deploy:configure --local-path <optional path>` will compile configure files and moves them to local dierctory
 
 ### Suggested Usage
 
