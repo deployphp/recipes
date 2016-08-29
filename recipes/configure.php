@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * Path to save generated files locally
+ */
+option('local-path', null, \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONAL, 'Path to save generated files locally');
+
+/**
  * Make shared_dirs and configure files from templates
  */
 task('deploy:configure', function () {
@@ -46,6 +51,14 @@ task('deploy:configure', function () {
     $tmpDir = sys_get_temp_dir();
     $deployDir = env('deploy_path');
 
+    $runLocally = false;
+
+    if (input()->hasOption('local-path')) {
+        $runLocally = true;
+        $localPath = ".".input()->getOption('local-path');
+    }
+
+
     /* @var $file \Symfony\Component\Finder\SplFileInfo */
     foreach ($iterator as $file) {
         $success = false;
@@ -55,10 +68,18 @@ task('deploy:configure', function () {
             try {
                 $contents = $compiler($file->getContents());
                 $target   = preg_replace('/\.tpl$/', '', $file->getRelativePathname());
-                // Put contents and upload tmp file to server
+                // Put contents and upload tmp file to server or copy to local path
                 if (file_put_contents($tmpFile, $contents) > 0) {
-                    run("mkdir -p $deployDir/shared/" . dirname($target));
-                    upload($tmpFile, "$deployDir/shared/" . $target);
+
+                    if ($runLocally) {
+                        runLocally("mkdir -p $localPath/" . dirname($target));
+                        runLocally("cp $tmpFile $localPath/" . $target);
+                    }
+                    else {
+
+                        run("mkdir -p $deployDir/shared/" . dirname($target));
+                        upload($tmpFile, "$deployDir/shared/" . $target);
+                    }
                     $success = true;
                 }
             } catch (\Exception $e) {
