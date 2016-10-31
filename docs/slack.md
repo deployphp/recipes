@@ -8,6 +8,10 @@
 require 'vendor/deployphp/recipes/recipes/slack.php';
 ```
 
+### Environmental variables
+
+- **slack_skip_notification** - Skips the entire task when set to `true`. This is particularly useful if you want to disable slack notifications for certain stages.
+
 ### Configuration options
 
 - **slack** *(required)*: accepts an *array* with the api token and team name. Token can be generated on [slack api website](https://api.slack.com/docs/oauth-test-tokens).

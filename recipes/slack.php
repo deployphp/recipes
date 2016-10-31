@@ -12,10 +12,17 @@ env('local_user', function () {
     return trim(run("whoami"));
 });
 
+// Skip slack notifications by default
+env('slack_skip_notification', true);
+
 /**
  * Notify Slack of successful deployment
  */
 task('deploy:slack', function () {
+    if (true === env('slack_skip_notification')) {
+        return;
+    }
+
     global $php_errormsg;
 
     $defaultConfig = [
@@ -26,7 +33,7 @@ task('deploy:slack', function () {
         'app'      => 'app-name',
     ];
 
-    $config = array_merge($defaultConfig, (array) get('slack', []));
+    $config = array_merge($defaultConfig, (array) get('slack'));
 
     if (!is_array($config) || !isset($config['token']) || !isset($config['team']) || !isset($config['channel'])) {
         throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
