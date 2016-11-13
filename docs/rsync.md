@@ -67,7 +67,7 @@ set('rsync',[
 ```
 
 
-### Environimental Variables
+### Environmental Variables
 
 - **rsync_src**: per-environment rsync source. This can be server, stage or whatever-dependent. By default it's set to current directory
 - **rsync_dest**: per-environment rsync destination. This can be server, stage or whatever-dependent. by default it's equivalent to release deploy destination.
