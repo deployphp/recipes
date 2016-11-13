@@ -18,7 +18,7 @@
  *
  * @return Path to Phinx
  */
-env(
+set(
     'phinx_path', function () {
         $isExistsCmd = 'if [ -f %s ]; then echo true; fi';
 
@@ -65,7 +65,7 @@ env(
  */
 set(
     'phinx_get_cmd', function ($cmdName, $conf) {
-        $phinx = env('phinx_path');
+        $phinx = get('phinx_path');
     
         $phinxCmd = "$phinx $cmdName";
 
@@ -93,7 +93,7 @@ set(
         $opts = [];
 
         try { 
-            foreach (env('phinx') as $key => $val) {
+            foreach (get('phinx') as $key => $val) {
                 if (in_array($key, $allowedOptions)) {
                     $opts[$key] = $val;
                 }
@@ -105,6 +105,7 @@ set(
     }
 );
 
+desc('Migrating database by phinx');
 task(
     'phinx:migrate', function () {
         $ALLOWED_OPTIONS = [

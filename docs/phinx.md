@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployphp/recipes/recipes/phinx.php';
+require 'vendor/deployer/recipes/phinx.php';
 ```
 
 ### Configuration options
