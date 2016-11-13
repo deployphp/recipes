@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployphp/recipes/recipes/rsync.php';
+require 'vendor/deployer/recipes/rsync.php';
 ```
 
 ### Configuration options
@@ -80,8 +80,8 @@ This is default configuration:
 // deploy.php 
 
 
-env('rsync_src', __DIR__);
-env('rsync_dest','{{release_path}}');
+set('rsync_src', __DIR__);
+set('rsync_dest','{{release_path}}');
 ```
 
 If You use local deploy recipe You can set src to local release:
@@ -90,9 +90,9 @@ If You use local deploy recipe You can set src to local release:
 // deploy.php
 
 server('local_deploy','local_deploy.host',22)
-        ->env('deploy_path','/var/www/vhosts/app')
-        ->env('rsync_src', function(){
-            $local_src = env('local_release_path');
+        ->set('deploy_path','/var/www/vhosts/app')
+        ->set('rsync_src', function(){
+            $local_src = get('local_release_path');
             if(is_callable($local_src)) {
                 $local_src = $local_src();
             }

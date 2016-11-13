@@ -5,16 +5,18 @@
  * file that was distributed with this source code.
  */
 
+namespace Deployer;
+
 /**
  * Get local username
  */
-env('local_user', function () {
+set('local_user', function () {
     return trim(run("whoami"));
 });
 
-/**
- * Notify Slack of successful deployment
- */
+
+
+desc('Notifying Slack channel of deployment');
 task('deploy:slack', function () {
     global $php_errormsg;
 
@@ -34,17 +36,17 @@ task('deploy:slack', function () {
 
     $server = \Deployer\Task\Context::get()->getServer();
     if ($server instanceof \Deployer\Server\Local) {
-        $user = env('local_user');
+        $user = get('local_user');
     } else {
         $user = $server->getConfiguration()->getUser() ? : null;
     }
 
     $messagePlaceHolders = [
-        '{{release_path}}' => env('release_path'),
-        '{{host}}'         => env('server.host'),
-        '{{stage}}'        => env('stages')[0],
+        '{{release_path}}' => get('release_path'),
+        '{{host}}'         => get('server.host'),
+        '{{stage}}'        => get('stages')[0],
         '{{user}}'         => $user,
-        '{{branch}}'       => env('branch'),
+        '{{branch}}'       => get('branch'),
         '{{app_name}}'     => isset($config['app']) ? $config['app'] : 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
@@ -69,4 +71,4 @@ task('deploy:slack', function () {
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-})->desc('Notifying Slack channel of deployment');
+});

@@ -5,23 +5,23 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Notify Hipchat of successful deployment
- */
+namespace Deployer;
+
+desc('Notifying Hipchat channel of deployment');
 task('deploy:hipchat', function () {
     global $php_errormsg;
 
     $config = get('hipchat', []);
 
     if (!isset($config['message'])) {
-        $releasePath = env('release_path');
-        $host = env('server.host');
-        $stage = env('stages')[0];
+        $releasePath = get('release_path');
+        $host = get('server.host');
+        $stage = get('stages')[0];
         $config['message'] = "Deployment to '{$host}' on *{$stage}* was successful\n($releasePath)";
     }
 
     if (!isset($config['from'])) {
-        $stage = env('stages')[0];
+        $stage = get('stages')[0];
         $config['from'] = $stage;
     }
 
@@ -60,4 +60,4 @@ task('deploy:hipchat', function () {
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-})->desc('Notifying Hipchat channel of deployment');
+});

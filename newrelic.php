@@ -5,9 +5,10 @@
  * file that was distributed with this source code.
  */
 
-/**
- * Notify New Relic of successful deployment
- */
+namespace Deployer;
+
+
+desc('Notifying New Relic of deployment');
 task('deploy:newrelic', function () {
     global $php_errormsg;
 
@@ -41,4 +42,4 @@ task('deploy:newrelic', function () {
     if ($result === false) {
         throw new \RuntimeException($php_errormsg);
     }
-})->desc('Notifying New Relic of deployment');
+});

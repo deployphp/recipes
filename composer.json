@@ -1,5 +1,5 @@
 {
-    "name": "deployphp/recipes",
+    "name": "deployer/recipes",
     "description": "3rd party deployer recipes",
     "type": "library",
     "keywords": [
@@ -30,6 +30,12 @@
             "name": "Hubert Kowalski",
             "email": "h.kowalski@hakger.pl",
             "homepage": "https://hakger.pl",
+            "role": "Contributor"
+        },
+        {
+            "name": "Anton Medvedev",
+            "email": "anton@medv.io",
+            "homepage": "http://medv.io",
             "role": "Contributor"
         }
     ],

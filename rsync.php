@@ -5,6 +5,8 @@
  * file that was distributed with this source code.
  */
 
+namespace Deployer;
+
 set('rsync', [
     'exclude' => [
         '.git',
@@ -21,10 +23,10 @@ set('rsync', [
     'timeout' => 60,
 ]);
 
-env('rsync_src', __DIR__);
-env('rsync_dest', '{{release_path}}');
+set('rsync_src', __DIR__);
+set('rsync_dest', '{{release_path}}');
 
-env('rsync_excludes', function () {
+set('rsync_excludes', function () {
     $config = get('rsync');
     $excludes = $config['exclude'];
     $excludeFile = $config['exclude-file'];
@@ -39,7 +41,7 @@ env('rsync_excludes', function () {
     return $excludesRsync;
 });
 
-env('rsync_includes', function () {
+set('rsync_includes', function () {
     $config = get('rsync');
     $includes = $config['include'];
     $includeFile = $config['include-file'];
@@ -54,7 +56,7 @@ env('rsync_includes', function () {
     return $includesRsync;
 });
 
-env('rsync_filter', function () {
+set('rsync_filter', function () {
     $config = get('rsync');
     $filters = $config['filter'];
     $filterFile = $config['filter-file'];
@@ -72,7 +74,7 @@ env('rsync_filter', function () {
     return $filtersRsync;
 });
 
-env('rsync_options', function () {
+set('rsync_options', function () {
     $config = get('rsync');
     $options = $config['options'];
     $optionsRsync = [];
@@ -82,10 +84,12 @@ env('rsync_options', function () {
     return implode(' ', $optionsRsync);
 });
 
+
+desc('Warmup remote Rsync target');
 task('rsync:warmup', function() {
     $config = get('rsync');
 
-    $releases = env('releases_list');
+    $releases = get('releases_list');
 
     if (isset($releases[1])) {
         $source = "{{deploy_path}}/releases/{$releases[1]}";
@@ -95,13 +99,15 @@ task('rsync:warmup', function() {
     } else {
         writeln("<comment>No way to warmup rsync.</comment>");
     }
-})->desc('Warmup remote Rsync target');
+});
 
+
+desc('Rsync local->remote');
 task('rsync', function() {
 
     $config = get('rsync');
 
-    $src = env('rsync_src');
+    $src = get('rsync_src');
     while (is_callable($src)) {
         $src = $src();
     }
@@ -113,7 +119,7 @@ task('rsync', function() {
         throw new \RuntimeException('You need to specify a source path.');
     }
 
-    $dst = env('rsync_dest');
+    $dst = get('rsync_dest');
     while (is_callable($dst)) {
         $dst = $dst();
     }
@@ -139,4 +145,4 @@ task('rsync', function() {
 
     runLocally("rsync -{$config['flags']} -e 'ssh$port$identityFile' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
 
-})->desc('Rsync local->remote');
+});

@@ -8,16 +8,22 @@ This repository contains third party recipes to integrate with deployer.
 
 First install this repository as a dev dependency.
 
+**For Deployer 4.x**
+
+```sh
+composer require --dev deployer/recipes
+```
+
 **For Deployer 3.x**
 
 ```sh
-$ php composer.phar require --dev "deployphp/recipes ~3.0"
+composer require --dev "deployphp/recipes ~3.0"
 ```
 
 **For Deployer 2.x**
 
 ```sh
-$ php composer.phar require --dev "deployphp/recipes ~2.0"
+composer require --dev "deployphp/recipes ~2.0"
 ```
 
 Include recipes as desired.
@@ -25,22 +31,21 @@ Include recipes as desired.
 ```php
 // deploy.php
 
-require 'vendor/deployphp/recipes/recipes/cachetool.php';
+require 'vendor/deployer/recipes/cachetool.php';
 ```
 
 ## Recipes
 
 | Recipe     | Docs                       | Usage
 | ------     | ----                       | -----
-| cachetool  | [read](docs/cachetool.md)  | `require 'vendor/deployphp/recipes/recipes/cachetool.php';`
-| cloudflare | [read](docs/cloudflare.md) | `require 'vendor/deployphp/recipes/recipes/cloudflare.php';`
-| configure  | [read](docs/configure.md)  | `require 'vendor/deployphp/recipes/recipes/configure.php';`
-| hipchat    | [read](docs/hipchat.md)    | `require 'vendor/deployphp/recipes/recipes/hipchat.php';`
-| local      | [read](docs/local.md)      | `require 'vendor/deployphp/recipes/recipes/local.php';`
-| newrelic   | [read](docs/newrelic.md)   | `require 'vendor/deployphp/recipes/recipes/newrelic.php';`
-| rabbit     | [read](docs/rabbit.md)     | `require 'vendor/deployphp/recipes/recipes/rabbit.php';`
-| rsync      | [read](docs/rsync.md)      | `require 'vendor/deployphp/recipes/recipes/rsync.php';`
-| slack      | [read](docs/slack.md)      | `require 'vendor/deployphp/recipes/recipes/slack.php';`
+| cachetool  | [read](docs/cachetool.md)  | `require 'vendor/deployer/recipes/cachetool.php';`
+| cloudflare | [read](docs/cloudflare.md) | `require 'vendor/deployer/recipes/cloudflare.php';`
+| hipchat    | [read](docs/hipchat.md)    | `require 'vendor/deployer/recipes/hipchat.php';`
+| local      | [read](docs/local.md)      | `require 'vendor/deployer/recipes/local.php';`
+| newrelic   | [read](docs/newrelic.md)   | `require 'vendor/deployer/recipes/newrelic.php';`
+| rabbit     | [read](docs/rabbit.md)     | `require 'vendor/deployer/recipes/rabbit.php';`
+| rsync      | [read](docs/rsync.md)      | `require 'vendor/deployer/recipes/rsync.php';`
+| slack      | [read](docs/slack.md)      | `require 'vendor/deployer/recipes/slack.php';`
 
 ## Contributing a recipe
 
@@ -49,7 +54,8 @@ This is to ensure proper review of all the code.
 
 * [Fork and clone](https://help.github.com/articles/fork-a-repo).
 * Create a branch.
-  * If the recipe is for Deployer `3.x` then create your branch based on `master`
+  * If the recipe is for Deployer `4.x` then create your branch based on `master`
+  * If the recipe is for Deployer `3.x` then create your branch based on `3.x`
   * If the recipe is for Deployer `2.x` then create your branch based on the `2.x` branch
 * Add your recipe to the `recipes` folder, it must be licensed as MIT.
 * Add documentation in Markdown for your recipe to the `docs` folder; you could base your documentation on
@@ -81,4 +87,4 @@ It's better for the end user to use `require_once` in `deploy.php` than to force
 
 ### License
 
-Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+Licensed under the [MIT license](http://opensource.org/licenses/MIT).

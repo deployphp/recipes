@@ -5,12 +5,13 @@
  * file that was distributed with this source code.
  */
 
+namespace Deployer;
+
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-/**
- * Notify Rabbit of successful deployment
- */
+
+desc('Notifying RabbitMQ channel about deployment');
 task('deploy:rabbit', function () {
 
     if (!class_exists('PhpAmqpLib\Connection\AMQPConnection')) {
@@ -20,7 +21,7 @@ task('deploy:rabbit', function () {
     $config = get('rabbit', []);
 
     if (!isset($config['message'])) {
-        $releasePath = env('release_path');
+        $releasePath = get('release_path');
         $host = config()->getHost();
         $prod = get('env', 'production');
         $config['message'] = "Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)";
@@ -56,4 +57,4 @@ task('deploy:rabbit', function () {
     $channel->close();
     $connection->close();
 
-})->desc('Notifying RabbitMQ channel about deployment');
+});

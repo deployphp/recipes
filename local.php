@@ -5,18 +5,20 @@
  * file that was distributed with this source code.
  */
 
+namespace Deployer;
+
 /**
  * Custom bins for local.
  * Auto detectors have non-UNIX OS problems, so we are highly recommended
  * using your paths instead of it.
  */
-env('local_bin/php', function () {
+set('local_bin/php', function () {
     return runLocally('which php')->toString();
 });
-env('local_bin/git', function () {
+set('local_bin/git', function () {
     return runLocally('which git')->toString();
 });
-env('local_bin/composer', function () {
+set('local_bin/composer', function () {
     $composer = runLocally('which composer')->toString();
 
     if (empty($composer)) {
@@ -32,7 +34,7 @@ env('local_bin/composer', function () {
  * You can override it if You prefer shalow clones or do not use full
  *  release workflow, that allows You to take advantage of this setting
  */
-env('local_git_cache', function() {
+set('local_git_cache', function() {
     $gitVersion = runLocally('{{local_bin/git}} version');
     $regs = [];
     if (preg_match('/((\d+\.?)+)/', $gitVersion, $regs)) {
@@ -44,12 +46,12 @@ env('local_git_cache', function() {
     return version_compare($version, '2.3', '>=');
 });
 
-env('local_deploy_path', '/tmp/deployer');
+set('local_deploy_path', '/tmp/deployer');
 
 /**
  * Return list of releases on server.
  */
-env('local_releases_list', function () {
+set('local_releases_list', function () {
     $list = runLocally('ls {{local_deploy_path}}/releases')->toArray();
 
     rsort($list);
@@ -60,20 +62,18 @@ env('local_releases_list', function () {
 /**
  * Return release path.
  */
-env('local_release_path', function () {
+set('local_release_path', function () {
     return str_replace("\n", '', runLocally("readlink {{local_deploy_path}}/release"));
 });
 
 /**
  * Return current release path.
  */
-env('local_current', function () {
+set('local_current', function () {
     return runLocally("readlink {{local_deploy_path}}/current")->toString();
 });
 
-/**
- * Preparing for local deployment.
- */
+desc('Preparing for local deploy');
 task('local:prepare', function () {
 
     runLocally('mkdir -p {{local_deploy_path}}'); //just to make sure everything exists
@@ -85,18 +85,17 @@ task('local:prepare', function () {
 
     // Create shared dir.
     runLocally("cd {{local_deploy_path}} && if [ ! -d shared ]; then mkdir shared; fi");
-})->desc('Preparing for local deploy');
+});
 
-/**
- * Release
- */
+
+desc('Prepare local release');
 task('local:release', function () {
     $release = date('YmdHis');
 
     $releasePath = "{{local_deploy_path}}/releases/$release";
 
     $i = 0;
-    while (is_dir(env()->parse($releasePath)) && $i < 42) {
+    while (is_dir(parse($releasePath)) && $i < 42) {
         $releasePath .= '.' . ++$i;
     }
 
@@ -105,16 +104,15 @@ task('local:release', function () {
     runLocally("cd {{local_deploy_path}} && if [ -h release ]; then rm release; fi");
 
     runLocally("ln -s $releasePath {{local_deploy_path}}/release");
-})->desc('Prepare local release');
+});
 
-/**
- * Update project code
- */
+
+desc('Updating code');
 task('local:update_code', function () {
     $repository = trim(get('repository'));
-    $branch = env('branch');
-    $git = env('local_bin/git');
-    $gitCache = env('local_git_cache');
+    $branch = get('branch');
+    $git = get('local_bin/git');
+    $gitCache = get('local_git_cache');
     $depth = $gitCache ? '' : '--depth 1';
 
     if (input()->hasOption('tag')) {
@@ -128,7 +126,7 @@ task('local:update_code', function () {
         $at = "-b $branch";
     }
 
-    $releases = env('local_releases_list');
+    $releases = get('local_releases_list');
 
     if ($gitCache && isset($releases[1])) {
         try {
@@ -141,35 +139,31 @@ task('local:update_code', function () {
         // if we're using git cache this would be identical to above code in catch - full clone. If not, it would create shallow clone.
         runLocally("$git clone $at $depth --recursive -q $repository {{local_release_path}} 2>&1");
     }
-})->desc('Updating code');
+});
 
-/**
- * Installing vendors tasks.
- */
+
+desc('Installing vendors locally');
 task('local:vendors', function () {
     runLocally("cd {{local_release_path}} && {{env_vars}} {{local_bin/composer}} {{composer_options}}");
-})->desc('Installing vendors locally');
+});
 
-/**
- * Create symlink to last release.
- */
+
+desc('Creating symlink to local release');
 task('local:symlink', function () {
     runLocally("cd {{local_deploy_path}} && ln -sfn {{local_release_path}} current"); // Atomic override symlink.
     runLocally("cd {{local_deploy_path}} && rm release"); // Remove release link.
-})->desc('Creating symlink to local release');
+});
 
-/**
- * Show current release number.
- */
+
+desc('Show current local release.');
 task('local:current', function () {
-    writeln('Current local release: ' . basename(env('local_current')));
-})->desc('Show current local release.');
+    writeln('Current local release: ' . basename(get('local_current')));
+});
 
-/**
- * Cleanup old releases.
- */
+
+desc('Cleaning up old local releases');
 task('local:cleanup', function () {
-    $releases = env('local_releases_list');
+    $releases = get('local_releases_list');
 
     $keep = get('keep_releases');
 
@@ -184,4 +178,4 @@ task('local:cleanup', function () {
 
     runLocally("cd {{local_deploy_path}} && if [ -e release ]; then rm release; fi");
     runLocally("cd {{local_deploy_path}} && if [ -h release ]; then rm release; fi");
-})->desc('Cleaning up old local releases');
+});

@@ -7,7 +7,7 @@ This recipe is a re-implementation of `common.php` recipe, for running some of t
 ```php
 // deploy.php
 
-require 'vendor/deployphp/recipes/recipes/local.php';
+require 'vendor/deployer/recipes/local.php';
 ```
 
 ### Configuration options
@@ -19,7 +19,7 @@ The `local.php` recipe doesn't expose any configuration options. Instead uses sa
 - **local_deploy_path** - Accepts *string* specifying from where should deploys be done. This is functionally identical with `deploy_path` of `common.php` recipe.
 
 ```php
-env('local_deploy_path', '/tmp/deployer');
+set('local_deploy_path', '/tmp/deployer');
 ```
 #### Additional/relative env variables
 
@@ -58,7 +58,7 @@ This can be set as follows:
 ```php
 // deploy.php 
 
-env('local_release_path', '/tmp/my_application');
+set('local_release_path', '/tmp/my_application');
 
 /**
  * Main task
@@ -73,7 +73,7 @@ task('deploy', [
 ])->desc('Deploy your project');
 
 after('local:vendors', function() {
-    upload(env('local_release_path'), env('release_path'));
+    upload(get('local_release_path'), get('release_path'));
 })->desc('Upload local to remote');
 ```
 
@@ -82,8 +82,8 @@ after('local:vendors', function() {
 You use full local release *and* full remote release. Plus You wish to take advantage of `rsync.php` recipe.
 
 ```php
-env('rsync_src', function() {
-    $local_src = env('local_release_path');
+set('rsync_src', function() {
+    $local_src = get('local_release_path');
     if(is_callable($local_src)){
         $local_src = $local_src();
     }

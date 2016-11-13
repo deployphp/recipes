@@ -4,14 +4,15 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+namespace Deployer;
+
 set('cachetool', '');
-/**
- * Clear apc cache
- */
+
+desc('Clearing APC system cache');
 task('cachetool:clear:apc', function () {
-    $releasePath = env('release_path');
-    $env = env();
-    $options = $env->has('cachetool') ? $env->get('cachetool') : get('cachetool');
+    $releasePath = get('release_path');
+    $options = get('cachetool');
 
     if (strlen($options)) {
         $options = "--fcgi={$options}";
@@ -25,15 +26,15 @@ task('cachetool:clear:apc', function () {
     }
 
     run("{{bin/php}} cachetool.phar apc:cache:clear system {$options}");
-})->desc('Clearing APC system cache');
+});
 
 /**
  * Clear opcache cache
  */
+desc('Clearing OPcode cache');
 task('cachetool:clear:opcache', function () {
-    $releasePath = env('release_path');
-    $env = env();
-    $options = $env->has('cachetool') ? $env->get('cachetool') : get('cachetool');
+    $releasePath = get('release_path');
+    $options = get('cachetool');
 
     if (strlen($options)) {
         $options = "--fcgi={$options}";
@@ -47,4 +48,4 @@ task('cachetool:clear:opcache', function () {
     }
 
     run("{{bin/php}} cachetool.phar opcache:reset {$options}");
-})->desc('Clearing OPcode cache');
+});

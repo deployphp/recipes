@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployphp/recipes/recipes/slack.php';
+require 'vendor/deployer/recipes/slack.php';
 ```
 
 ### Configuration options
