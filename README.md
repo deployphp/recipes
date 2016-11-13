@@ -46,6 +46,7 @@ require 'vendor/deployer/recipes/cachetool.php';
 | rabbit     | [read](docs/rabbit.md)     | `require 'vendor/deployer/recipes/rabbit.php';`
 | rsync      | [read](docs/rsync.md)      | `require 'vendor/deployer/recipes/rsync.php';`
 | slack      | [read](docs/slack.md)      | `require 'vendor/deployer/recipes/slack.php';`
+| npm        | [read](docs/npm.md)        | `require 'vendor/deployer/recipes/npm.php';`
 
 ## Contributing a recipe
 
