@@ -14,8 +14,8 @@ set('local_user', function () {
     return trim(run("whoami"));
 });
 
-// Skip slack notifications by default
-set('slack_skip_notification', true);
+// Do not skip slack notifications by default
+set('slack_skip_notification', false);
 
 desc('Notifying Slack channel of deployment');
 task('deploy:slack', function () {
