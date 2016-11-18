@@ -38,6 +38,7 @@ require 'vendor/deployer/recipes/cachetool.php';
 
 | Recipe     | Docs                       | Usage
 | ------     | ----                       | -----
+| bugsnag    | [read](docs/bugsnag.md)    | `require 'vendor/deployer/recipes/bugsnag.php';`
 | cachetool  | [read](docs/cachetool.md)  | `require 'vendor/deployer/recipes/cachetool.php';`
 | cloudflare | [read](docs/cloudflare.md) | `require 'vendor/deployer/recipes/cloudflare.php';`
 | hipchat    | [read](docs/hipchat.md)    | `require 'vendor/deployer/recipes/hipchat.php';`
