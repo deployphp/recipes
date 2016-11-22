@@ -13,10 +13,10 @@ task('deploy:bugsnag', function () {
 
     $defaultConfig = [
         'api_key'       => null,
-        'release_stage' => env('stages')[0],
-        'repository'    => env('repository'),
+        'release_stage' => get('stages')[0],
+        'repository'    => get('repository'),
         'provider'      => null,
-        'branch'        => env('branch'),
+        'branch'        => get('branch'),
         'revision'      => trim(runLocally('git log -n 1 --format="%h"')),
         'app_version'   => null,
     ];
