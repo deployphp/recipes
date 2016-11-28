@@ -5,22 +5,23 @@
  * file that was distributed with this source code.
  */
 
+namespace Deployer;
+
+
 /**
  * Get local username
  */
-env('local_user', function () {
+set('local_user', function () {
     return trim(run("whoami"));
 });
 
-/**
- * Notify Rollbar of successful deployment
- */
+desc('Notifying Rollbar of deployment');
 task('deploy:rollbar', function () {
     global $php_errormsg;
 
     $defaultConfig = [
         'access_token'      => null,
-        'environment'       => env('stages')[0],
+        'environment'       => get('stages')[0],
         'revision'          => trim(runLocally('git log -n 1 --format="%h"')),
         'local_username'    => trim(runLocally('git config user.name')),
         'rollbar_username'  => null,
@@ -35,17 +36,17 @@ task('deploy:rollbar', function () {
 
     $server = \Deployer\Task\Context::get()->getServer();
     if ($server instanceof \Deployer\Server\Local) {
-        $user = env('local_user');
+        $user = get('local_user');
     } else {
         $user = $server->getConfiguration()->getUser() ? : null;
     }
 
     $commentPlaceHolders = [
-        '{{release_path}}' => env('release_path'),
-        '{{host}}'         => env('server.host'),
-        '{{stage}}'        => env('stages')[0],
+        '{{release_path}}' => get('release_path'),
+        '{{host}}'         => get('server.host'),
+        '{{stage}}'        => get('stages')[0],
         '{{user}}'         => $user,
-        '{{branch}}'       => env('branch'),
+        '{{branch}}'       => get('branch'),
     ];
     $config['comment'] = strtr($config['comment'], $commentPlaceHolders);
 
@@ -70,4 +71,4 @@ task('deploy:rollbar', function () {
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-})->desc('Notifying Rollbar of deployment');
+});
