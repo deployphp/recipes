@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployphp/recipes/recipes/rollbar.php';
+require 'vendor/deployer/recipes/rollbar.php';
 ```
 
 ### Configuration options
