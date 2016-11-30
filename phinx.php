@@ -59,30 +59,6 @@ set(
 );
 
 /**
- * Make Phinx command from env options
- *
- * @param string $cmdName Name of command
- * @param array  $conf    Command options(config)
- *
- * @return string Phinx command to execute
- */
-set('phinx_get_cmd', function ($cmdName, $conf) {
-    $phinx = get('phinx_path');
-
-    $phinxCmd = "$phinx $cmdName";
-
-    $options = '';
-
-    foreach ($conf as $name => $value) {
-        $options .= " --$name $value";
-    }
-
-    $phinxCmd .= $options;
-
-    return $phinxCmd;
-});
-
-/**
  * Returns options array that allowed for command
  *
  * @param array $allowedOptions List of allowed options
