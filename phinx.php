@@ -1,5 +1,7 @@
 <?php
 
+namespace Deployer;
+
 /**
  * Phinx recipe for Deployer
  *
@@ -63,10 +65,10 @@ set(
  *
  * @return string Phinx command to execute
  */
-set(
-    'phinx_get_cmd', function ($cmdName, $conf) {
+set('phinx_get_cmd', function () {
+    return function ($cmdName, $conf) {
         $phinx = get('phinx_path');
-    
+        
         $phinxCmd = "$phinx $cmdName";
 
         $options = '';
@@ -78,8 +80,8 @@ set(
         $phinxCmd .= $options;
 
         return $phinxCmd;
-    }
-);
+    };
+});
 
 /**
  * Returns options array that allowed for command
@@ -88,8 +90,8 @@ set(
  *
  * @return array Array of options
  */
-set(
-    'phinx_get_allowed_config', function ($allowedOptions) {
+set('phinx_get_allowed_config', function () {
+    return function ($allowedOptions) {
         $opts = [];
 
         try { 
@@ -102,8 +104,8 @@ set(
         }
 
         return $opts;
-    }
-);
+    };
+});
 
 desc('Migrating database by phinx');
 task(
