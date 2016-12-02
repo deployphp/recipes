@@ -4,7 +4,8 @@
  * Phinx recipe for Deployer
  *
  * @author    Alexey Boyko <ket4yiit@gmail.com>
- * @copyright 2016 Alexey Boyko 
+ * @contributor Security-Database <info@security-database.com>
+ * @copyright 2016 Alexey Boyko
  * @license   MIT https://github.com/deployphp/recipes/blob/master/LICENSE
  *
  * @link https://github.com/deployphp/recipes
@@ -13,72 +14,48 @@
  * @see https://phinx.org
  */
 
+namespace Deployer;
+
 /**
  * Get Phinx command
  *
- * @return Path to Phinx
+ * @return string Path to Phinx
  */
 set(
     'phinx_path', function () {
-        $isExistsCmd = 'if [ -f %s ]; then echo true; fi';
+    $isExistsCmd = 'if [ -f %s ]; then echo true; fi';
 
-        try {
-            $phinxPath = run('which phinx')->toString();
-        } catch (\RuntimeException $e) {
-            $phinxPath = null;
-        }
+    try {
+        $phinxPath = run('which phinx')->toString();
+    } catch (\RuntimeException $e) {
+        $phinxPath = null;
+    }
 
-        if ($phinxPath !== null) {
-            return "phinx";
-        } else if (run(
-            sprintf(
-                $isExistsCmd,
-                '{{release_path}}/vendor/bin/phinx'
-            )
-        )->toBool()
-        ) {
-            return "{{release_path}}/vendor/bin/phinx";
-        } else if (run(
-            sprintf(
-                $isExistsCmd,
-                '~/.composer/vendor/bin/phinx'
-            )
-        )->toBool()
-        ) {
-            return '~/.composer/vendor/bin/phinx';
-        } else {
-            throw new \RuntimeException(
-                'Cannot find phinx. 
+    if ($phinxPath !== null) {
+        return "phinx";
+    } else if (run(
+        sprintf(
+            $isExistsCmd,
+            '{{release_path}}/vendor/bin/phinx'
+        )
+    )->toBool()
+    ) {
+        return "{{release_path}}/vendor/bin/phinx";
+    } else if (run(
+        sprintf(
+            $isExistsCmd,
+            '~/.composer/vendor/bin/phinx'
+        )
+    )->toBool()
+    ) {
+        return '~/.composer/vendor/bin/phinx';
+    } else {
+        throw new \RuntimeException(
+            'Cannot find phinx. 
             Please specify path to phinx manually'
-            );
-        }
+        );
     }
-); 
-
-/**
- * Make Phinx command from env options 
- * 
- * @param string $cmdName Name of command
- * @param array  $conf    Command options(config)
- *
- * @return string Phinx command to execute
- */
-set(
-    'phinx_get_cmd', function ($cmdName, $conf) {
-        $phinx = get('phinx_path');
-    
-        $phinxCmd = "$phinx $cmdName";
-
-        $options = '';
-
-        foreach ($conf as $name => $value) {
-            $options .= " --$name $value";
-        }
-
-        $phinxCmd .= $options;
-
-        return $phinxCmd;
-    }
+}
 );
 
 /**
@@ -88,86 +65,81 @@ set(
  *
  * @return array Array of options
  */
-set(
-    'phinx_get_allowed_config', function ($allowedOptions) {
-        $opts = [];
+set('phinx_get_allowed_config', function () {
+    $opts = [];
+    $allowedOptions = [
+        'configuration',
+        'date',
+        'environment',
+        'target',
+        'parser'
+    ];
 
-        try { 
-            foreach (get('phinx') as $key => $val) {
-                if (in_array($key, $allowedOptions)) {
-                    $opts[$key] = $val;
-                }
+    try {
+        foreach (get('phinx') as $key => $val) {
+            if (in_array($key, $allowedOptions)) {
+                $opts[$key] = $val;
             }
-        } catch (\RuntimeException $e) {
         }
-
-        return $opts;
+    } catch (\RuntimeException $e) {
     }
-);
+
+    return $opts;
+});
 
 desc('Migrating database by phinx');
-task(
-    'phinx:migrate', function () {
-        $ALLOWED_OPTIONS = [
-            'configuration',
-            'date',
-            'environment',
-            'target',
-            'parser'
-        ];
+task('phinx:migrate', function () {
 
-        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
+    cd('{{release_path}}');
 
-        cd('{{release_path}}');
-        
-        $phinxCmd = get('phinx_get_cmd')('migrate', $conf);
+    $phinxCmd = get('phinx_path') . " migrate";
 
-        run($phinxCmd);
-
-        cd('{{deploy_path}}');
+    foreach (get('phinx_get_allowed_config') as $name => $value) {
+        $phinxCmd .= " --$name $value";
     }
-);
 
-task(
-    'phinx:rollback', function () {
-        $ALLOWED_OPTIONS = [
-            'configuration',
-            'date',
-            'environment',
-            'target',
-            'parser'
-        ];
+    $result = run($phinxCmd);
+    $messages = $result->toArray();
 
-        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
+    writeln("<comment>\t" . end($messages) . "</comment>");
 
-        cd('{{release_path}}');
+    cd('{{deploy_path}}');
+});
 
-        $phinxCmd = get('phinx_get_cmd')('rollback', $conf);
+desc('Rollback database by phinx');
+task('phinx:rollback', function () {
 
-        run($phinxCmd);        
+    cd('{{release_path}}');
 
-        cd('{{deploy_path}}');
+    $phinxCmd = get('phinx_path') . " rollback";
+
+    foreach (get('phinx_get_allowed_config') as $name => $value) {
+        $phinxCmd .= " --$name $value";
     }
-);
 
-task(
-    'phinx:seed', function () {
-        $ALLOWED_OPTIONS = [
-            'configuration',
-            'environment',
-            'parser',
-            'seed'
-        ];
+    $result = run($phinxCmd);
+    $messages = $result->toArray();
 
-        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
+    writeln("<comment>\t" . end($messages) . "</comment>");
 
-        cd('{{release_path}}');
+    cd('{{deploy_path}}');
+});
 
-        $phinxCmd = get('phinx_get_cmd')('seed:run', $conf);
+desc('Seed database by phinx');
+task('phinx:seed', function () {
 
-        run($phinxCmd);
+    cd('{{release_path}}');
 
-        cd('{{deploy_path}}');
+    $phinxCmd = get('phinx_path') . " seed:run";
+
+    foreach (get('phinx_get_allowed_config') as $name => $value) {
+        $phinxCmd .= " --$name $value";
     }
-);
 
+    $result = run($phinxCmd);
+    $messages = $result->toArray();
+
+    writeln("<comment>\t" . end($messages) . "</comment>");
+
+    cd('{{deploy_path}}');
+});

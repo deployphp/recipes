@@ -17,12 +17,18 @@ or by deployer dot notation(to change one option).
 
 #### Phinx environment variable
 
-- `phinx.environment`
-- `phinx.date`
-- `phinx.configuration` N.B. current directory is the project directory
-- `phinx.target`
-- `phinx.seed`
-- `phinx.parser`
+```php
+// deploy.php
+
+set('phinx', [
+    'environment'  => '',
+    'date' => '12873',
+    'configuration' => '', //N.B. current directory is the project directory
+    'target' => '',
+    'seed' => '',
+    'parser' => ''
+]);
+```
 
 #### Phinx path environment variable
 
@@ -35,8 +41,10 @@ $PATH, ./vendor/bin and ~/.composer/vendor/bin)
 //deploy.php
 
 env('phinx_path', '/usr/local/phinx/bin/phinx');
-env('phinx.environment', 'production');
-env('phinx.configuration', './migration/.phinx.yml');
+env('phinx, ['environment' => 'production',
+             'configuration' => './migration/.phinx.yml'
+             ]
+);
 
 after('cleanup', 'phinx:migrate');
 
@@ -44,7 +52,7 @@ after('cleanup', 'phinx:migrate');
 server('dev', 'my-dev-server.local')
     ->user('user')
     ->env('deploy_path', '/var/www')
-    ->env('phinx.environment', 'development')
+    ->env('phinx', ['environment' => 'development'])
     ->env('phinx_path', '');
 ```
 
