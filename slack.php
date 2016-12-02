@@ -129,10 +129,10 @@ task('deploy:slack', function () {
     }
 
     if (isset($config['proxy'])) {
-      if (!is_array($config) || !isset($config['proxy']) || !isset($config['proxy']['user']) || !isset($config['proxy']['pass']) || !isset($config['proxy']['url']))) {
+      if (!is_array($config) || !isset($config['proxy']) || !isset($config['proxy']['user']) || !isset($config['proxy']['pass']) || !isset($config['proxy']['url'])) {
         throw new \RuntimeException("Incorrectly set up proxy");
       } else {
-        $auth = base64_encode($config['proxy']['user']:$config['proxy']['pass']);
+        $auth = base64_encode("$config['proxy']['user']" . ":" . "$config['proxy']['pass']");
         $options = array(
           'http' => array (
             'method'=>'GET',
