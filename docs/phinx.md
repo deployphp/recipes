@@ -34,18 +34,18 @@ $PATH, ./vendor/bin and ~/.composer/vendor/bin)
 ```php
 //deploy.php
 
-env('phinx_path', '/usr/local/phinx/bin/phinx');
-env('phinx.environment', 'production');
-env('phinx.configuration', './migration/.phinx.yml');
+set('phinx_path', '/usr/local/phinx/bin/phinx');
+set('phinx.environment', 'production');
+set('phinx.configuration', './migration/.phinx.yml');
 
 after('cleanup', 'phinx:migrate');
 
 //Or set it for a specific server
 server('dev', 'my-dev-server.local')
     ->user('user')
-    ->env('deploy_path', '/var/www')
-    ->env('phinx.environment', 'development')
-    ->env('phinx_path', '');
+    ->set('deploy_path', '/var/www')
+    ->set('phinx.environment', 'development')
+    ->set('phinx_path', '');
 ```
 
 ### Tasks

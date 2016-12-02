@@ -1,9 +1,12 @@
 <?php
 
+namespace Deployer;
+
 /**
  * Phinx recipe for Deployer
  *
  * @author    Alexey Boyko <ket4yiit@gmail.com>
+ * @contributor Security-Database <info@security-database.com>
  * @copyright 2016 Alexey Boyko 
  * @license   MIT https://github.com/deployphp/recipes/blob/master/LICENSE
  *
@@ -63,10 +66,10 @@ set(
  *
  * @return string Phinx command to execute
  */
-set(
-    'phinx_get_cmd', function ($cmdName, $conf) {
+set('phinx_get_cmd', function () {
+    return function ($cmdName, $conf) {
         $phinx = get('phinx_path');
-    
+        
         $phinxCmd = "$phinx $cmdName";
 
         $options = '';
@@ -78,8 +81,8 @@ set(
         $phinxCmd .= $options;
 
         return $phinxCmd;
-    }
-);
+    };
+});
 
 /**
  * Returns options array that allowed for command
@@ -88,8 +91,8 @@ set(
  *
  * @return array Array of options
  */
-set(
-    'phinx_get_allowed_config', function ($allowedOptions) {
+set('phinx_get_allowed_config', function () {
+    return function ($allowedOptions) {
         $opts = [];
 
         try { 
@@ -102,8 +105,8 @@ set(
         }
 
         return $opts;
-    }
-);
+    };
+});
 
 desc('Migrating database by phinx');
 task(
