@@ -6,6 +6,7 @@ namespace Deployer;
  * Phinx recipe for Deployer
  *
  * @author    Alexey Boyko <ket4yiit@gmail.com>
+ * @contributor Security-Database <info@security-database.com>
  * @copyright 2016 Alexey Boyko 
  * @license   MIT https://github.com/deployphp/recipes/blob/master/LICENSE
  *
