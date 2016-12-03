@@ -89,12 +89,10 @@ desc('Warmup remote Rsync target');
 task('rsync:warmup', function() {
     $config = get('rsync');
 
-    $releases = get('releases_list');
+    $source = "{{deploy_path}}/current";
+    $destination = "{{deploy_path}}/release";
 
-    if (isset($releases[1])) {
-        $source = "{{deploy_path}}/releases/{$releases[1]}";
-        $destination = "{{deploy_path}}/releases/{$releases[0]}";
-
+    if (run("if [ -d $(echo $source) ]; then echo true; fi")->toBool()) {
         run("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} $source/ $destination/");
     } else {
         writeln("<comment>No way to warmup rsync.</comment>");
