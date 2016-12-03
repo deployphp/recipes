@@ -135,16 +135,16 @@ task('deploy:slack', function () {
         $auth = base64_encode($config['proxy']['user'] . ":" . $config['proxy']['pass']);
         $options = array(
           'http' => array (
-            'method'=>'GET',
-            'proxy'=>'tcp://' . $config['proxy']['url'],
+            'method' => 'GET',
+            'proxy' => 'tcp://' . $config['proxy']['url'],
             'request_fulluri' => true,
-            'header'=> "Proxy-Authorization: Basic $auth"
+            'header' => "Proxy-Authorization: Basic $auth"
           ),
           'https' => array (
-            'method'=>'GET',
-            'proxy'=>'tcp://' . $config['proxy']['url'],
+            'method' => 'GET',
+            'proxy' => 'tcp://' . $config['proxy']['url'],
             'request_fulluri' => true,
-            'header'=> "Proxy-Authorization: Basic $auth"
+            'header' => "Proxy-Authorization: Basic $auth"
           )
         );
         $context = stream_context_create($options);
