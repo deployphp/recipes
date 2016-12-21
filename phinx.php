@@ -22,7 +22,7 @@ namespace Deployer;
  * @return Path to Phinx
  */
 set(
-    'phinx_path', function () {
+    'bin/phinx', function () {
         $isExistsCmd = 'if [ -f %s ]; then echo true; fi';
 
         try {
@@ -56,7 +56,7 @@ set(
             );
         }
     }
-); 
+);
 
 /**
  * Make Phinx command from env options 
@@ -68,7 +68,7 @@ set(
  */
 set('phinx_get_cmd', function () {
     return function ($cmdName, $conf) {
-        $phinx = get('phinx_path');
+        $phinx = get('phinx_path') ?: get('bin/phinx');
         
         $phinxCmd = "$phinx $cmdName";
 
