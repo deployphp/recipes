@@ -138,7 +138,7 @@ task('rsync', function() {
     $server = $server->getConfiguration();
     $host = $server->getHost();
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
-    $identityFile = $server->getPrivateKey() ? ' -i ' . $server->getPrivateKey() : '';
+    $identityFile = $server->getPemFile() ? ' -i ' . $server->getPemFile() : '';
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
     runLocally("rsync -{$config['flags']} -e 'ssh$port$identityFile' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
