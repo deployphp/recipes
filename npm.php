@@ -24,7 +24,7 @@ task('npm:install', function () {
 });
 
 desc('Install npm packages');
-task('npm:install_local', function () {
+task('npm:local:install', function () {
   $releases = get('local_releases_list');
 
   if (isset($releases[1])) {
