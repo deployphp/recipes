@@ -23,6 +23,10 @@ task('npm:install', function () {
     run("cd {{release_path}} && {{bin/npm}} install");
 });
 
+set('local/bin/npm', function () {
+  return (string)runLocally('which npm');
+});
+
 desc('Install npm packages');
 task('npm:local:install', function () {
   $releases = get('local_releases_list');
