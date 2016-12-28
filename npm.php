@@ -22,3 +22,15 @@ task('npm:install', function () {
     }
     run("cd {{release_path}} && {{bin/npm}} install");
 });
+
+desc('Install npm packages');
+task('npm:install_local', function () {
+  $releases = get('local_releases_list');
+
+  if (isset($releases[1])) {
+    if (runLocally("if [ -d {{local_deploy_path}}/releases/{$releases[1]}/node_modules ]; then echo 'true'; fi")->toBool()) {
+      runLocally("cp -R {{local_deploy_path}}/releases/{$releases[1]}/node_modules {{local_release_path}}");
+    }
+  }
+  runLocally("cd {{local_release_path}} && {{local/bin/npm}} install");
+});
