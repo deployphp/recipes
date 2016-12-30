@@ -8,13 +8,13 @@
 namespace Deployer;
 
 set('newrelic_deploy_user', function() {
-  return trim(runLocally('git config user.name'));
+    return trim(runLocally('git config user.name'));
 });
 set('newrelic_deploy_revision', function() {
-  return trim(runLocally('git log -n 1 --format="%h"'));
+    return trim(runLocally('git log -n 1 --format="%h"'));
 });
 set('newrelic_deploy_description', function() {
-  return trim(runLocally('git log -n 1 --format="%an: %s" | tr \'"\' "\'"'));
+    return trim(runLocally('git log -n 1 --format="%an: %s" | tr \'"\' "\'"'));
 });
 
 desc('Notifying New Relic of deployment');
