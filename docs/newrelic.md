@@ -10,16 +10,14 @@ require 'vendor/deployer/recipes/newrelic.php';
 
 ### Configuration options
 
-- **newrelic** *(required)*: accepts an *array* with the license key for you new relic application and its application_id or app_name.
+- **newrelic** *(required)*: accepts an *array* with the api key for you new relic application and its application id.
 
 ```php
 // deploy.php
 
 set('newrelic', [
-    'license'        => 'xad3...',
+    'api_key'        => 'xad3...',
     'application_id' => '12873',
-    // or
-    'app_name' => 'your_app_name'
 ]);
 ```
 
