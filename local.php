@@ -115,15 +115,34 @@ task('local:update_code', function () {
     $gitCache = get('local_git_cache');
     $depth = $gitCache ? '' : '--depth 1';
 
-    if (input()->hasOption('tag')) {
-        $tag = input()->getOption('tag');
+    // If option `branch` is set.
+    if (input()->hasOption('branch')) {
+      $inputBranch = input()->getOption('branch');
+      if (!empty($inputBranch)) {
+        $branch = $inputBranch;
+      }
     }
 
+    // Branch may come from option or from configuration.
     $at = '';
-    if (!empty($tag)) {
+    if (!empty($branch)) {
+      $at = "-b $branch";
+    }
+
+    // If option `tag` is set
+    if (input()->hasOption('tag')) {
+      $tag = input()->getOption('tag');
+      if (!empty($tag)) {
         $at = "-b $tag";
-    } else if (!empty($branch)) {
-        $at = "-b $branch";
+      }
+    }
+
+    // If option `tag` is not set and option `revision` is set
+    if (empty($tag) && input()->hasOption('revision')) {
+      $revision = input()->getOption('revision');
+      if (!empty($revision)) {
+        $depth = '';
+      }
     }
 
     $releases = get('local_releases_list');
