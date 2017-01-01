@@ -7,6 +7,15 @@
 
 namespace Deployer;
 
+set('newrelic_deploy_user', function() {
+    return trim(runLocally('git config user.name'));
+});
+set('newrelic_deploy_revision', function() {
+    return trim(runLocally('git log -n 1 --format="%h"'));
+});
+set('newrelic_deploy_description', function() {
+    return trim(runLocally('git log -n 1 --format="%an: %s" | tr \'"\' "\'"'));
+});
 
 desc('Notifying New Relic of deployment');
 task('deploy:newrelic', function () {
@@ -21,11 +30,11 @@ task('deploy:newrelic', function () {
         throw new \RuntimeException("<comment>Please configure new relic:</comment> <info>set('newrelic', array('license' => 'xad3...', 'application_id' => '12873'));</info>");
     }
 
-    $git = array(
-        'user' => trim(runLocally('git config user.name')),
-        'revision' => trim(runLocally('git log -n 1 --format="%h"')),
-        'description' => trim(runLocally('git log -n 1 --format="%an: %s" | tr \'"\' "\'"')),
-    );
+    $git = [
+        'user' => get('newrelic_deploy_user'),
+        'revision' => get('newrelic_deploy_revision'),
+        'description' => get('newrelic_deploy_description'),
+    ];
 
     $postdata = array_merge($git, $config);
     unset($postdata['license']);
