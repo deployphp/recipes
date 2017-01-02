@@ -21,32 +21,36 @@ desc('Notifying New Relic of deployment');
 task('deploy:newrelic', function () {
     global $php_errormsg;
 
-    $config = get('newrelic', array());
+    $config = get('newrelic', []);
 
-    if (!is_array($config) ||
-        !isset($config['license']) ||
-        (!isset($config['app_name']) && !isset($config['application_id']))
-    ) {
-        throw new \RuntimeException("<comment>Please configure new relic:</comment> <info>set('newrelic', array('license' => 'xad3...', 'application_id' => '12873'));</info>");
+    // Notify existing users of upgrade.
+    if (!empty(array_intersect(array_keys($config), ['license', 'app_name']))) {
+        throw new \RuntimeException("New Relic recipe has been updated to use Deployment API v2. Please replace license and/or app_name with api_key and application_id");
     }
 
-    $git = [
+    if (!is_array($config) ||
+        !isset($config['api_key']) || !isset($config['application_id'])
+    ) {
+        throw new \RuntimeException("<comment>Please configure New Relic:</comment> <info>set('newrelic', array('api_key' => 'xad3...', 'application_id' => '12873'));</info>");
+    }
+
+    $deploy_data = [
         'user' => get('newrelic_deploy_user'),
         'revision' => get('newrelic_deploy_revision'),
         'description' => get('newrelic_deploy_description'),
     ];
 
-    $postdata = array_merge($git, $config);
-    unset($postdata['license']);
-
-    $options = array('http' => array(
+    $options = ['http' => [
         'method' => 'POST',
-        'header' => "Content-type: application/x-www-form-urlencoded\r\n" . "X-License-Key: {$config['license']}\r\n",
-        'content' => http_build_query(array('deployment' => $postdata)),
-    ));
+        'header' =>
+            "Content-type: application/json\r\n" .
+            "X-Api-Key: {$config['api_key']}\r\n",
+        'content' => json_encode(['deployment' => $deploy_data]),
+    ]];
 
     $context = stream_context_create($options);
-    $result = @file_get_contents('https://api.newrelic.com/deployments.xml', false, $context);
+    $endpoint = "https://api.newrelic.com/v2/applications/{$config['application_id']}/deployments.json";
+    $result = @file_get_contents($endpoint, false, $context);
 
     if ($result === false) {
         throw new \RuntimeException($php_errormsg);
