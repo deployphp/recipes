@@ -46,6 +46,9 @@
     },
     "minimum-stability": "stable",
     "require": { },
+    "replace": {
+        "deployphp/recipes": "self.version"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "3.0-dev"
