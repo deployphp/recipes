@@ -22,7 +22,7 @@ task('cachetool:clear:apc', function () {
     $hasCachetool = run("if [ -e $releasePath/cachetool.phar ]; then echo 'true'; fi");
 
     if ('true' !== $hasCachetool) {
-        run("curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar");
+        run("curl -sO https://gordalina.github.io/cachetool/downloads/cachetool.phar");
     }
 
     run("{{bin/php}} cachetool.phar apc:cache:clear system {$options}");
@@ -44,7 +44,7 @@ task('cachetool:clear:opcache', function () {
     $hasCachetool = run("if [ -e $releasePath/cachetool.phar ]; then echo 'true'; fi");
 
     if ('true' !== $hasCachetool) {
-        run("curl -sO http://gordalina.github.io/cachetool/downloads/cachetool.phar");
+        run("curl -sO https://gordalina.github.io/cachetool/downloads/cachetool.phar");
     }
 
     run("{{bin/php}} cachetool.phar opcache:reset {$options}");
