@@ -28,6 +28,8 @@ task('deploy:slack', function () {
 
     $user = trim(runLocally('git config --get user.name'));
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
+    $stage = get('stages')[0];
+    $branch = get('branch');
 
     $defaultConfig = [
         'channel'     => '#general',
@@ -41,11 +43,11 @@ task('deploy:slack', function () {
                 'text' => sprintf(
                     'Revision %s deployed to %s by %s',
                     substr($revision, 0, 6),
-                    get('stages')[0],
+                    $stage,
                     $user
                 ),
                 'title'    => 'Deployment Complete',
-                'fallback' => sprintf('Deployment to %s complete.', get('stages')[0]),
+                'fallback' => sprintf('Deployment to %s complete.', $stage),
                 'color'    => '#7CD197',
                 'fields'   => [
                     [
@@ -55,12 +57,12 @@ task('deploy:slack', function () {
                     ],
                     [
                         'title' => 'Stage',
-                        'value' => get('stages')[0],
+                        'value' => $stage,
                         'short' => true,
                     ],
                     [
                         'title' => 'Branch',
-                        'value' => get('branch'),
+                        'value' => $branch,
                         'short' => true,
                     ],
                     [
@@ -95,9 +97,9 @@ task('deploy:slack', function () {
     $messagePlaceHolders = [
         '{{release_path}}' => get('release_path'),
         '{{host}}'         => get('server.host'),
-        '{{stage}}'        => get('stages')[0],
+        '{{stage}}'        => $stage,
         '{{user}}'         => $user,
-        '{{branch}}'       => get('branch'),
+        '{{branch}}'       => $branch,
         '{{app_name}}'     => isset($config['app']) ? $config['app'] : 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
