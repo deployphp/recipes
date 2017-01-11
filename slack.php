@@ -1,5 +1,6 @@
 <?php
 /* (c) Tomas Majer <tomasmajer@gmail.com>
+/* (c) Elan Ruusamäe <glen@delfi.ee>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -40,11 +41,11 @@ task('deploy:slack', function () {
                 'text' => sprintf(
                     'Revision %s deployed to %s by %s',
                     substr($revision, 0, 6),
-                    env('stages')[0],
+                    get('stages')[0],
                     $user
                 ),
                 'title'    => 'Deployment Complete',
-                'fallback' => sprintf('Deployment to %s complete.', env('stages')[0]),
+                'fallback' => sprintf('Deployment to %s complete.', get('stages')[0]),
                 'color'    => '#7CD197',
                 'fields'   => [
                     [
@@ -54,17 +55,17 @@ task('deploy:slack', function () {
                     ],
                     [
                         'title' => 'Stage',
-                        'value' => env('stages')[0],
+                        'value' => get('stages')[0],
                         'short' => true,
                     ],
                     [
                         'title' => 'Branch',
-                        'value' => env('branch'),
+                        'value' => get('branch'),
                         'short' => true,
                     ],
                     [
                         'title' => 'Host',
-                        'value' => env('server.name'),
+                        'value' => get('server.name'),
                         'short' => true,
                     ],
                 ],
