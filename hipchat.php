@@ -9,8 +9,6 @@ namespace Deployer;
 
 desc('Notifying Hipchat channel of deployment');
 task('deploy:hipchat', function () {
-    global $php_errormsg;
-
     $config = get('hipchat', []);
 
     if (!isset($config['message'])) {

@@ -19,8 +19,6 @@ set('newrelic_deploy_description', function() {
 
 desc('Notifying New Relic of deployment');
 task('deploy:newrelic', function () {
-    global $php_errormsg;
-
     $config = get('newrelic', []);
 
     // Notify existing users of upgrade.

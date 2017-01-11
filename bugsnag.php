@@ -9,8 +9,6 @@ namespace Deployer;
 
 desc('Notifying Bugsnag of deployment');
 task('deploy:bugsnag', function () {
-    global $php_errormsg;
-
     $defaultConfig = [
         'api_key'       => null,
         'release_stage' => get('stages')[0],

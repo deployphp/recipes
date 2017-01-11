@@ -17,8 +17,6 @@ set('local_user', function () {
 
 desc('Notifying Rollbar of deployment');
 task('deploy:rollbar', function () {
-    global $php_errormsg;
-
     $defaultConfig = [
         'access_token'      => null,
         'environment'       => get('stages')[0],

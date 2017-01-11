@@ -23,8 +23,6 @@ task('deploy:slack', function () {
         return;
     }
 
-    global $php_errormsg;
-
     $user = trim(runLocally('git config --get user.name'));
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
 
