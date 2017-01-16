@@ -20,7 +20,7 @@ set('rsync', [
     'filter-perdir' => false,
     'flags' => 'rz',
     'options' => ['delete'],
-    'timeout' => 60,
+    'timeout' => 300,
 ]);
 
 set('rsync_src', __DIR__);
