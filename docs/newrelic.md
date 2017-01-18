@@ -16,7 +16,7 @@ require 'vendor/deployer/recipes/newrelic.php';
 // deploy.php
 
 set('newrelic', [
-    'api_key'        => 'xad3...',
+    'license'        => 'xad3...',
     'application_id' => '12873',
 ]);
 ```
