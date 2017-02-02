@@ -1,6 +1,6 @@
 # SED recipe
 
-This recipe is a very simple implementation of sed to search and replace variables in your configuration files. The idea was to replace critical configurations with placeholder and reaplce them during the deployment with Deployer.
+This recipe is a very simple implementation of sed to search and replace variables in your deployed files.
 
 ### Installing
 
