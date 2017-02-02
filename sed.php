@@ -24,7 +24,7 @@ task('sed:replace', function () {
     }
 
     for ($i; $i < count($paths); $i++) {
-      writeln('sed -i "s/' . $searches[$i] . '/' . $replacements[$i] . '/g" ' . $paths[$i]);
+      run('sed -i "s/' . $searches[$i] . '/' . $replacements[$i] . '/g" ' . $paths[$i]);
     }
 
 });
