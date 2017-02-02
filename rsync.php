@@ -128,6 +128,10 @@ task('rsync', function() {
         // might end up deleting everything we have write permission to
         throw new \RuntimeException('You need to specify a destination path.');
     }
+    
+    if (isVeryVerbose()) {
+        $config['flags'] .= 'v';
+    }
 
     $server = \Deployer\Task\Context::get()->getServer();
     if ($server instanceof \Deployer\Server\Local) {
