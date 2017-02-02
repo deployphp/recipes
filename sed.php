@@ -20,7 +20,7 @@ task('sed:replace', function () {
     if (!is_array($config) ||
        (!isset($config['paths']) && !isset($config['searches']) && !isset($config['replacements']))
     ) {
-       throw new \RuntimeException("<comment>Please configure sed:</comment> \n <info>set('sed', [</info> \n <info>  'paths' => ['/path/to/file1','/path/to/file2'],</info> \n <info>  'searches' => ['foo1','foo2'],</info> \n <info>  'replacements' => ['bar1','bar2']</info> \n <info>]);</info>");
+       throw new \RuntimeException("<comment>Please configure sed:</comment> \n <info>set('sed', [</info> \n <info>  'paths' => ['/path/to/file1','/path/to/file2'],</info> \n <info>  'searches' => ['foo_file1','foo_file2'],</info> \n <info>  'replacements' => ['bar_file1','bar_file2']</info> \n <info>]);</info>");
     }
 
     for ($i; $i < count($paths); $i++) {

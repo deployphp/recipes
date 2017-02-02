@@ -17,8 +17,8 @@ require 'vendor/deployer/recipes/sed.php';
 
 set('sed', [
     'paths' => ['/path/to/file1','/path/to/file2'],
-    'searches' => ['foo1','foo2'],
-    'replacements' => ['bar1','bar2']
+    'searches' => ['foo_file1','foo_file2'],
+    'replacements' => ['bar_file1','bar_file2']
 ]);
 ```
 
