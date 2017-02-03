@@ -102,7 +102,6 @@ task('rsync:warmup', function() {
 
 desc('Rsync local->remote');
 task('rsync', function() {
-
     $config = get('rsync');
 
     $src = get('rsync_src');
@@ -142,9 +141,9 @@ task('rsync', function() {
     $server = $server->getConfiguration();
     $host = $server->getHost();
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
-    $identityFile = $server->getPemFile() ? ' -i ' . $server->getPemFile() : '';
+    $identityMethod = $server->getPemFile() ? 'getPemFile' : $server->getPrivateKey() ? 'getPrivateKey' : false;
+    $identityFile = $identityMethod ? ' -i ' . $server->$identityMethod() : '';
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
     runLocally("rsync -{$config['flags']} -e 'ssh$port$identityFile' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
-
 });
