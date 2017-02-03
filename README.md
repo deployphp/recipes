@@ -1,4 +1,5 @@
 # Deployer Recipes
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/deployphp/recipes?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 This repository contains third party recipes to integrate with deployer.
 
