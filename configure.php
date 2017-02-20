@@ -15,12 +15,12 @@ desc('Make configure files for your stage');
 task('deploy:configure', function() {
 
     /**
-     * Paser value for template compiler
+     * Parser value for template compiler
      *
      * @param array $matches
      * @return string
      */
-    $paser = function($matches) {
+    $parser = function($matches) {
         if (isset($matches[1])) {
             $value = get($matches[1]);
             if (is_null($value) || is_bool($value) || is_array($value)) {
@@ -38,8 +38,8 @@ task('deploy:configure', function() {
      * @param string $contents
      * @return string
      */
-    $compiler = function ($contents) use ($paser) {
-        $contents = preg_replace_callback('/\{\{\s*([\w\.]+)\s*\}\}/', $paser, $contents);
+    $compiler = function ($contents) use ($parser) {
+        $contents = preg_replace_callback('/\{\{\s*([\w\.]+)\s*\}\}/', $parser, $contents);
         return $contents;
     };
 
@@ -52,31 +52,32 @@ task('deploy:configure', function() {
 
     /* @var $file \Symfony\Component\Finder\SplFileInfo */
     foreach ($iterator as $file) {
-        $success = false;
+        $error = 'Can not make temporary file';
         // Make tmp file
         $tmpFile = tempnam($tmpDir, 'tmp');
         if (!empty($tmpFile)) {
             try {
                 $contents = $compiler($file->getContents());
-                $target   = preg_replace('/\.tpl$/', '', $file->getRelativePathname());
+                $target = preg_replace('/\.tpl$/', '', $file->getRelativePathname());
                 // Put contents and upload tmp file to server
                 if (file_put_contents($tmpFile, $contents) > 0) {
-                    //run('mkdir -p {{deploy_path}}/shared/' . dirname($target));
                     upload($tmpFile, '{{deploy_path}}/shared/' . $target);
-                    $success = true;
+                    $error = false;
+                } else {
+                    $error = 'Put content to temporary file fail';
                 }
             } catch (\Exception $e) {
-                //throw new $e;
-                $success = false;
+                $error = $e->getMessage();
             }
             // Delete tmp file
             unlink($tmpFile);
         }
 
-        if ($success) {
+        if (empty($error)) {
             writeln(sprintf("<info>✔</info> %s", $file->getRelativePathname()));
         } else {
             writeln(sprintf("<fg=red>✘</fg=red> %s", $file->getRelativePathname()));
+            writeln(sprintf("  <fg=red>ERROR:</fg=red> %s", $error));
         }
     }
 });
