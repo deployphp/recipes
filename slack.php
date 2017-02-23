@@ -30,7 +30,12 @@ task('deploy:slack', function () {
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
     $stage = get('stages')[0];
     $branch = get('branch');
-
+    if (input()->hasOption('branch')) {
+        $inputBranch = input()->getOption('branch');
+        if (!empty($inputBranch)) {
+            $branch = $inputBranch;
+        }
+    }
     $defaultConfig = [
         'channel'     => '#general',
         'icon'        => ':sunny:',
