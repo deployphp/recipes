@@ -136,8 +136,31 @@ task('deploy:slack', function () {
         unset($urlParams['icon_emoji']);
     }
 
+    if (isset($config['proxy'])) {
+      if (!is_array($config) || !isset($config['proxy']) || !isset($config['proxy']['user']) || !isset($config['proxy']['pass']) || !isset($config['proxy']['url'])) {
+        throw new \RuntimeException("Incorrectly set up proxy");
+      } else {
+        $auth = base64_encode($config['proxy']['user'] . ":" . $config['proxy']['pass']);
+        $options = array(
+          'http' => array (
+            'method' => 'GET',
+            'proxy' => 'tcp://' . $config['proxy']['url'],
+            'request_fulluri' => true,
+            'header' => "Proxy-Authorization: Basic $auth"
+          ),
+          'https' => array (
+            'method' => 'GET',
+            'proxy' => 'tcp://' . $config['proxy']['url'],
+            'request_fulluri' => true,
+            'header' => "Proxy-Authorization: Basic $auth"
+          )
+        );
+        $context = stream_context_create($options);
+      }
+    }
+
     $url = 'https://slack.com/api/chat.postMessage?' . http_build_query($urlParams);
-    $result = @file_get_contents($url);
+    $result = @file_get_contents($url, false, $context);
 
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
