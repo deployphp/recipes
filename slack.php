@@ -8,11 +8,11 @@
 
 namespace Deployer;
 
-/**
+/*
  * Get local username
  */
 set('local_user', function () {
-    return trim(run("whoami"));
+    return trim(run('whoami'));
 });
 
 // Do not skip slack notifications by default
@@ -76,8 +76,8 @@ task('deploy:slack', function () {
                         'short' => true,
                     ],
                 ],
-            ]
-        ]
+            ],
+        ],
     ];
 
     $newConfig = get('slack');
@@ -96,7 +96,7 @@ task('deploy:slack', function () {
     if ($server instanceof \Deployer\Server\Local) {
         $user = get('local_user');
     } else {
-        $user = $server->getConfiguration()->getUser() ? : null;
+        $user = $server->getConfiguration()->getUser() ?: null;
     }
 
     $messagePlaceHolders = [
@@ -105,7 +105,7 @@ task('deploy:slack', function () {
         '{{stage}}'        => $stage,
         '{{user}}'         => $user,
         '{{branch}}'       => $branch,
-        '{{app_name}}'     => isset($config['app']) ? $config['app'] : 'app-name',
+        '{{app_name}}'     => $config['app'] ?? 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
 
@@ -115,11 +115,13 @@ task('deploy:slack', function () {
         'text'       => $config['message'],
         'username'   => $config['username'],
         'icon_emoji' => $config['icon'],
-        'pretty'     => true
+        'pretty'     => true,
     ];
 
-    if ($config['unset_text']) {
-        unset($urlParams['text']);
+    foreach (['unset_text' => 'text', 'icon_url' => 'icon_emoji'] as $set => $unset) {
+        if (isset($config[$set])) {
+            unset($urlParams[$unset]);
+        }
     }
 
     foreach (['parse', 'link_names', 'icon_url', 'unfurl_links', 'unfurl_media', 'as_user'] as $option) {
@@ -130,10 +132,6 @@ task('deploy:slack', function () {
 
     if (isset($config['attachments'])) {
         $urlParams['attachments'] = json_encode($config['attachments']);
-    }
-
-    if (isset($config['icon_url'])) {
-        unset($urlParams['icon_emoji']);
     }
 
     $url = 'https://slack.com/api/chat.postMessage?' . http_build_query($urlParams);
