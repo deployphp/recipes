@@ -47,7 +47,7 @@ task('deploy:configure', function() {
     $iterator = $finder
         ->files()
         ->name('*.tpl')
-        ->in(__DIR__ . '/shared');
+        ->in(getcwd() . '/shared');
     $tmpDir = sys_get_temp_dir();
 
     /* @var $file \Symfony\Component\Finder\SplFileInfo */
