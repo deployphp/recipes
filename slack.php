@@ -7,11 +7,11 @@
 
 namespace Deployer;
 
-/**
+/*
  * Get local username
  */
 set('local_user', function () {
-    return trim(run("whoami"));
+    return trim(run('whoami'));
 });
 
 // Do not skip slack notifications by default
@@ -41,6 +41,15 @@ task('deploy:slack', function () {
 
     $user = trim(runLocally('git config --get user.name'));
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
+
+    $stage = get('stages')[0];
+    $branch = get('branch');
+    if (input()->hasOption('branch')) {
+        $inputBranch = input()->getOption('branch');
+        if (!empty($inputBranch)) {
+            $branch = $inputBranch;
+        }
+    }
 
     $defaultConfig = [
         'channel'     => '#general',
@@ -88,8 +97,8 @@ task('deploy:slack', function () {
                         'short' => true,
                     ],
                 ],
-            ]
-        ]
+            ],
+        ],
     ];
 
     $newConfigs = get('slack');
