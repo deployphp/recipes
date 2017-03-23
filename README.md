@@ -48,6 +48,7 @@ require 'vendor/deployer/recipes/cachetool.php';
 | rabbit     | [read](docs/rabbit.md)     | `require 'vendor/deployer/recipes/rabbit.php';`
 | rsync      | [read](docs/rsync.md)      | `require 'vendor/deployer/recipes/rsync.php';`
 | slack      | [read](docs/slack.md)      | `require 'vendor/deployer/recipes/slack.php';`
+| sentry     | [read](docs/sentry.md)     | `require 'vendor/deployer/recipes/sentry.php';`
 | npm        | [read](docs/npm.md)        | `require 'vendor/deployer/recipes/npm.php';`
 
 ## Contributing a recipe
