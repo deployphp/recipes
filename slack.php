@@ -105,7 +105,7 @@ task('deploy:slack', function () {
         '{{stage}}'        => $stage,
         '{{user}}'         => $user,
         '{{branch}}'       => $branch,
-        '{{app_name}}'     => $config['app'] ?? 'app-name',
+        '{{app_name}}'     => isset($config['app']) ? $config['app'] : 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
 
