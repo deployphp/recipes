@@ -12,8 +12,8 @@ require 'vendor/deployer/recipes/phinx.php';
 
 All options are in the environment variable `phinx` specified as a dictionary
 (instead of the `phinx_path` variable).
-All parameters are *optional*, but you can specify them with a dictionary(to change all parameters)
-or by deployer dot notation(to change one option).
+All parameters are *optional*, but you can specify them with a dictionary (to change all parameters)
+or by deployer dot notation (to change one option).
 
 #### Phinx environment variable
 
@@ -53,14 +53,15 @@ server('dev', 'my-dev-server.local')
 - `phinx:migrate` Migrate your database
 - `phinx:rollback` Rollback your database
 - `phinx:seed` Run seeds for your database
+- `phinx:breakpoint` Set a breakpoint for your database (note that breakpoints are toggled automatically by Phinx, so you will need to call this command once with the `--remove-all` option, then again to set the breakpoint to the current migration)
 
 ### Suggested Usage
 
-You can run all tasks after or before any 
-tasks(but you need to specify external configs for phinx).
-If you use internal configs(which are in your project) you need 
-to run it after `deploy:update_code` task is completed.
+You can run all tasks before or after any 
+tasks (but you need to specify external configs for phinx).
+If you use internal configs (which are in your project) you need 
+to run it after the `deploy:update_code` task is completed.
 
 ### Read more
 
-For further reading check the [phinx.org](https://phinx.org). Options description are on the [commands page](http://docs.phinx.org/en/latest/commands.html).
+For further reading see [phinx.org](https://phinx.org). Complete descriptions of all possible options can be found on the [commands page](http://docs.phinx.org/en/latest/commands.html).

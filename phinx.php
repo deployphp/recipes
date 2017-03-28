@@ -21,8 +21,7 @@ namespace Deployer;
  *
  * @return Path to Phinx
  */
-set(
-    'bin/phinx', function () {
+set('bin/phinx', function () {
         $isExistsCmd = 'if [ -f %s ]; then echo true; fi';
 
         try {
@@ -108,9 +107,8 @@ set('phinx_get_allowed_config', function () {
     };
 });
 
-desc('Migrating database by phinx');
-task(
-    'phinx:migrate', function () {
+desc('Migrating database with phinx');
+task('phinx:migrate', function () {
         $ALLOWED_OPTIONS = [
             'configuration',
             'date',
@@ -131,8 +129,8 @@ task(
     }
 );
 
-task(
-    'phinx:rollback', function () {
+desc('Rollback database migrations with phinx');
+task('phinx:rollback', function () {
         $ALLOWED_OPTIONS = [
             'configuration',
             'date',
@@ -153,8 +151,8 @@ task(
     }
 );
 
-task(
-    'phinx:seed', function () {
+desc('Seed database with phinx');
+task('phinx:seed', function () {
         $ALLOWED_OPTIONS = [
             'configuration',
             'environment',
@@ -174,3 +172,23 @@ task(
     }
 );
 
+desc('Set a migrations breakpoint with phinx');
+task('phinx:breakpoint', function () {
+        $ALLOWED_OPTIONS = [
+            'configuration',
+            'environment',
+            'remove-all',
+            'target'
+        ];
+
+        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
+
+        cd('{{release_path}}');
+
+        $phinxCmd = get('phinx_get_cmd')('breakpoint', $conf);
+
+        run($phinxCmd);
+
+        cd('{{deploy_path}}');
+    }
+);
