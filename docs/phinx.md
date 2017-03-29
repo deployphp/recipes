@@ -23,10 +23,11 @@ or by deployer dot notation (to change one option).
 - `phinx.target`
 - `phinx.seed`
 - `phinx.parser`
+- `phinx.remove-all` (pass empty string as value)
 
 #### Phinx path environment variable
 
-- `phinx_path` Specify phinx path(by default phinx is searched in 
+- `phinx_path` Specify phinx path (by default phinx is searched for in 
 $PATH, ./vendor/bin and ~/.composer/vendor/bin)
 
 #### Example of usage
@@ -34,9 +35,15 @@ $PATH, ./vendor/bin and ~/.composer/vendor/bin)
 ```php
 //deploy.php
 
+$phinx_env_vars = [
+  'environment' => 'development',
+  'configuration' => './migration/.phinx.yml'
+  'target' => '20120103083322',
+  'remove-all' => ''
+];
+
 set('phinx_path', '/usr/local/phinx/bin/phinx');
-set('phinx.environment', 'production');
-set('phinx.configuration', './migration/.phinx.yml');
+set('phinx', $phinx_env_vars);
 
 after('cleanup', 'phinx:migrate');
 
@@ -44,7 +51,7 @@ after('cleanup', 'phinx:migrate');
 server('dev', 'my-dev-server.local')
     ->user('user')
     ->set('deploy_path', '/var/www')
-    ->set('phinx.environment', 'development')
+    ->set('phinx', $phinx_env_vars)
     ->set('phinx_path', '');
 ```
 
@@ -53,7 +60,7 @@ server('dev', 'my-dev-server.local')
 - `phinx:migrate` Migrate your database
 - `phinx:rollback` Rollback your database
 - `phinx:seed` Run seeds for your database
-- `phinx:breakpoint` Set a breakpoint for your database (note that breakpoints are toggled automatically by Phinx, so you will need to call this command once with the `--remove-all` option, then again to set the breakpoint to the current migration)
+- `phinx:breakpoint` Set a breakpoint for your database (note that breakpoints are toggled on/off automatically by Phinx, so you will need to call this command once with the `remove-all` option, then delete the `remove-all` option from the recipe configuration and re-run `phinx:breakpoint` to set the breakpoint to the current migration)
 
 ### Suggested Usage
 
