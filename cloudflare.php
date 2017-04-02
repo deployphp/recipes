@@ -12,8 +12,7 @@ task('deploy:cloudflare', function () {
 
     $config = get('cloudflare', []);
 
-    //validate config and set headers
-
+    // validate config and set headers
     if (!empty($config['service_key'])) {
         $headers = [
             'X-Auth-User-Service-Key' => $config['service_key']
@@ -30,12 +29,13 @@ task('deploy:cloudflare', function () {
     $headers['Content-Type'] = 'application/json';
 
     if (empty($config['domain'])) {
-        throw new RuntimeException("Set a domain");
+        throw new \RuntimeException("Set a domain");
     }
 
     $makeRequest = function ($url, $opts = []) use ($headers) {
         $ch = curl_init("https://api.cloudflare.com/client/v4/$url");
 
+        $parsedHeaders = [];
         foreach($headers as $key => $value){
             $parsedHeaders[] = "$key: $value";
         }
@@ -59,7 +59,6 @@ task('deploy:cloudflare', function () {
     };
 
     // get the mysterious zone id from Cloud Flare
-
     $zones = json_decode($makeRequest(
         "zones?name={$config['domain']}"
     ), true);
@@ -71,7 +70,6 @@ task('deploy:cloudflare', function () {
     }
 
     // make purge request
-
     $makeRequest(
         "zones/$zoneId/purge_cache",
         [
