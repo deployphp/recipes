@@ -44,12 +44,13 @@ require 'vendor/deployer/recipes/cachetool.php';
 | hipchat    | [read](docs/hipchat.md)    | `require 'vendor/deployer/recipes/hipchat.php';`
 | local      | [read](docs/local.md)      | `require 'vendor/deployer/recipes/local.php';`
 | newrelic   | [read](docs/newrelic.md)   | `require 'vendor/deployer/recipes/newrelic.php';`
+| npm        | [read](docs/npm.md)        | `require 'vendor/deployer/recipes/npm.php';`
 | phinx      | [read](docs/phinx.md)      | `require 'vendor/deployer/recipes/phinx.php'`
 | rabbit     | [read](docs/rabbit.md)     | `require 'vendor/deployer/recipes/rabbit.php';`
 | rsync      | [read](docs/rsync.md)      | `require 'vendor/deployer/recipes/rsync.php';`
 | slack      | [read](docs/slack.md)      | `require 'vendor/deployer/recipes/slack.php';`
 | sentry     | [read](docs/sentry.md)     | `require 'vendor/deployer/recipes/sentry.php';`
-| npm        | [read](docs/npm.md)        | `require 'vendor/deployer/recipes/npm.php';`
+| yarn       | [read](docs/yarn.md)       | `require 'vendor/deployer/recipes/yarn.php';`
 
 ## Contributing a recipe
 
