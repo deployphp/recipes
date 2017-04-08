@@ -8,50 +8,37 @@
         "deploy",
         "deployment",
         "cachetool",
+        "cloudflare",
         "newrelic",
-        "slack"
+        "slack",
+        "hipchat",
+        "rabbit",
+        "sentry",
+        "yarn"
     ],
     "homepage": "https://github.com/deployphp/recipes",
     "license": "MIT",
     "authors": [
         {
-            "name": "Samuel Gordalina",
-            "email": "samuel.gordalina@gmail.com",
-            "homepage": "https://gordalina.com",
-            "role": "Maintainer"
-        },
-        {
-            "name": "Tomas Majer",
-            "email": "tomasmajer@gmail.com",
-            "homepage": "http://tomaj.sk",
-            "role": "Contributor"
-        },
-        {
-            "name": "Hubert Kowalski",
-            "email": "h.kowalski@hakger.pl",
-            "homepage": "https://hakger.pl",
-            "role": "Contributor"
-        },
-        {
             "name": "Anton Medvedev",
             "email": "anton@medv.io",
             "homepage": "http://medv.io",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Samuel Gordalina",
+            "email": "samuel.gordalina@gmail.com",
+            "homepage": "https://gordalina.com",
             "role": "Contributor"
         }
     ],
     "support": {
         "issues": "https://github.com/deployphp/recipes/issues",
-        "forum": "https://gitter.im/elfet/deployer",
         "source": "https://github.com/deployphp/recipes"
     },
     "minimum-stability": "stable",
     "require": { },
     "replace": {
-        "deployphp/recipes": "self.version"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0-dev"
-        }
+        "deployer/recipes": "self.version"
     }
 }
