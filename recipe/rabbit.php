@@ -7,6 +7,7 @@
 
 namespace Deployer;
 
+use Deployer\Task\Context;
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -22,7 +23,7 @@ task('deploy:rabbit', function () {
 
     if (!isset($config['message'])) {
         $releasePath = get('release_path');
-        $host = config()->getHost();
+        $host = Context::get()->getHost();
         $prod = get('env', 'production');
         $config['message'] = "Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)";
     }
