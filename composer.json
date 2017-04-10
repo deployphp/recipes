@@ -29,7 +29,7 @@
         "source": "https://github.com/deployphp/recipes"
     },
     "minimum-stability": "stable",
-    "require": {
+    "autoload": {
         "files": [
             "autoload.php"
         ]
