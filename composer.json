@@ -21,15 +21,7 @@
     "authors": [
         {
             "name": "Anton Medvedev",
-            "email": "anton@medv.io",
-            "homepage": "http://medv.io",
-            "role": "Maintainer"
-        },
-        {
-            "name": "Samuel Gordalina",
-            "email": "samuel.gordalina@gmail.com",
-            "homepage": "https://gordalina.com",
-            "role": "Contributor"
+            "email": "anton@medv.io"
         }
     ],
     "support": {
@@ -37,7 +29,11 @@
         "source": "https://github.com/deployphp/recipes"
     },
     "minimum-stability": "stable",
-    "require": { },
+    "require": {
+        "files": [
+            "autoload.php"
+        ]
+    },
     "replace": {
         "deployer/recipes": "self.version"
     }
