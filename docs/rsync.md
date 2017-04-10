@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/rsync.php';
+require 'recipe/rsync.php';
 ```
 
 ### Configuration options

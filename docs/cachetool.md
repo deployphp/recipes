@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/cachetool.php';
+require 'recipe/cachetool.php';
 ```
 
 ### Configuration options

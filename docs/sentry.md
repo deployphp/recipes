@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/sentry.php';
+require 'recipe/sentry.php';
 ```
 
 ### Configuration options

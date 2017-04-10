@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/rabbit.php';
+require 'recipe/rabbit.php';
 ```
 
 ### Configuration options

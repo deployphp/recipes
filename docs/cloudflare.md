@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/cloudflare.php';
+require 'recipe/cloudflare.php';
 ```
 
 ### Configuration options

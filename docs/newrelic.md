@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/newrelic.php';
+require 'recipe/newrelic.php';
 ```
 
 ### Configuration options

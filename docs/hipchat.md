@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/hipchat.php';
+require 'recipe/hipchat.php';
 ```
 
 ### Configuration options

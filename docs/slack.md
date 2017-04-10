@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/slack.php';
+require 'recipe/slack.php';
 ```
 
 ### Environmental variables

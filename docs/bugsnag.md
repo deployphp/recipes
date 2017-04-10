@@ -5,7 +5,7 @@
 ```php
 // deploy.php
 
-require 'vendor/deployer/recipes/bugsnag.php';
+require 'recipe/bugsnag.php';
 ```
 
 ### Configuration options
