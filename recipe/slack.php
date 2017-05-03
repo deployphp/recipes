@@ -8,12 +8,6 @@
 
 namespace Deployer;
 
-/*
- * Get local username
- */
-set('local_user', function () {
-    return trim(run('whoami'));
-});
 
 // Do not skip slack notifications by default
 set('slack_skip_notification', false);
@@ -28,7 +22,7 @@ task('deploy:slack', function () {
 
     $user = trim(runLocally('git config --get user.name'));
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
-    $stage = get('stages')[0];
+    $stage = '';
     $branch = get('branch');
     if (input()->hasOption('branch')) {
         $inputBranch = input()->getOption('branch');
@@ -37,12 +31,12 @@ task('deploy:slack', function () {
         }
     }
     $defaultConfig = [
-        'channel'     => '#general',
-        'icon'        => ':sunny:',
-        'username'    => 'Deploy',
-        'message'     => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
-        'app'         => 'app-name',
-        'unset_text'  => true,
+        'channel' => '#general',
+        'icon' => ':sunny:',
+        'username' => 'Deploy',
+        'message' => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
+        'app' => 'app-name',
+        'unset_text' => true,
         'attachments' => [
             [
                 'text' => sprintf(
@@ -51,10 +45,10 @@ task('deploy:slack', function () {
                     $stage,
                     $user
                 ),
-                'title'    => 'Deployment Complete',
+                'title' => 'Deployment Complete',
                 'fallback' => sprintf('Deployment to %s complete.', $stage),
-                'color'    => '#7CD197',
-                'fields'   => [
+                'color' => '#7CD197',
+                'fields' => [
                     [
                         'title' => 'User',
                         'value' => $user,
@@ -72,7 +66,7 @@ task('deploy:slack', function () {
                     ],
                     [
                         'title' => 'Host',
-                        'value' => get('server.name'),
+                        'value' => get('hostname'),
                         'short' => true,
                     ],
                 ],
@@ -86,36 +80,31 @@ task('deploy:slack', function () {
         $newConfig = $newConfig();
     }
 
-    $config = array_merge($defaultConfig, (array) $newConfig);
+    $config = array_merge($defaultConfig, (array)$newConfig);
 
     if (!is_array($config) || !isset($config['token']) || !isset($config['team']) || !isset($config['channel'])) {
         throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
     }
 
-    $server = \Deployer\Task\Context::get()->getServer();
-    if ($server instanceof \Deployer\Server\Local) {
-        $user = get('local_user');
-    } else {
-        $user = $server->getConfiguration()->getUser() ?: null;
-    }
+    $user = 'anton';trim(run('whoami'));
 
     $messagePlaceHolders = [
-        '{{release_path}}' => get('release_path'),
-        '{{host}}'         => get('server.host'),
-        '{{stage}}'        => $stage,
-        '{{user}}'         => $user,
-        '{{branch}}'       => $branch,
-        '{{app_name}}'     => isset($config['app']) ? $config['app'] : 'app-name',
+        //'{{release_path}}' => get('release_path'),
+        '{{host}}' => get('hostname'),
+        '{{stage}}' => $stage,
+        '{{user}}' => $user,
+        '{{branch}}' => $branch,
+        '{{app_name}}' => isset($config['app']) ? $config['app'] : 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
 
     $urlParams = [
-        'channel'    => $config['channel'],
-        'token'      => $config['token'],
-        'text'       => $config['message'],
-        'username'   => $config['username'],
+        'channel' => $config['channel'],
+        'token' => $config['token'],
+        'text' => $config['message'],
+        'username' => $config['username'],
         'icon_emoji' => $config['icon'],
-        'pretty'     => true,
+        'pretty' => true,
     ];
 
     foreach (['unset_text' => 'text', 'icon_url' => 'icon_emoji'] as $set => $unset) {
@@ -140,7 +129,7 @@ task('deploy:slack', function () {
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-
+var_dump($result);
     $response = @json_decode($result);
 
     if (!$response || isset($response->error)) {

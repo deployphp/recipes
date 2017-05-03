@@ -2,9 +2,11 @@
 
 ### Installing
 
-```php
-// deploy.php
+<a href="https://slack.com/oauth/authorize?&client_id=162408975313.167726381175&scope=incoming-webhook"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
+Add this to your `deploy.php` file:
+
+```php
 require 'recipe/slack.php';
 ```
 

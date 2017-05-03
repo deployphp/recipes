@@ -2,6 +2,7 @@
 | ----------------- | ---
 | Issue Type        | Bug, Question, Feature Request
 | Deployer Version  | N/A
+| Recipes Version   | N/A
 | Local Machine OS  | N/A
 | Remote Machine OS | N/A
 
