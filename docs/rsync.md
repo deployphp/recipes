@@ -89,15 +89,12 @@ If You use local deploy recipe You can set src to local release:
 ```php
 // deploy.php
 
-server('local_deploy','local_deploy.host',22)
-        ->set('deploy_path','/var/www/vhosts/app')
-        ->set('rsync_src', function(){
-            $local_src = get('local_release_path');
-            if(is_callable($local_src)) {
-                $local_src = $local_src();
-            }
-            return $local_src;
-        });
+host('hostname')
+    ->hostname('10.10.10.10')
+    ->port(22)
+    ->set('deploy_path','/your/remote/path/app')
+    ->set('rsync_src', '/your/local/path/app')
+    ->set('rsync_dest','{{release_path}}');
 ```
 
 ### Tasks
