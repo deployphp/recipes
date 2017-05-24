@@ -3,6 +3,8 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
+ * @contributor Steve Mueller <steve.mueller@check24.de>, Niklas Vosskoetter <niklas.vosskoetter@check24.de>
  */
 
 namespace Deployer;
@@ -128,20 +130,16 @@ task('rsync', function() {
         throw new \RuntimeException('You need to specify a destination path.');
     }
 
-    $server = \Deployer\Task\Context::get()->getServer();
-    if ($server instanceof \Deployer\Server\Local) {
+    $server = \Deployer\Task\Context::get()->getHost();
+    if ($server instanceof \Deployer\Host\Local) {
         runLocally("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$dst/'", $config['timeout']);
         return;
     }
 
-    $server = $server->getConfiguration();
-    $host = $server->getHost();
+    $host = $server->getHostname();
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
-    $identityFile = '';
-    if($server->getPemFile() || $server->getPrivateKey()){
-        $identityFile = ' -i ' . ($server->getPemFile() ? $server->getPemFile() : $server->getPrivateKey());
-    }
+    $identityFile = $server->getIdentityFile() ? ' -i '.$server->getIdentityFile():'';
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
-    runLocally("rsync -{$config['flags']} -e 'ssh$port$identityFile' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config['timeout']);
+    runLocally("rsync -{$config['flags']} -e 'ssh$port$identityFile' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config);
 });
