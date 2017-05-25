@@ -22,6 +22,16 @@ task('deploy:slack', function () {
 
     $user = trim(runLocally('git config --get user.name'));
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
+    
+    // Try to get tag instead of commit id, if exists
+    try {
+        $tag = trim(runLocally('git describe --exact-match '.$revision));
+        $revisionOrTag = $tag.' ('.substr($revision, 0, 6).')';
+        $commitNature = "Version tagged";
+    } catch (\Exception $e) {
+        $commitNature = "Revision";
+        $revisionOrTag = substr($revision, 0, 6);
+    }
     $stage = '';
     $branch = get('branch');
     if (input()->hasOption('branch')) {
@@ -40,8 +50,8 @@ task('deploy:slack', function () {
         'attachments' => [
             [
                 'text' => sprintf(
-                    'Revision %s deployed to %s by %s',
-                    substr($revision, 0, 6),
+                    $commitNature.' %s deployed to %s by %s',
+                    $revisionOrTag,
                     $stage,
                     $user
                 ),
