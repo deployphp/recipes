@@ -132,7 +132,7 @@ task('rsync', function() {
 
     $server = \Deployer\Task\Context::get()->getHost();
     if ($server instanceof \Deployer\Host\Local) {
-        runLocally("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$dst/'", $config['timeout']);
+        runLocally("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$dst/'", $config);
         return;
     }
 
