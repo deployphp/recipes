@@ -21,7 +21,7 @@ task('deploy:rollbar', function () {
 
     $defaultConfig = [
         'access_token'      => null,
-        'environment'       => get('stages')[0],
+        'environment'       => get('stage'),
         'revision'          => trim(runLocally('git log -n 1 --format="%h"')),
         'local_username'    => trim(runLocally('git config user.name')),
         'rollbar_username'  => null,
@@ -34,17 +34,17 @@ task('deploy:rollbar', function () {
         throw new \RuntimeException("Please configure new rollbar: set('rollbar', ['access_token' => 'c09a3...', 'revision' => 'v4.3', 'rollbar_username' => 'John Doe', 'comment' => 'Brand new version']);");
     }
 
-    $server = \Deployer\Task\Context::get()->getServer();
-    if ($server instanceof \Deployer\Server\Local) {
+    $host = \Deployer\Task\Context::get()->getHost();
+    if ($host instanceof \Deployer\Host\Localhost) {
         $user = get('local_user');
     } else {
-        $user = $server->getConfiguration()->getUser() ? : null;
+        $user = $host->getUser() ? : null;
     }
 
     $commentPlaceHolders = [
         '{{release_path}}' => get('release_path'),
-        '{{host}}'         => get('server.host'),
-        '{{stage}}'        => get('stages')[0],
+        '{{host}}'         => $host,
+        '{{stage}}'        => get('stage'),
         '{{user}}'         => $user,
         '{{branch}}'       => get('branch'),
     ];
