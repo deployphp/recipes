@@ -21,18 +21,18 @@ task('deploy:slack', function () {
     global $php_errormsg;
 
     $user = trim(runLocally('git config --get user.name'));
-    $revision = trim(runLocally('git log -n 1 --format="%h"'));
-    
-    // Try to get tag instead of commit id, if exists
+    $revision = trim(run('cd {{release_path}};git log -n 1 --format="%h"'));
+
     try {
-        $tag = trim(runLocally('git describe --exact-match '.$revision));
+        $tag = trim(run('cd {{release_path}};git describe --tags '.$revision));
         $revisionOrTag = $tag.' ('.substr($revision, 0, 6).')';
         $commitNature = "Version tagged";
     } catch (\Exception $e) {
         $commitNature = "Revision";
         $revisionOrTag = substr($revision, 0, 6);
     }
-    $stage = '';
+
+    $stage = get('stage');
     $branch = get('branch');
     if (input()->hasOption('branch')) {
         $inputBranch = input()->getOption('branch');
@@ -96,7 +96,6 @@ task('deploy:slack', function () {
         throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
     }
 
-    $user = 'anton';trim(run('whoami'));
 
     $messagePlaceHolders = [
         //'{{release_path}}' => get('release_path'),
@@ -107,6 +106,7 @@ task('deploy:slack', function () {
         '{{app_name}}' => isset($config['app']) ? $config['app'] : 'app-name',
     ];
     $config['message'] = strtr($config['message'], $messagePlaceHolders);
+    $config['channel'] = strtr($config['channel'], $messagePlaceHolders);
 
     $urlParams = [
         'channel' => $config['channel'],
@@ -132,14 +132,12 @@ task('deploy:slack', function () {
     if (isset($config['attachments'])) {
         $urlParams['attachments'] = json_encode($config['attachments']);
     }
-
     $url = 'https://slack.com/api/chat.postMessage?' . http_build_query($urlParams);
     $result = @file_get_contents($url);
 
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-var_dump($result);
     $response = @json_decode($result);
 
     if (!$response || isset($response->error)) {
