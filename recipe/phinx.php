@@ -26,7 +26,7 @@ set('bin/phinx', function () {
 
         try {
             $phinxPath = run('which phinx')->toString();
-        } catch (\RuntimeException $e) {
+        } catch (\Deployer\Exception\RuntimeException $e) {
             $phinxPath = null;
         }
 
