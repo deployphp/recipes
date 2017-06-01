@@ -18,6 +18,7 @@ require 'vendor/deployer/recipes/sentry.php';
 - **url** *(optional)* – a URL that points to the release. This can be the path to an online interface to the sourcecode for instance.
 - **date_started** *(optional)* – an optional date that indicates when the release process started.
 - **date_released** *(optional)* – an optional date that indicates when the release went live. If not provided the current time is assumed.
+- **sentry_server** *(optional)* – an optional sentry server (if you host it yourself). default to hosted sentry service.
 
 ```php
 // deploy.php
