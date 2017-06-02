@@ -17,6 +17,7 @@ task('deploy:sentry', function () {
         'url'           => null,
         'date_started'   => date("c"),
         'date_released'  => date("c"),
+        'sentry_server'  => 'https://sentry.io',
     ];
 
     $config = array_merge($defaultConfig, (array) get('sentry'));
@@ -40,7 +41,7 @@ task('deploy:sentry', function () {
     ));
 
     $context = stream_context_create($options);
-    $result = file_get_contents('https://sentry.io/api/0/projects/' . $config['organization'] . '/' . $config['project'] . '/releases/', false, $context);
+    $result = file_get_contents($config['sentry_server'] . '/api/0/projects/' . $config['organization'] . '/' . $config['project'] . '/releases/', false, $context);
 
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
