@@ -22,7 +22,7 @@ task('deploy:slack', function () {
 
     $user = trim(runLocally('git config --get user.name'));
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
-    $stage = $get('stages')[0];
+    $stage = get('stages')[0];
     $branch = get('branch');
     if (input()->hasOption('branch')) {
         $inputBranch = input()->getOption('branch');
