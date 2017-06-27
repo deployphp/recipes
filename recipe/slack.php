@@ -22,7 +22,7 @@ task('deploy:slack', function () {
 
     $user = trim(runLocally('git config --get user.name'));
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
-    $stage = '';
+    $stage = $get('stages')[0];
     $branch = get('branch');
     if (input()->hasOption('branch')) {
         $inputBranch = input()->getOption('branch');
@@ -129,7 +129,6 @@ task('deploy:slack', function () {
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-var_dump($result);
     $response = @json_decode($result);
 
     if (!$response || isset($response->error)) {
