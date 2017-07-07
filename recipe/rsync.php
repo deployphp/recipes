@@ -136,7 +136,7 @@ task('rsync', function() {
         return;
     }
 
-    $host = $server->getHostname();
+    $host = $server->getRealHostname();
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
     $identityFile = $server->getIdentityFile() ? ' -i '.$server->getIdentityFile():'';
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
