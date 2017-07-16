@@ -18,9 +18,9 @@ require 'recipe/rsync.php';
 - *include-file*: accepts a *string* containing absolute path to file, which contains include patterns
 - *filter*: accepts an *array* of rsync filter rules
 - *filter-file*: accepts a *string* containing merge-file filename.
-- *filter-perdir*: accepts a *string* containing merge-file filename to be scanned and merger per each directory in rsync list offiles to send
+- *filter-perdir*: accepts a *string* containing merge-file filename to be scanned and merger per each directory in rsync list on files to send
 - *flags*: accepts a *string* of flags to set when calling rsync command. Please **avoid** flags that accept params, and use *options* instead.
-- *options*: accepts an *array* of options to set when calling rsync command. **DO NOT** prefix options with `--` as it's automaticly added.
+- *options*: accepts an *array* of options to set when calling rsync command. **DO NOT** prefix options with `--` as it's automatically added.
 - *timeout*: accepts an *int* defining timeout for rsync command to run locally.
 
 #### Sample Configuration:
@@ -61,7 +61,7 @@ set('rsync',[
     'filter-file'   => false,
     'filter-perdir' => false,
     'flags'         => 'rzcE', // Recursive, with compress, check based on checksum rather than time/size, preserve Executable flag
-    'options'       => ['delete', 'delete-after', 'force'], //Delete after successful trasfer, delete even if deleted dir is not empty
+    'options'       => ['delete', 'delete-after', 'force'], //Delete after successful transfer, delete even if deleted dir is not empty
     'timeout'       => 3600, //for those huge repos or crappy connection
 ]);
 ```
@@ -99,7 +99,7 @@ host('hostname')
 
 ### Tasks
 
-- `rsync` perorms rsync from local `rsync_src` dir to remote `rsync_dest` dir
+- `rsync` performs rsync from local `rsync_src` dir to remote `rsync_dest` dir
 - `rsync:warmup` performs a warmup rsync on remote. Useful only when using `rsync` task instead of `deploy:update_code`
 
 ### Suggested Usage
@@ -123,4 +123,4 @@ task('deploy', [
 ])->desc('Deploy your project');
 ```
 
-And Your `rsync_dest` is set to `{{release_path}}` then You could add this task to run before `rsync` task or after `deploy:release`, whatever's more convinient.
+And Your `rsync_dest` is set to `{{release_path}}` then You could add this task to run before `rsync` task or after `deploy:release`, whatever is more convenient.
