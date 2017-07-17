@@ -86,8 +86,6 @@ task('deploy:slack', function () {
         throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
     }
 
-    $user = 'anton';trim(run('whoami'));
-
     $messagePlaceHolders = [
         //'{{release_path}}' => get('release_path'),
         '{{host}}' => get('hostname'),
@@ -129,7 +127,7 @@ task('deploy:slack', function () {
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-var_dump($result);
+
     $response = @json_decode($result);
 
     if (!$response || isset($response->error)) {
