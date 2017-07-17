@@ -22,7 +22,6 @@ task('deploy:slack', function () {
 
     $user = trim(runLocally('git config --get user.name'));
     $revision = trim(runLocally('git log -n 1 --format="%h"'));
-    $stage = '';
     $branch = get('branch');
     if (input()->hasOption('branch')) {
         $inputBranch = input()->getOption('branch');
@@ -34,29 +33,23 @@ task('deploy:slack', function () {
         'channel' => '#general',
         'icon' => ':sunny:',
         'username' => 'Deploy',
-        'message' => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
+        'message' => "Deployment to `{{host}}` was successful\n({{release_path}})",
         'app' => 'app-name',
         'unset_text' => true,
         'attachments' => [
             [
                 'text' => sprintf(
-                    'Revision %s deployed to %s by %s',
+                    'Revision %s deployed by %s',
                     substr($revision, 0, 6),
-                    $stage,
                     $user
                 ),
                 'title' => 'Deployment Complete',
-                'fallback' => sprintf('Deployment to %s complete.', $stage),
+                'fallback' => 'Deployment complete.',
                 'color' => '#7CD197',
                 'fields' => [
                     [
                         'title' => 'User',
                         'value' => $user,
-                        'short' => true,
-                    ],
-                    [
-                        'title' => 'Stage',
-                        'value' => $stage,
                         'short' => true,
                     ],
                     [
@@ -91,7 +84,6 @@ task('deploy:slack', function () {
     $messagePlaceHolders = [
         //'{{release_path}}' => get('release_path'),
         '{{host}}' => get('hostname'),
-        '{{stage}}' => $stage,
         '{{user}}' => $user,
         '{{branch}}' => $branch,
         '{{app_name}}' => isset($config['app']) ? $config['app'] : 'app-name',
@@ -129,7 +121,6 @@ task('deploy:slack', function () {
     if (!$result) {
         throw new \RuntimeException($php_errormsg);
     }
-var_dump($result);
     $response = @json_decode($result);
 
     if (!$response || isset($response->error)) {
