@@ -2,57 +2,51 @@
 
 ### Installing
 
-<a href="https://slack.com/oauth/authorize?&client_id=162408975313.167726381175&scope=incoming-webhook"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
+<a href="https://slack.com/oauth/authorize?&client_id=113734341365.225973502034&scope=incoming-webhook"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>
 
-Add this to your `deploy.php` file:
+Require slack recipe in your `deploy.php` file:
 
 ```php
 require 'recipe/slack.php';
 ```
 
-### Environmental variables
+Add hook on deploy:
+ 
+```bash
 
-- **slack_skip_notification** - Skips the entire task when set to `true`. This is particularly useful if you want to disable slack notifications for certain stages.
-
-### Configuration options
-
-- **slack** *(required)*: accepts an *array* with the api token and team name. Token can be generated on [slack api website](https://api.slack.com/docs/oauth-test-tokens).
-
-You can provide also other configuration options:
-
- - *message* - default is **Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})**
-  - the available placeholders for the message parameter are:
-    - {{release_path}}
-    - {{host}}
-    - {{stage}}
-    - {{user}}
-    - {{branch}}
-    - {{app_name}}
- - *channel* - default is **#general**
- - *icon* - default is **:sunny:**
- - *username* - default is **Deploy**
-
-
-```php
-// deploy.php
-
-set('slack', [
-    'token' => 'xoxp-...',
-    'team'  => 'team name',
-    'app'   => 'app name',
-]);
 ```
+
+### Configuration
+
+- `slack_webhook` – slack incoming webhook url, **required** 
+- `slack_title` – the title of application, default `{{application}}`
+- `slack_target` – the name of current stage or hostname
+- `slack_text` – notification message template, markdown supported
+  ```
+  _{{user}}_ deploying `{{branch}}` to *{{slack_target}}*
+  ```
+- `slack_success_text` – success template, default:
+  ```
+  Deploy to *{{slack_target}}* successful
+  ```
+- `slack_color` – color's attachment
+- `slack_success_color` – success color's attachment
 
 ### Tasks
 
-- `deploy:slack` send message to slack
+- `slack:notify` – send message to slack
+- `slack:notify:success` – send success message to slack
 
-### Suggested Usage
+### Usage
 
-Since you should only notify Slack channel of a successfull deployment, the `deploy:slack` task should be executed right at the end.
+If you want to notify only about beginning of deployment add this line only:
 
 ```php
-// deploy.php
+before('deploy', 'slack:notify');
+```
 
-after('deploy', 'deploy:slack');
+If you want to notify about successful end of deployment add this too:
+
+```php
+after('success', 'slack:notify:success');
 ```
