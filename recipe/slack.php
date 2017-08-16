@@ -7,7 +7,7 @@
 
 namespace Deployer;
 
-use Deployer\Utility\Request;
+use Deployer\Utility\Httpie;
 
 // Title of project
 set('slack_title', function () {
@@ -40,7 +40,7 @@ task('slack:notify', function () {
         'mrkdwn_in' => ['text'],
     ];
 
-    Request::post(get('slack_webhook'), ['attachments' => [$attachment]]);
+    Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
 })
     ->once()
     ->shallow()
@@ -59,7 +59,7 @@ task('slack:notify:success', function () {
         'mrkdwn_in' => ['text'],
     ];
 
-    Request::post(get('slack_webhook'), ['attachments' => [$attachment]]);
+    Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
 })
     ->once()
     ->shallow()
