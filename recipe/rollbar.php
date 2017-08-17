@@ -7,68 +7,29 @@
 
 namespace Deployer;
 
+use Deployer\Utility\Httpie;
 
-/**
- * Get local username
- */
-set('local_user', function () {
-    return trim(run("whoami"));
-});
+set('rollbar_comment', '_{{user}}_ deploying `{{branch}}` to *{{target}}*');
 
 desc('Notifying Rollbar of deployment');
 task('deploy:rollbar', function () {
-    global $php_errormsg;
-
-    $defaultConfig = [
-        'access_token'      => null,
-        'environment'       => get('stage'),
-        'revision'          => trim(runLocally('git log -n 1 --format="%h"')),
-        'local_username'    => trim(runLocally('git config user.name')),
-        'rollbar_username'  => null,
-        'comment'           => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
-    ];
-
-    $config = array_merge($defaultConfig, (array) get('rollbar', []));
-
-    if (!is_array($config) || !isset($config['access_token'])) {
-        throw new \RuntimeException("Please configure new rollbar: set('rollbar', ['access_token' => 'c09a3...', 'revision' => 'v4.3', 'rollbar_username' => 'John Doe', 'comment' => 'Brand new version']);");
+    if (!get('rollbar_token', false)) {
+        return;
     }
 
-    $host = \Deployer\Task\Context::get()->getHost();
-    if ($host instanceof \Deployer\Host\Localhost) {
-        $user = get('local_user');
-    } else {
-        $user = $host->getUser() ? : null;
-    }
-
-    $commentPlaceHolders = [
-        '{{release_path}}' => get('release_path'),
-        '{{host}}'         => $host,
-        '{{stage}}'        => get('stage'),
-        '{{user}}'         => $user,
-        '{{branch}}'       => get('branch'),
-    ];
-    $config['comment'] = strtr($config['comment'], $commentPlaceHolders);
-
-    $urlParams = [
-        'access_token'      => $config['access_token'],
-        'environment'       => $config['environment'],
-        'revision'          => $config['revision'],
-        'local_username'    => $config['local_username'],
-        'rollbar_username'  => $config['rollbar_username'],
-        'comment'           => $config['comment'],
+    $params = [
+        'access_token' => get('rollbar_token'),
+        'environment' => get('target'),
+        'revision' => runLocally('git log -n 1 --format="%h"'),
+        'local_username' => get('user'),
+        'rollbar_username' => get('rollbar_username'),
+        'comment' => get('rollbar_comment'),
     ];
 
-    $options = array('http' => array(
-        'method' => 'POST',
-        'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-        'content' => http_build_query($urlParams),
-    ));
-
-    $context = stream_context_create($options);
-    $result = @file_get_contents('https://api.rollbar.com/api/1/deploy/', false, $context);
-
-    if (!$result) {
-        throw new \RuntimeException($php_errormsg);
-    }
-});
+    Httpie::post('https://api.rollbar.com/api/1/deploy/')
+        ->form($params)
+        ->send();
+})
+    ->once()
+    ->shallow()
+    ->setPrivate();
