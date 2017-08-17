@@ -7,57 +7,25 @@
 
 namespace Deployer;
 
+use Deployer\Utility\Httpie;
+
+set('hipchat_color', 'green');
+set('hipchat_from', '{{target}}');
+set('hipchat_message', '_{{user}}_ deploying `{{branch}}` to *{{target}}*');
+
 desc('Notifying Hipchat channel of deployment');
-task('deploy:hipchat', function () {
-    global $php_errormsg;
-
-    $config = get('hipchat', []);
-
-    if (!isset($config['message'])) {
-        $releasePath = get('release_path');
-        $host = get('server.host');
-        $stage = get('stages')[0];
-        $config['message'] = "Deployment to '{$host}' on *{$stage}* was successful\n($releasePath)";
-    }
-
-    if (!isset($config['from'])) {
-        $stage = get('stages')[0];
-        $config['from'] = $stage;
-    }
-
-    $defaultConfig = [
-        'color' => 'green',
-        'format' => 'json',
+task('hipchat:notify', function () {
+    $params = [
+        'room_id' => get('hipchat_room_id'),
+        'from' => get('target'),
+        'message' => get('hipchat_message'),
+        'color' => get('hipchat_color'),
+        'auth_token' => get('hipchat_token'),
         'notify' => 0,
-        'endpoint' => 'https://api.hipchat.com/v1/rooms/message',
+        'format' => 'json',
     ];
 
-    $config = array_merge($defaultConfig, $config);
-    if (!is_array($config) ||
-        !isset($config['auth_token']) ||
-        !isset($config['room_id']))
-    {
-        throw new \RuntimeException("Please configure new hipchat: set('hipchat', array('auth_token' => 'xxx', 'room_id' => 'yyy'));");
-    }
-
-    $endpoint = $config['endpoint'];
-    unset($config['endpoint']);
-
-    $urlParams = [
-        'room_id' => $config['room_id'],
-        'from' => $config['from'],
-        'message' => $config['message'],
-        'color' => $config['color'],
-        'auth_token' => $config['auth_token'],
-        'notify' => $config['notify'],
-        'format' => $config['format'],
-    ];
-
-    $url = $endpoint . '?' . http_build_query($urlParams);
-
-    $result = @file_get_contents($url);
-
-    if (!$result) {
-        throw new \RuntimeException($php_errormsg);
-    }
+    Httpie::get('https://api.hipchat.com/v1/rooms/message')
+        ->query($params)
+        ->send();
 });
