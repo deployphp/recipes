@@ -25,7 +25,7 @@ require 'recipe/rollbar.php';
 
 ### Tasks
 
-- `deploy:rollbar` – send message to rollbar
+- `rollbar:notify` – send message to rollbar
 
 ## Usage
 

@@ -1,36 +1,36 @@
 # New Relic recipe
 
-### Installing
+## Installing
+
+Install with composer
+
+```bash
+composer require deployer/recipes --dev
+```
+
+Add to your _deploy.php_
 
 ```php
-// deploy.php
-
 require 'recipe/newrelic.php';
 ```
 
-### Configuration options
+## Configuration
 
-- **newrelic** *(required)*: accepts an *array* with the api key for you new relic application and its application id.
+- `newrelic_app_id` – newrelic's app id
+- `newrelic_api_key` – newrelic's api key
+- `newrelic_description` – message to send
 
-```php
-// deploy.php
 
-set('newrelic', [
-    'license'        => 'xad3...',
-    'application_id' => '12873',
-]);
-```
+## Tasks
 
-### Tasks
+- `newrelic:notify` – notifies New Relic of a new deployment
 
-- `deploy:newrelic` Notifies New Relic of a new deployment
 
-### Suggested Usage
+
+## Usage
 
 Since you should only notify New Relic of a successfull deployment, the `deploy:newrelic` task should be executed right at the end.
 
 ```php
-// deploy.php
-
-before('deploy:end', 'deploy:newrelic');
+after('deploy', 'deploy:newrelic');
 ```
