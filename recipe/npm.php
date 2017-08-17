@@ -8,7 +8,7 @@
 namespace Deployer;
 
 set('bin/npm', function () {
-    return (string)run('which npm');
+    return run('which npm');
 });
 
 desc('Install npm packages');

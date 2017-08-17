@@ -9,7 +9,7 @@
 namespace Deployer;
 
 set('bin/yarn', function () {
-    return (string)run('which yarn');
+    return run('which yarn');
 });
 
 desc('Install Yarn packages');

@@ -1,20 +1,28 @@
 # NPM recipe
 
-### Installing
+## Installing
+
+Install with composer
+
+```bash
+composer require deployer/recipes --dev
+```
+
+Add to your _deploy.php_
 
 ~~~php
 require 'recipe/npm.php';
 ~~~
 
-### Configuration options
+## Configuration
 
-- `bin/npm` *(optional)*: set NPM binary, automatically detected otherwise. 
+- `bin/npm` *(optional)*: set npm binary, automatically detected otherwise. 
 
-### Tasks
+## Tasks
 
-- `npm:install` Install NPM packages
+- `npm:install` – install npm packages
 
-### Suggested Usage
+## Usage
 
 ~~~php
 after('deploy:update_code', 'npm:install');

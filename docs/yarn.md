@@ -1,24 +1,28 @@
 # Yarn recipe
 
-### Installing
+## Installing
+
+Install with composer
+
+```bash
+composer require deployer/recipes --dev
+```
+
+Add to your _deploy.php_
 
 ```php
-// deploy.php
-
 require 'recipe/yarn.php';
 ```
 
-### Configuration options
+## Configuration
 
 - **bin/yarn** *(optional)*: set Yarn binary, automatically detected otherwise.
 
-By default, if no env setting is provided, this recipe will fallback to the global setting.
-
-### Tasks
+## Tasks
 
 - `yarn:install` Install Yarn packages
 
-### Suggested Usage
+## Usage
 
 ```php
 after('deploy:update_code', 'yarn:install');
