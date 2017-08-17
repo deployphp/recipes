@@ -20,14 +20,13 @@ before('deploy', 'slack:notify');
 
 - `slack_webhook` – slack incoming webhook url, **required** 
 - `slack_title` – the title of application, default `{{application}}`
-- `slack_target` – the name of current stage or hostname
 - `slack_text` – notification message template, markdown supported
   ```
-  _{{user}}_ deploying `{{branch}}` to *{{slack_target}}*
+  _{{user}}_ deploying `{{branch}}` to *{{target}}*
   ```
 - `slack_success_text` – success template, default:
   ```
-  Deploy to *{{slack_target}}* successful
+  Deploy to *{{target}}* successful
   ```
 - `slack_color` – color's attachment
 - `slack_success_color` – success color's attachment
