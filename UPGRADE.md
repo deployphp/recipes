@@ -1,2 +1,3 @@
-# Upgrade from 4.x to 5.x
+# Upgrade from 4.x to 6.x
+
 -
