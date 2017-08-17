@@ -1,8 +1,15 @@
 <?php
+/* (c) Anton Medvedev <anton@medv.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Deployer;
 
-/**
+use Deployer\Exception\RuntimeException;
+
+/*
  * Phinx recipe for Deployer
  *
  * @author    Alexey Boyko <ket4yiit@gmail.com>
@@ -17,58 +24,39 @@ namespace Deployer;
  */
 
 /**
- * Get Phinx command
- *
- * @return Path to Phinx
+ * Path to Phinx
  */
 set('bin/phinx', function () {
-        $isExistsCmd = 'if [ -f %s ]; then echo true; fi';
-
-        try {
-            $phinxPath = run('which phinx')->toString();
-        } catch (\Deployer\Exception\RuntimeException $e) {
-            $phinxPath = null;
-        }
-
-        if ($phinxPath !== null) {
-            return "phinx";
-        } else if (run(
-            sprintf(
-                $isExistsCmd,
-                '{{release_path}}/vendor/bin/phinx'
-            )
-        )->toBool()
-        ) {
-            return "{{release_path}}/vendor/bin/phinx";
-        } else if (run(
-            sprintf(
-                $isExistsCmd,
-                '~/.composer/vendor/bin/phinx'
-            )
-        )->toBool()
-        ) {
-            return '~/.composer/vendor/bin/phinx';
-        } else {
-            throw new \RuntimeException(
-                'Cannot find phinx. 
-            Please specify path to phinx manually'
-            );
-        }
+    try {
+        $phinxPath = run('which phinx');
+    } catch (RuntimeException $e) {
+        $phinxPath = null;
     }
+
+    if ($phinxPath !== null) {
+        return "phinx";
+    } else if (test('[ -f {{release_path}}/vendor/bin/phinx ]')) {
+        return "{{release_path}}/vendor/bin/phinx";
+    } else if (test('[ -f ~/.composer/vendor/bin/phinx ]')) {
+        return '~/.composer/vendor/bin/phinx';
+    } else {
+        throw new \RuntimeException('Cannot find phinx. Please specify path to phinx manually');
+    }
+}
 );
 
 /**
- * Make Phinx command from env options 
- * 
+ * Make Phinx command
+ *
  * @param string $cmdName Name of command
- * @param array  $conf    Command options(config)
+ * @param array $conf Command options(config)
  *
  * @return string Phinx command to execute
  */
 set('phinx_get_cmd', function () {
     return function ($cmdName, $conf) {
         $phinx = get('phinx_path') ?: get('bin/phinx');
-        
+
         $phinxCmd = "$phinx $cmdName";
 
         $options = '';
@@ -94,7 +82,7 @@ set('phinx_get_allowed_config', function () {
     return function ($allowedOptions) {
         $opts = [];
 
-        try { 
+        try {
             foreach (get('phinx') as $key => $val) {
                 if (in_array($key, $allowedOptions)) {
                     $opts[$key] = $val;
@@ -109,86 +97,86 @@ set('phinx_get_allowed_config', function () {
 
 desc('Migrating database with phinx');
 task('phinx:migrate', function () {
-        $ALLOWED_OPTIONS = [
-            'configuration',
-            'date',
-            'environment',
-            'target',
-            'parser'
-        ];
+    $ALLOWED_OPTIONS = [
+        'configuration',
+        'date',
+        'environment',
+        'target',
+        'parser'
+    ];
 
-        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
+    $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS);
 
-        cd('{{release_path}}');
-        
-        $phinxCmd = get('phinx_get_cmd')('migrate', $conf);
+    cd('{{release_path}}');
 
-        run($phinxCmd);
+    $phinxCmd = get('phinx_get_cmd')('migrate', $conf);
 
-        cd('{{deploy_path}}');
-    }
+    run($phinxCmd);
+
+    cd('{{deploy_path}}');
+}
 );
 
 desc('Rollback database migrations with phinx');
 task('phinx:rollback', function () {
-        $ALLOWED_OPTIONS = [
-            'configuration',
-            'date',
-            'environment',
-            'target',
-            'parser'
-        ];
+    $ALLOWED_OPTIONS = [
+        'configuration',
+        'date',
+        'environment',
+        'target',
+        'parser'
+    ];
 
-        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
+    $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS);
 
-        cd('{{release_path}}');
+    cd('{{release_path}}');
 
-        $phinxCmd = get('phinx_get_cmd')('rollback', $conf);
+    $phinxCmd = get('phinx_get_cmd')('rollback', $conf);
 
-        run($phinxCmd);        
+    run($phinxCmd);
 
-        cd('{{deploy_path}}');
-    }
+    cd('{{deploy_path}}');
+}
 );
 
 desc('Seed database with phinx');
 task('phinx:seed', function () {
-        $ALLOWED_OPTIONS = [
-            'configuration',
-            'environment',
-            'parser',
-            'seed'
-        ];
+    $ALLOWED_OPTIONS = [
+        'configuration',
+        'environment',
+        'parser',
+        'seed'
+    ];
 
-        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
+    $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS);
 
-        cd('{{release_path}}');
+    cd('{{release_path}}');
 
-        $phinxCmd = get('phinx_get_cmd')('seed:run', $conf);
+    $phinxCmd = get('phinx_get_cmd')('seed:run', $conf);
 
-        run($phinxCmd);
+    run($phinxCmd);
 
-        cd('{{deploy_path}}');
-    }
+    cd('{{deploy_path}}');
+}
 );
 
 desc('Set a migrations breakpoint with phinx');
 task('phinx:breakpoint', function () {
-        $ALLOWED_OPTIONS = [
-            'configuration',
-            'environment',
-            'remove-all',
-            'target'
-        ];
+    $ALLOWED_OPTIONS = [
+        'configuration',
+        'environment',
+        'remove-all',
+        'target'
+    ];
 
-        $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS); 
+    $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS);
 
-        cd('{{release_path}}');
+    cd('{{release_path}}');
 
-        $phinxCmd = get('phinx_get_cmd')('breakpoint', $conf);
+    $phinxCmd = get('phinx_get_cmd')('breakpoint', $conf);
 
-        run($phinxCmd);
+    run($phinxCmd);
 
-        cd('{{deploy_path}}');
-    }
+    cd('{{deploy_path}}');
+}
 );
