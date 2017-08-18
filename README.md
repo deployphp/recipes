@@ -18,21 +18,21 @@ require 'recipe/slack.php';
 
 ## Recipes
 
-| Recipe     | Docs                       | Usage
-| ------     | ----                       | -----
-| bugsnag    | [read](docs/bugsnag.md)    | `require 'recipe/bugsnag.php';`
-| cachetool  | [read](docs/cachetool.md)  | `require 'recipe/cachetool.php';`
-| cloudflare | [read](docs/cloudflare.md) | `require 'recipe/cloudflare.php';`
-| hipchat    | [read](docs/hipchat.md)    | `require 'recipe/hipchat.php';`
-| newrelic   | [read](docs/newrelic.md)   | `require 'recipe/newrelic.php';`
-| npm        | [read](docs/npm.md)        | `require 'recipe/npm.php';`
-| phinx      | [read](docs/phinx.md)      | `require 'recipe/phinx.php'`
-| rabbit     | [read](docs/rabbit.md)     | `require 'recipe/rabbit.php';`
-| rollbar    | [read](docs/rollbar.md)    | `require 'recipe/rollbar.php';`
-| rsync      | [read](docs/rsync.md)      | `require 'recipe/rsync.php';`
-| sentry     | [read](docs/sentry.md)     | `require 'recipe/sentry.php';`
-| slack      | [read](docs/slack.md)      | `require 'recipe/slack.php';`
-| yarn       | [read](docs/yarn.md)       | `require 'recipe/yarn.php';`
+| Recipe     | Docs                      
+| ------     | ----                      
+| bugsnag    | [read](docs/bugsnag.md)   
+| cachetool  | [read](docs/cachetool.md) 
+| cloudflare | [read](docs/cloudflare.md)
+| hipchat    | [read](docs/hipchat.md)   
+| newrelic   | [read](docs/newrelic.md)  
+| npm        | [read](docs/npm.md)       
+| phinx      | [read](docs/phinx.md)     
+| rabbit     | [read](docs/rabbit.md)    
+| rollbar    | [read](docs/rollbar.md)   
+| rsync      | [read](docs/rsync.md)     
+| sentry     | [read](docs/sentry.md)    
+| slack      | [read](docs/slack.md)     
+| yarn       | [read](docs/yarn.md)      
 
 
 ## Contributing
