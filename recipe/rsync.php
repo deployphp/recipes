@@ -94,7 +94,7 @@ task('rsync:warmup', function() {
     $source = "{{deploy_path}}/current";
     $destination = "{{deploy_path}}/release";
 
-    if (run("if [ -d $(echo $source) ]; then echo true; fi")->toBool()) {
+    if (test("[ -d $(echo $source) ]")) {
         run("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} $source/ $destination/");
     } else {
         writeln("<comment>No way to warmup rsync.</comment>");
