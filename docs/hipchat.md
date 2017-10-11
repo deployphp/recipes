@@ -21,6 +21,7 @@ require 'recipe/hipchat.php';
 - `hipchat_message` –  Deploy message, default is `_{{user}}_ deploying `{{branch}}` to *{{target}}*`
 - `hipchat_from` – Default to target
 - `hipchat_color` – Message color, default is **green**
+- `hipchat_url` –  The URL to the message endpoint, default is https://api.hipchat.com/v1/rooms/message
 
 ## Tasks
 
