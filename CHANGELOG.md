@@ -1,5 +1,7 @@
 # Changelog
 
+Added telegram notifier, based on Slack recipe.
+
 ## master
 [6.0.1...master](https://github.com/deployphp/recipes/compare/6.0.1...master)
 
