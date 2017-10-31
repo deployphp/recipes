@@ -37,6 +37,7 @@ task('telegram:notify', function () {
         Array (
             'chat_id' => get('telegram_chat_id'), 
             'text' => get('telegram_text'),
+            'parse_mode' => 'Markdown',
         )
     );
 
@@ -60,6 +61,7 @@ task('telegram:notify', function () {
           Array (
               'chat_id' => get('telegram_chat_id'),
               'text' => get('telegram_success_text'),
+              'parse_mode' => 'Markdown',
           )
       );
     
