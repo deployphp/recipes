@@ -9,20 +9,17 @@ namespace Deployer;
 
 use Deployer\Utility\Httpie;
 
-set('scm_identifier', function () {
-    return get('application', 'Project');
-});
-
 desc('Notifying Raygun of deployment');
 task('raygun:notify', function () {
+
     $data = [
         'apiKey'       => get('raygun_api_key'),
-        'version' => get('version'),
-        'repository'   => get('repository'),
-        'provider'     => get('bugsnag_provider', ''),
-        'branch'       => get('branch'),
-        'revision'     => runLocally('git log -n 1 --format="%h"'),
-        'appVersion'   => get('bugsnag_app_version', ''),
+        'version' => get('raygun_version'),
+        'ownerName'   => get('raygun_owner_name'),
+        'emailAddress' => get('raygun_email'),
+        'comment' => get('raygun_comment'),
+        'scmIdentifier' => get('raygun_scm_identifier'),
+        'scmType' => get('raygun_scm_type')
     ];
 
     Httpie::post('https://app.raygun.io/deployments')
