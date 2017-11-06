@@ -17,10 +17,12 @@ set('slack_title', function () {
 // Deploy message
 set('slack_text', '_{{user}}_ deploying `{{branch}}` to *{{target}}*');
 set('slack_success_text', 'Deploy to *{{target}}* successful');
+set('slack_failure_text', 'Deploy to *{{target}}* failed');
 
 // Color of attachment
 set('slack_color', '#4d91f7');
 set('slack_success_color', '{{slack_color}}');
+set('slack_failure_color', '#ff0909');
 
 desc('Notifying Slack');
 task('slack:notify', function () {
@@ -51,6 +53,25 @@ task('slack:notify:success', function () {
         'title' => get('slack_title'),
         'text' => get('slack_success_text'),
         'color' => get('slack_success_color'),
+        'mrkdwn_in' => ['text'],
+    ];
+
+    Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
+})
+    ->once()
+    ->shallow()
+    ->setPrivate();
+
+desc('Notifying Slack about deploy failure');
+task('slack:notify:failure', function () {
+    if (!get('slack_webhook', false)) {
+        return;
+    }
+
+    $attachment = [
+        'title' => get('slack_title'),
+        'text' => get('slack_failure_text'),
+        'color' => get('slack_failure_color'),
         'mrkdwn_in' => ['text'],
     ];
 

@@ -28,13 +28,20 @@ before('deploy', 'slack:notify');
   ```
   Deploy to *{{target}}* successful
   ```
+- `slack_failure_text` – failure template, default:
+  ```
+  Deploy to *{{target}}* failed
+  ```
+
 - `slack_color` – color's attachment
 - `slack_success_color` – success color's attachment
+- `slack_failure_color` – failure color's attachment
 
 ## Tasks
 
 - `slack:notify` – send message to slack
 - `slack:notify:success` – send success message to slack
+- `slack:notify:failure` – send failure message to slack
 
 ## Usage
 
@@ -48,4 +55,10 @@ If you want to notify about successful end of deployment add this too:
 
 ```php
 after('success', 'slack:notify:success');
+```
+
+If you want to notify about failed deployment add this too:
+
+```php
+after('deploy:failure', 'slack:notify:failure');
 ```
