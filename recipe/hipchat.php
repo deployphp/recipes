@@ -16,17 +16,30 @@ set('hipchat_url', 'https://api.hipchat.com/v1/rooms/message');
 
 desc('Notifying Hipchat channel of deployment');
 task('hipchat:notify', function () {
-    $params = [
-        'room_id' => get('hipchat_room_id'),
-        'from' => get('target'),
-        'message' => get('hipchat_message'),
-        'color' => get('hipchat_color'),
-        'auth_token' => get('hipchat_token'),
-        'notify' => 0,
-        'format' => 'json',
-    ];
-
-    Httpie::get(get('hipchat_url'))
-        ->query($params)
-        ->send();
+    Hipchat::notify(get('hipchat_message'), get('hipchat_color'));
 });
+
+class Hipchat
+{
+    /**
+     * @param string $message
+     * @param string $color
+     * @param int    $notify
+     */
+    public static function notify($message, $color = 'green', $notify = 0)
+    {
+        $params = [
+            'auth_token' => get('hipchat_token'),
+            'room_id' => get('hipchat_room_id'),
+            'from' => get('target'),
+            'message' => $message,
+            'color' => $color,
+            'notify' => $notify,
+            'format' => 'json',
+        ];
+
+        Httpie::get(get('hipchat_url'))
+            ->query($params)
+            ->send();
+    }
+}
