@@ -1,6 +1,13 @@
 <?php
 /* (c) Raz <raz@eviladmin.xyz>
  * Based on Slack nofifier recipe by Anton Medvedev
+ * Configuration:
+    1. Create telegram bot by any manual in the internet
+    2. Take telegrambot token (Like: 123456789:SOME_STRING) and set $TELEGRAM_TOKEN_HERE
+    3. Send /start to your bot, open https://api.telegram.org/bot$TELEGRAM_TOKEN_HERE/getUpdates
+    4. Take chat_id from response, it will be $TELEGRAM_CHATID_HERE
+    5. If you want, you can edit telegram_text and telegram_success_text
+    6. Profit!
  */
 namespace Deployer;
 use Deployer\Utility\Httpie;
