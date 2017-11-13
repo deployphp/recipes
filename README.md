@@ -33,6 +33,7 @@ require 'recipe/slack.php';
 | sentry     | [read](docs/sentry.md)    
 | slack      | [read](docs/slack.md)     
 | yarn       | [read](docs/yarn.md)      
+| raygun     | [read](docs/raygun.md)      
 
 
 ## Contributing
