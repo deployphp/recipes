@@ -11,7 +11,6 @@ use Deployer\Utility\Httpie;
 
 desc('Notifying Raygun of deployment');
 task('raygun:notify', function () {
-
     $data = [
         'apiKey'       => get('raygun_api_key'),
         'version' => get('raygun_version'),
