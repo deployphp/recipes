@@ -138,8 +138,8 @@ task('rsync', function() {
 
     $host = $server->getRealHostname();
     $port = $server->getPort() ? ' -p' . $server->getPort() : '';
-    $identityFile = $server->getIdentityFile() ? ' -i '.$server->getIdentityFile():'';
+    $sshArguments = $server->getSshArguments();
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
-    runLocally("rsync -{$config['flags']} -e 'ssh$port$identityFile' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config);
+    runLocally("rsync -{$config['flags']} -e 'ssh$port $sshArguments' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config);
 });
