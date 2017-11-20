@@ -1,5 +1,6 @@
 # Changelog
 
+Execute rsync with ssh options.
 Added raygun recipe.
 Added telegram notifier, based on Slack recipe.
 Added slack:notify:failure task
