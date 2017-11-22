@@ -42,7 +42,6 @@ task('deploy:slack', function () {
         'username'    => 'Deploy',
         'message'     => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
         'app'         => 'app-name',
-        'unset_text'  => true,
         'attachments' => [
             [
                 'text' => sprintf(
