@@ -42,7 +42,6 @@ task('deploy:slack', function () {
         'username'    => 'Deploy',
         'message'     => "Deployment to `{{host}}` on *{{stage}}* was successful\n({{release_path}})",
         'app'         => 'app-name',
-        'unset_text'  => true,
         'attachments' => [
             [
                 'text' => sprintf(
@@ -72,7 +71,7 @@ task('deploy:slack', function () {
                     ],
                     [
                         'title' => 'Host',
-                        'value' => get('server.name'),
+                        'value' => get('server.host'),
                         'short' => true,
                     ],
                 ],
@@ -87,6 +86,9 @@ task('deploy:slack', function () {
     }
 
     $config = array_merge($defaultConfig, (array) $newConfig);
+    if (isset($newConfig['attachmentCustom'])) {
+        $config['attachments'][0] = array_merge($config['attachments'][0], $newConfig['attachmentCustom']);
+    }
 
     if (!is_array($config) || !isset($config['token']) || !isset($config['team']) || !isset($config['channel'])) {
         throw new \RuntimeException("Please configure new slack: set('slack', ['token' => 'xoxp...', 'team' => 'team', 'channel' => '#channel', 'messsage' => 'message to send']);");
