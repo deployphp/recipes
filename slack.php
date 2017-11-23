@@ -86,7 +86,7 @@ task('deploy:slack', function () {
     }
 
     $config = array_merge($defaultConfig, (array) $newConfig);
-    if(isset($newConfig['attachmentCustom'])){
+    if (isset($newConfig['attachmentCustom'])) {
         $config['attachments'][0] = array_merge($config['attachments'][0], $newConfig['attachmentCustom']);
     }
 
