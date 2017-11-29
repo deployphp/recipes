@@ -1,15 +1,22 @@
 # Changelog
 
-Execute rsync with ssh options.
-Added raygun recipe.
-Added telegram notifier, based on Slack recipe.
-Added slack:notify:failure task
-
 ## master
-[6.0.1...master](https://github.com/deployphp/recipes/compare/6.0.1...master)
+[6.0.2...master](https://github.com/deployphp/recipes/compare/6.0.2...master)
 
-- Add ability to change hipchat server URL for self hosted instances
-- Fix bug with message formatting in telegram notifications
+-
+
+## 6.0.2
+[6.0.1...6.0.2](https://github.com/deployphp/recipes/compare/6.0.1...6.0.2)
+
+### Added
+- Added raygun recipe.
+- Added telegram notifier, based on Slack recipe.
+- Added slack:notify:failure task
+- Added ability to change hipchat server URL for self hosted instances
+
+### Fixed
+- Fixed bug with message formatting in telegram notifications
+- Execute rsync with ssh options.
 
 ## 6.0.1
 [6.0.0...6.0.1](https://github.com/deployphp/recipes/compare/6.0.0...6.0.1)
