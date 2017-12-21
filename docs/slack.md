@@ -60,5 +60,5 @@ after('success', 'slack:notify:success');
 If you want to notify about failed deployment add this too:
 
 ```php
-after('deploy:failure', 'slack:notify:failure');
+after('deploy:failed', 'slack:notify:failure');
 ```
