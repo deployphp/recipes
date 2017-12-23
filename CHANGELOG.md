@@ -3,7 +3,8 @@
 ## master
 [6.0.2...master](https://github.com/deployphp/recipes/compare/6.0.2...master)
 
--
+### Added
+- Added grafana recipe.
 
 ## 6.0.2
 [6.0.1...6.0.2](https://github.com/deployphp/recipes/compare/6.0.1...6.0.2)
