@@ -32,6 +32,7 @@ require 'recipe/slack.php';
 | rsync      | [read](docs/rsync.md)     
 | sentry     | [read](docs/sentry.md)    
 | slack      | [read](docs/slack.md)     
+| yammer     | [read](docs/yammer.md)
 | yarn       | [read](docs/yarn.md)      
 | raygun     | [read](docs/raygun.md)      
 
