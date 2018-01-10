@@ -17,13 +17,18 @@ task('rollbar:notify', function () {
         return;
     }
 
+    $comment = get('rollbar_comment');
+    if (get('rollbar_quietly', false)) {
+        $comment = '';
+    }
+
     $params = [
         'access_token' => get('rollbar_token'),
         'environment' => get('target'),
         'revision' => runLocally('git log -n 1 --format="%h"'),
         'local_username' => get('user'),
-        'rollbar_username' => get('rollbar_username'),
-        'comment' => get('rollbar_comment'),
+        'rollbar_username' => get('rollbar_username', ''),
+        'comment' => $comment,
     ];
 
     Httpie::post('https://api.rollbar.com/api/1/deploy/')

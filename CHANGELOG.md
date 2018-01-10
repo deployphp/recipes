@@ -6,6 +6,7 @@
 ### Added
 - Added grafana recipe.
 - Added yammer recipe, based on Slack recipe.
+- Added comment quietly option to Rollbar recipe.
 
 ## 6.0.2
 [6.0.1...6.0.2](https://github.com/deployphp/recipes/compare/6.0.1...6.0.2)

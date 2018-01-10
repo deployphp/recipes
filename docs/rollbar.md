@@ -21,7 +21,9 @@ require 'recipe/rollbar.php';
   ```php
   set('rollbar_comment', '_{{user}}_ deploying `{{branch}}` to *{{target}}*');
   ```
+  this parameter is required. but if you setting to `rollbar_quietly` is `true`, it will be optional parameter. 
 - `rollbar_username` – rollbar user name  
+- `rollbar_quietly` - not post the comment to rollbar. if it is not necessary to comment, set `true`. default `false`. 
 
 ### Tasks
 
