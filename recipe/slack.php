@@ -31,10 +31,13 @@ task('slack:notify', function () {
     }
 
     $attachment = [
+        'username' => get('slack_username'),
         'title' => get('slack_title'),
+        'pretext' => get('slack_pretext'),
         'text' => get('slack_text'),
         'color' => get('slack_color'),
-        'mrkdwn_in' => ['text'],
+        'mrkdwn_in' => ['text', 'pretext'],
+        'icon_emoji' => get('slack_icon),
     ];
 
     Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
@@ -50,10 +53,13 @@ task('slack:notify:success', function () {
     }
 
     $attachment = [
+        'username' => get('slack_username'),
         'title' => get('slack_title'),
+        'pretext' => get('slack_pretext'),
         'text' => get('slack_success_text'),
         'color' => get('slack_success_color'),
-        'mrkdwn_in' => ['text'],
+        'mrkdwn_in' => ['text', 'pretext'],
+        'icon_emoji' => get('slack_icon),
     ];
 
     Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
@@ -69,10 +75,13 @@ task('slack:notify:failure', function () {
     }
 
     $attachment = [
+        'username' => get('slack_username'),
         'title' => get('slack_title'),
+        'pretext' => get('slack_pretext'),
         'text' => get('slack_failure_text'),
         'color' => get('slack_failure_color'),
-        'mrkdwn_in' => ['text'],
+        'mrkdwn_in' => ['text', 'pretext'],
+        'icon_emoji' => get('slack_icon),
     ];
 
     Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
