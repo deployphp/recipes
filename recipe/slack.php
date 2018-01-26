@@ -24,6 +24,11 @@ set('slack_color', '#4d91f7');
 set('slack_success_color', '{{slack_color}}');
 set('slack_failure_color', '#ff0909');
 
+// Other defaults
+set('slack_username', 'Deployer');
+set('slack_pretext', '');
+set('slack_icon', ':rocket:');
+
 desc('Notifying Slack');
 task('slack:notify', function () {
     if (!get('slack_webhook', false)) {
@@ -37,7 +42,7 @@ task('slack:notify', function () {
         'text' => get('slack_text'),
         'color' => get('slack_color'),
         'mrkdwn_in' => ['text', 'pretext'],
-        'icon_emoji' => get('slack_icon),
+        'icon_emoji' => get('slack_icon'),
     ];
 
     Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
@@ -59,7 +64,7 @@ task('slack:notify:success', function () {
         'text' => get('slack_success_text'),
         'color' => get('slack_success_color'),
         'mrkdwn_in' => ['text', 'pretext'],
-        'icon_emoji' => get('slack_icon),
+        'icon_emoji' => get('slack_icon'),
     ];
 
     Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
@@ -81,7 +86,7 @@ task('slack:notify:failure', function () {
         'text' => get('slack_failure_text'),
         'color' => get('slack_failure_color'),
         'mrkdwn_in' => ['text', 'pretext'],
-        'icon_emoji' => get('slack_icon),
+        'icon_emoji' => get('slack_icon'),
     ];
 
     Httpie::post(get('slack_webhook'))->body(['attachments' => [$attachment]])->send();
