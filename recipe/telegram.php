@@ -18,11 +18,15 @@ set('telegram_title', function () {
 });
 
 // Telegram settings
-    set('telegram_token', $TELEGRAM_TOKEN_HERE);
-    set('telegram_chat_id', $TELEGRAM_CHATID_HERE);
-    set('telegram_url', function () {
-       return 'https://api.telegram.org/bot' . get('telegram_token') . '/sendmessage';
-    });
+set('telegram_token', function () {
+    throw new \Exception('Please, configure "telegram_token" parameter.');
+});
+set('telegram_chat_id', function () {
+    throw new \Exception('Please, configure "telegram_chat_id" parameter.');
+});
+set('telegram_url', function () {
+   return 'https://api.telegram.org/bot' . get('telegram_token') . '/sendmessage';
+});
 
 // Deploy message
 set('telegram_text', '_{{user}}_ deploying `{{branch}}` to *{{target}}*');
