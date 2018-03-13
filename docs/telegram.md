@@ -1,10 +1,9 @@
 # Telegram recipe
 
 ## Installing
-  1. Create telegram bot by any manual in the internet
-  2. Take telegrambot token from BotFather
-  3. Send /start to your bot and open https://api.telegram.org/bot{$TELEGRAM_TOKEN_HERE}/getUpdates
-  4. Take chat_id from response
+  1. Create telegram bot with [BotFather](https://t.me/BotFather) and grab the token provided
+  2. Send /start to your bot and open https://api.telegram.org/bot{$TELEGRAM_TOKEN_HERE}/getUpdates
+  3. Take chat_id from response
 Require telegram recipe in your `deploy.php` file:
 
 ```php
