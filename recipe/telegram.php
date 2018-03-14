@@ -3,10 +3,10 @@
  * Based on Slack nofifier recipe by Anton Medvedev
  * Configuration:
     1. Create telegram bot by any manual in the internet
-    2. Take telegrambot token (Like: 123456789:SOME_STRING) and set $TELEGRAM_TOKEN_HERE
-    3. Send /start to your bot, open https://api.telegram.org/bot$TELEGRAM_TOKEN_HERE/getUpdates
-    4. Take chat_id from response, it will be $TELEGRAM_CHATID_HERE
-    5. If you want, you can edit telegram_text and telegram_success_text
+    2. Take telegrambot token (Like: 123456789:SOME_STRING) and set `telegram_token` parameter
+    3. Send /start to your bot, open https://api.telegram.org/bot{telegram_token}/getUpdates
+    4. Take chat_id from response, and set `telegram_chat_id` parameter
+    5. If you want, you can edit `telegram_text` and `telegram_success_text`
     6. Profit!
  */
 namespace Deployer;
@@ -18,11 +18,15 @@ set('telegram_title', function () {
 });
 
 // Telegram settings
-    set('telegram_token', $TELEGRAM_TOKEN_HERE);
-    set('telegram_chat_id', $TELEGRAM_CHATID_HERE);
-    set('telegram_url', function () {
-       return 'https://api.telegram.org/bot' . get('telegram_token') . '/sendmessage';
-    });
+set('telegram_token', function () {
+    throw new \Exception('Please, configure "telegram_token" parameter.');
+});
+set('telegram_chat_id', function () {
+    throw new \Exception('Please, configure "telegram_chat_id" parameter.');
+});
+set('telegram_url', function () {
+   return 'https://api.telegram.org/bot' . get('telegram_token') . '/sendmessage';
+});
 
 // Deploy message
 set('telegram_text', '_{{user}}_ deploying `{{branch}}` to *{{target}}*');
