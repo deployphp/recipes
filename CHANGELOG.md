@@ -10,6 +10,7 @@
 ### Fixed
 
 - Fixed telegram recipe (#170) and updated docs
+- Fixed newrelic recipe
 
 ## 6.0.2
 [6.0.1...6.0.2](https://github.com/deployphp/recipes/compare/6.0.1...6.0.2)
