@@ -30,7 +30,7 @@ task('newrelic:notify', function () {
 
     Httpie::post("https://api.newrelic.com/v2/applications/$appId/deployments.json")
         ->header("X-Api-Key: $apiKey")
-        ->body(['deployment' => $data])
+        ->query(['deployment' => $data])
         ->send();
 })
     ->once()
