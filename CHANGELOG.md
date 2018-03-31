@@ -6,6 +6,7 @@
 ### Added
 - Added grafana recipe.
 - Added yammer recipe, based on Slack recipe.
+- Added Google Hangouts Chat recipe, based on Slack recipe.
 
 ### Fixed
 
