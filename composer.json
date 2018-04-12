@@ -32,10 +32,7 @@
     "autoload": {
         "files": [
             "autoload.php"
-        ],
-        "psr-4": {
-            "Deployer\\": "src/"
-        }
+        ]
     },
     "replace": {
         "deployer/recipes": "self.version"
