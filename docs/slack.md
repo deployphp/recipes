@@ -14,7 +14,7 @@ Require slack recipe in your `deploy.php` file:
 
 ```php
 //require 'recipe/slack.php';
-require 'vendor/deployer/recipe/recipes/slack.php';
+require 'vendor/deployer/recipes/recipe/slack.php';
 ```
 
 Add hook on deploy:
