@@ -20,22 +20,16 @@ before('deploy', 'discord:notify');
 - `discord_token` – Discord channel token, **required**
 
 - `discord_notify_text` – notification message template, markdown supported, default:
-  ```php
-  [
-      'text' => ':information_source: **{{user}}** is deploying branch `{{branch}}` to _{{target}}_',
-  ]
+  ```markdown
+  :information_source: **{{user}}** is deploying branch `{{branch}}` to _{{target}}_
   ```
 - `discord_success_text` – success template, default:
-  ```php
-  [
-      'text' => ':white_check_mark: Branch `{{branch}}` deployed to _{{target}}_ successfully',
-  ]
+  ```markdown
+  :white_check_mark: Branch `{{branch}}` deployed to _{{target}}_ successfully
   ```
 - `discord_failure_text` – failure template, default:
-  ```php
-  [
-      'text' => ':no_entry_sign: Branch `{{branch}}` has failed to deploy to _{{target}}_',
-  ]
+  ```markdown
+  :no_entry_sign: Branch `{{branch}}` has failed to deploy to _{{target}}_
 
 ## Tasks
 
