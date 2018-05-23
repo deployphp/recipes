@@ -8,7 +8,7 @@
 namespace Deployer;
 
 set('cachetool', '');
-set('cachetool_bin', function(){
+set('bin/cachetool', function(){
 	return run("{{bin/php}} -r \"echo version_compare(phpversion(), '7.1') == -1 ? 'cachetool-3.2.1.phar' : 'cachetool.phar';\"");
 });
 
@@ -22,13 +22,13 @@ task('cachetool:clear:apc', function () {
     }
 
     cd($releasePath);
-    $hasCachetool = run("if [ -e $releasePath/{{cachetool_bin}} ]; then echo 'true'; fi");
+    $hasCachetool = run("if [ -e $releasePath/{{bin/cachetool}} ]; then echo 'true'; fi");
 
     if ('true' !== $hasCachetool) {
-        run("curl -sO https://gordalina.github.io/cachetool/downloads/{{cachetool_bin}}");
+        run("curl -sO https://gordalina.github.io/cachetool/downloads/{{bin/cachetool}}");
     }
 
-    run("{{bin/php}} {{cachetool_bin}} apc:cache:clear system {$options}");
+    run("{{bin/php}} {{bin/cachetool}} apc:cache:clear system {$options}");
 });
 
 /**
@@ -44,11 +44,11 @@ task('cachetool:clear:opcache', function () {
     }
 
     cd($releasePath);
-    $hasCachetool = run("if [ -e $releasePath/{{cachetool_bin}} ]; then echo 'true'; fi");
+    $hasCachetool = run("if [ -e $releasePath/{{bin/cachetool}} ]; then echo 'true'; fi");
 
     if ('true' !== $hasCachetool) {
-        run("curl -sO https://gordalina.github.io/cachetool/downloads/{{cachetool_bin}}");
+        run("curl -sO https://gordalina.github.io/cachetool/downloads/{{bin/cachetool}}");
     }
 
-    run("{{bin/php}} {{cachetool_bin}} opcache:reset {$options}");
+    run("{{bin/php}} {{bin/cachetool}} opcache:reset {$options}");
 });
