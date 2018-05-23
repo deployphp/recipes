@@ -9,7 +9,7 @@ namespace Deployer;
 
 set('cachetool', '');
 set('cachetool_bin', function(){
-	return run("/usr/bin/php -r \"echo version_compare(phpversion(), '7.1') == -1 ? 'cachetool-3.2.1.phar' : 'cachetool.phar';\"");
+	return run("{{bin/php}} -r \"echo version_compare(phpversion(), '7.1') == -1 ? 'cachetool-3.2.1.phar' : 'cachetool.phar';\"");
 });
 
 desc('Clearing APC system cache');
