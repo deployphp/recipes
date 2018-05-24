@@ -1,5 +1,8 @@
 # Changelog
 
+### Fixed
+- Fixed sending complex messages to discord
+
 ## master
 [6.0.2...master](https://github.com/deployphp/recipes/compare/6.0.2...master)
 
