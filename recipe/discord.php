@@ -9,16 +9,24 @@ set('discord_webhook', function () {
 });
 
 // Deploy messages
-set('discord_notify_text', ':information_source: **{{user}}** is deploying branch `{{branch}}` to _{{target}}_');
-set('discord_success_text', ':white_check_mark: Branch `{{branch}}` deployed to _{{target}}_ successfully');
-set('discord_failure_text', ':no_entry_sign: Branch `{{branch}}` has failed to deploy to _{{target}}_');
+set('discord_notify_text', [
+    'text' => ':information_source: **{{user}}** is deploying branch `{{branch}}` to _{{target}}_',
+]);
+set('discord_success_text', [
+    'text' => ':white_check_mark: Branch `{{branch}}` deployed to _{{target}}_ successfully',
+]);
+set('discord_failure_text', [
+    'text' => ':no_entry_sign: Branch `{{branch}}` has failed to deploy to _{{target}}_',
+]);
 
 // The message
 set('discord_message', 'discord_notify_text');
 
 // Helpers
 task('discord_send_message', function(){
-    Httpie::post(get('discord_webhook'))->body(['text' => get(get('discord_message'))])->send();
+    $message = get(get('discord_message'));
+
+    Httpie::post(get('discord_webhook'))->body($message)->send();
 });
 
 // Tasks
