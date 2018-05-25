@@ -9,10 +9,10 @@
 - Added Google Hangouts Chat recipe, based on Slack recipe.
 
 ### Fixed
-
 - Fixed telegram recipe (#170) and updated docs
 - Fixed newrelic recipe
 - Fixed discord recipe (#181) and updated docs
+- Fixed sending complex messages to discord
 
 ## 6.0.2
 [6.0.1...6.0.2](https://github.com/deployphp/recipes/compare/6.0.1...6.0.2)
@@ -31,5 +31,4 @@
 [6.0.0...6.0.1](https://github.com/deployphp/recipes/compare/6.0.0...6.0.1)
 
 ### Fixed
-
 - Fixed bug with test func in rsync recipe

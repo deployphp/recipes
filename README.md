@@ -7,7 +7,7 @@ This repository contains third party recipes to integrate with deployer.
 ## Installing
 
 ~~~sh
-composer require deployer/recipes --dev 
+composer require deployer/recipes --dev
 ~~~
 
 Include recipes in `deploy.php` file.
@@ -18,24 +18,25 @@ require 'recipe/slack.php';
 
 ## Recipes
 
-| Recipe     | Docs                      
-| ------     | ----                      
-| bugsnag    | [read](docs/bugsnag.md)   
-| cachetool  | [read](docs/cachetool.md) 
+| Recipe     | Docs
+| ------     | ----
+| bugsnag    | [read](docs/bugsnag.md)
+| cachetool  | [read](docs/cachetool.md)
 | cloudflare | [read](docs/cloudflare.md)
-| hipchat    | [read](docs/hipchat.md)   
-| newrelic   | [read](docs/newrelic.md)  
-| npm        | [read](docs/npm.md)       
-| phinx      | [read](docs/phinx.md)     
-| rabbit     | [read](docs/rabbit.md)    
-| rollbar    | [read](docs/rollbar.md)   
-| rsync      | [read](docs/rsync.md)     
-| sentry     | [read](docs/sentry.md)    
-| slack      | [read](docs/slack.md)     
+| discord    | [read](docs/discord.md)
+| hipchat    | [read](docs/hipchat.md)
+| newrelic   | [read](docs/newrelic.md)
+| npm        | [read](docs/npm.md)
+| phinx      | [read](docs/phinx.md)
+| rabbit     | [read](docs/rabbit.md)
+| rollbar    | [read](docs/rollbar.md)
+| rsync      | [read](docs/rsync.md)
+| sentry     | [read](docs/sentry.md)
+| slack      | [read](docs/slack.md)
 | telegram   | [read](docs/telegram.md)
 | yammer     | [read](docs/yammer.md)
-| yarn       | [read](docs/yarn.md)      
-| raygun     | [read](docs/raygun.md)      
+| yarn       | [read](docs/yarn.md)
+| raygun     | [read](docs/raygun.md)
 
 
 ## Contributing
