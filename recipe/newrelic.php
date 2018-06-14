@@ -17,6 +17,10 @@ set('newrelic_description', function() {
     return runLocally('git log -n 1 --format="%an: %s" | tr \'"\' "\'"');
 });
 
+set('newrelic_revision', function() {
+    return runLocally('git log -n 1 --format="%h"');
+});
+
 desc('Notifying New Relic of deployment');
 task('newrelic:notify', function () {
     $appId = get('newrelic_app_id');
@@ -24,7 +28,7 @@ task('newrelic:notify', function () {
 
     $data = [
         'user' => get('user'),
-        'revision' => runLocally('git log -n 1 --format="%h"'),
+        'revision' => get('newrelic_revision'),
         'description' => get('newrelic_description'),
     ];
 
