@@ -7,6 +7,7 @@
 - Added grafana recipe.
 - Added yammer recipe, based on Slack recipe.
 - Added Google Hangouts Chat recipe, based on Slack recipe.
+- Added support for New Relic deployment revision as config.
 
 ### Fixed
 - Fixed telegram recipe (#170) and updated docs
