@@ -132,7 +132,7 @@ task('rsync', function() {
 
     $server = \Deployer\Task\Context::get()->getHost();
     if ($server instanceof \Deployer\Host\Localhost) {
-        runLocally("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$dst/'", $config);
+        runLocally("rsync -{$config['flags']} {{rsync_options}}{{rsync_includes}}{{rsync_excludes}}{{rsync_filter}} '$src/' '$dst/'", $config);
         return;
     }
 
@@ -141,5 +141,5 @@ task('rsync', function() {
     $sshArguments = $server->getSshArguments();
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
-    runLocally("rsync -{$config['flags']} -e 'ssh$port $sshArguments' {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config);
+    runLocally("rsync -{$config['flags']} -e 'ssh$port $sshArguments' {{rsync_options}}{{rsync_includes}}{{rsync_excludes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config);
 });
