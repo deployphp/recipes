@@ -16,8 +16,11 @@ desc('Clearing APC system cache');
 task('cachetool:clear:apc', function () {
     $releasePath = get('release_path');
     $options = get('cachetool');
+    $fullOptions = get('cachetool_args');
 
-    if (strlen($options)) {
+    if (strlen($fullOptions) > 0) {
+        $options = "{$fullOptions}";
+    } elseif (strlen($options) > 0) {
         $options = "--fcgi={$options}";
     }
 
@@ -38,8 +41,11 @@ desc('Clearing OPcode cache');
 task('cachetool:clear:opcache', function () {
     $releasePath = get('release_path');
     $options = get('cachetool');
+    $fullOptions = get('cachetool_args');
 
-    if (strlen($options)) {
+    if (strlen($fullOptions) > 0) {
+        $options = "{$fullOptions}";
+    } elseif (strlen($options) > 0) {
         $options = "--fcgi={$options}";
     }
 
