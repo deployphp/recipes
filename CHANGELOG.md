@@ -4,6 +4,7 @@
 [6.0.2...master](https://github.com/deployphp/recipes/compare/6.0.2...master)
 
 ### Added
+- Added `cachetool_args` option.
 - Added grafana recipe.
 - Added yammer recipe, based on Slack recipe.
 - Added Google Hangouts Chat recipe, based on Slack recipe.
