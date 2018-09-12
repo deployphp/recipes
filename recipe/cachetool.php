@@ -8,6 +8,7 @@
 namespace Deployer;
 
 set('cachetool', '');
+set('cachetool_args', '');
 set('bin/cachetool', function(){
 	return run("{{bin/php}} -r \"echo version_compare(phpversion(), '7.1') == -1 ? 'cachetool-3.2.1.phar' : 'cachetool.phar';\"");
 });
