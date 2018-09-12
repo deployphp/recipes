@@ -1,7 +1,12 @@
 # Changelog
 
+
 ## master
-[6.0.2...master](https://github.com/deployphp/recipes/compare/6.0.2...master)
+[6.1.0...master](https://github.com/deployphp/recipes/compare/6.1.0...master)
+
+
+## 6.1.0
+[6.0.2...6.1.0](https://github.com/deployphp/recipes/compare/6.0.2...6.1.0)
 
 ### Added
 - Added `cachetool_args` option.
