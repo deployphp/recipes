@@ -23,19 +23,18 @@ set('newrelic_revision', function() {
 
 desc('Notifying New Relic of deployment');
 task('newrelic:notify', function () {
-    $appId = get('newrelic_app_id');
-    $apiKey = get('newrelic_api_key');
+    if (($appId = get('newrelic_app_id')) && ($apiKey = get('newrelic_api_key'))) {
+        $data = [
+            'user' => get('user'),
+            'revision' => get('newrelic_revision'),
+            'description' => get('newrelic_description'),
+        ];
 
-    $data = [
-        'user' => get('user'),
-        'revision' => get('newrelic_revision'),
-        'description' => get('newrelic_description'),
-    ];
-
-    Httpie::post("https://api.newrelic.com/v2/applications/$appId/deployments.json")
-        ->header("X-Api-Key: $apiKey")
-        ->query(['deployment' => $data])
-        ->send();
+        Httpie::post("https://api.newrelic.com/v2/applications/$appId/deployments.json")
+            ->header("X-Api-Key: $apiKey")
+            ->query(['deployment' => $data])
+            ->send();
+    }
 })
     ->once()
     ->shallow()

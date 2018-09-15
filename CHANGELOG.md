@@ -4,6 +4,8 @@
 ## master
 [6.1.0...master](https://github.com/deployphp/recipes/compare/6.1.0...master)
 
+### Fixed
+- Fixed malformed New Relic deployment payload when ID/key falsy (#193)
 
 ## 6.1.0
 [6.0.2...6.1.0](https://github.com/deployphp/recipes/compare/6.0.2...6.1.0)
