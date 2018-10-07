@@ -7,43 +7,76 @@
 
 namespace Deployer;
 
+use Deployer\Utility\Httpie;
+
 desc('Notifying Sentry of deployment');
-task('deploy:sentry', function () {
-    global $php_errormsg;
+task(
+    'deploy:sentry',
+    function () {
+        $defaultConfig = [
+            'version' => trim(runLocally('git log -n 1 --format="%h"')),
+            'refs' => [],
+            'ref' => null,
+            'commits' => [],
+            'url' => null,
+            'date_released' => date('c'),
+            'sentry_server' => 'https://sentry.io',
+        ];
 
-    $defaultConfig = [
-        'version'       => trim(runLocally('git log -n 1 --format="%h"')),
-        'ref'           => null,
-        'url'           => null,
-        'date_started'   => date("c"),
-        'date_released'  => date("c"),
-        'sentry_server'  => 'https://sentry.io',
-    ];
+        $config = array_merge($defaultConfig, (array) get('sentry'));
 
-    $config = array_merge($defaultConfig, (array) get('sentry'));
+        if (
+            ! is_array($config) || ! isset($config['organization'])
+            || (empty($config['projects']) || ! is_array($config['projects']))
+            || ! isset($config['token']) || ! isset($config['version'])
+        ) {
+            throw new \RuntimeException(
+                <<<EXAMPLE
+Required data missing. Please configure sentry: 
+set(
+    'sentry', 
+    [
+        'organization' => 'exampleorg', 
+        'projects' => [
+            'exampleproj', 
+            'exampleproje2'
+        ], 
+        'token' => 'd47828...', 
+    ]
+);"
+EXAMPLE
+            );
+        }
 
-    if (!is_array($config) || !isset($config['organization']) || !isset($config['project']) || !isset($config['token']) || !isset($config['version'])) {
-        throw new \RuntimeException("Please configure new sentry: set('sentry', ['organization' => 'example org', 'project' => 'example proj', 'token' => 'd47828...', 'version' => '0.0.1']);");
+        $postData = array_filter(
+            [
+                'version' => $config['version'],
+                'refs' => $config['refs'],
+                'ref' => $config['ref'],
+                'url' => $config['url'],
+                'commits' => $config['commits'],
+                'dateReleased' => $config['date_released'],
+                'projects' => $config['projects'],
+            ]
+        );
+
+        $response = Httpie::post(
+            $config['sentry_server'] . '/api/0/organizations/' . $config['organization'] . '/releases/'
+        )
+            ->header(sprintf('Authorization: Bearer %s', $config['token']))
+            ->body($postData)
+            ->getJson();
+
+        if (isset($response['detail'])) {
+            throw new \RuntimeException(sprintf('Unable to create a release: %s', $response['detail']));
+        }
+
+        writeln(
+            sprintf(
+                'Release of version %s for projects: %s created successfully.',
+                $response['version'],
+                implode(', ', array_column($response['projects'], 'slug'))
+            )
+        );
     }
-
-    $postData = [
-        'version'       => $config['version'],
-        'ref'           => $config['ref'],
-        'url'           => $config['url'],
-        'dateStarted'   => $config['date_started'],
-        'dateReleased'  => $config['date_released'],
-    ];
-
-    $options = array('http' => array(
-        'method' => 'POST',
-        'header' => "Authorization: Bearer " . $config['token'] . "\r\n" . "Content-type: application/json\r\n",
-        'content' => json_encode($postData),
-    ));
-
-    $context = stream_context_create($options);
-    $result = file_get_contents($config['sentry_server'] . '/api/0/projects/' . $config['organization'] . '/' . $config['project'] . '/releases/', false, $context);
-
-    if (!$result) {
-        throw new \RuntimeException($php_errormsg);
-    }
-});
+);
