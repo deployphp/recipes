@@ -19,5 +19,5 @@ task('yarn:install', function () {
             run('cp -R {{previous_release}}/node_modules {{release_path}}');
         }
     }
-    run("cd {{release_path}} && {{bin/yarn}}");
+    run("cd {{release_path}} && {{bin/yarn}} --network-timeout 500000");
 });
