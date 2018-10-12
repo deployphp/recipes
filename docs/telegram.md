@@ -20,6 +20,11 @@ before('deploy', 'telegram:notify');
 
 - `telegram_token` – telegram bot token, **required** 
 - `telegram_chat_id` — chat ID to push messages to
+- `telegram_proxy` - proxy connection string in [CURLOPT_PROXY](https://curl.haxx.se/libcurl/c/CURLOPT_PROXY.html) form like:
+  ```
+  http://proxy:80
+  socks5://user:password@host:3128
+   ```
 - `telegram_title` – the title of application, default `{{application}}`
 - `telegram_text` – notification message template
   ```
