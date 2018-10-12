@@ -52,7 +52,13 @@ task('telegram:notify', function () {
         )
     );
 
-    Httpie::get($telegramUrl)->send();
+    $httpie = Httpie::get($telegramUrl);
+
+    if (get('telegram_proxy', '') !== '') {
+        $httpie = $httpie->setopt(CURLOPT_PROXY, get('telegram_proxy'));
+    }
+
+    $httpie->send();
 })
     ->once()
     ->shallow()
@@ -75,8 +81,14 @@ task('telegram:notify', function () {
               'parse_mode' => 'Markdown',
           )
       );
-    
-    Httpie::get($telegramUrl)->send();
+
+      $httpie = Httpie::get($telegramUrl);
+
+      if (get('telegram_proxy', '') !== '') {
+          $httpie = $httpie->setopt(CURLOPT_PROXY, get('telegram_proxy'));
+      }
+
+      $httpie->send();
 })
     ->once()
     ->shallow()
