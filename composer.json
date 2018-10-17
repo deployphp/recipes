@@ -36,5 +36,8 @@
     },
     "replace": {
         "deployer/recipes": "self.version"
+    },
+    "require-dev": {
+        "deployer/deployer": "^6.3"
     }
 }
