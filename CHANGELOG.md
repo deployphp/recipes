@@ -8,6 +8,10 @@
 - Fixed malformed New Relic deployment payload when ID/key falsy (#193)
 - Fixed Sentry deployment recipe, updated to support latest API
 
+### Added
+- Added composer dev dependency to include deployer/deployer
+- Added info about commits to sentry deployments
+
 ## 6.1.0
 [6.0.2...6.1.0](https://github.com/deployphp/recipes/compare/6.0.2...6.1.0)
 
