@@ -39,7 +39,7 @@ task('deploy:configure', function() {
      * @return string
      */
     $compiler = function ($contents) use ($parser) {
-        $contents = preg_replace_callback('/\{\{\s*([\w\.]+)\s*\}\}/', $parser, $contents);
+        $contents = preg_replace_callback('/\{\{\s*([\w\.\/-]+)\s*\}\}/', $parser, $contents);
         return $contents;
     };
 
