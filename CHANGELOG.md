@@ -11,6 +11,7 @@
 ### Added
 - Added composer dev dependency to include deployer/deployer
 - Added info about commits to sentry deployments
+- Added cimonitor recipe, based on slack recipe
 
 ## 6.1.0
 [6.0.2...6.1.0](https://github.com/deployphp/recipes/compare/6.0.2...6.1.0)
