@@ -22,6 +22,7 @@ require 'recipe/slack.php';
 | ------     | ----
 | bugsnag    | [read](docs/bugsnag.md)
 | cachetool  | [read](docs/cachetool.md)
+| cimonitor  | [read](docs/cimonitor.md)
 | cloudflare | [read](docs/cloudflare.md)
 | discord    | [read](docs/discord.md)
 | hipchat    | [read](docs/hipchat.md)
