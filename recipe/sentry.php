@@ -29,15 +29,15 @@ task(
             'sentry_server' => 'https://sentry.io',
             'previous_commit' => null,
             'environment' => get('symfony_env', 'prod'),
-            'deploy_name' => null,
+            'deploy_name' => null
         ];
 
         $config = array_merge($defaultConfig, (array) get('sentry'));
         array_walk(
             $config,
-            static function (&$value) {
+            static function (&$value) use ($config) {
                 if (is_callable($value)) {
-                    $value = $value();
+                    $value = $value($config);
                 }
             }
         );
@@ -132,8 +132,12 @@ EXAMPLE
 
 function getReleaseGitRef(): Closure
 {
-    return static function (): string {
+    return static function ($config = []): string {
         cd('{{release_path}}');
+
+        if(isset($config['git_version_command'])){
+            return trim(run($config['git_version_command']));
+        }
 
         return trim(run('git log -n 1 --format="%h"'));
     };
@@ -141,7 +145,7 @@ function getReleaseGitRef(): Closure
 
 function getGitCommitsRefs(): Closure
 {
-    return static function (): array {
+    return static function ($config = []): array {
         $previousReleaseRevision = null;
 
         if (has('previous_release')) {
