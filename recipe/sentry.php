@@ -82,6 +82,7 @@ EXAMPLE
             $releasesApiUrl
         )
             ->header(sprintf('Authorization: Bearer %s', $config['token']))
+            ->header('Content-Type: application/json')
             ->body($releaseData)
             ->getJson();
 
@@ -112,6 +113,7 @@ EXAMPLE
             $releasesApiUrl . $response['version'] . '/deploys/'
         )
             ->header(sprintf('Authorization: Bearer %s', $config['token']))
+            ->header('Content-Type: application/json')
             ->body($deployData)
             ->getJson();
 
