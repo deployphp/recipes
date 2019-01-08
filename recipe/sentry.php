@@ -29,8 +29,7 @@ task(
             'sentry_server' => 'https://sentry.io',
             'previous_commit' => null,
             'environment' => get('symfony_env', 'prod'),
-            'deploy_name' => null,
-            'git_version_command' => 'git log -n 1 --format="%h"'
+            'deploy_name' => null
         ];
 
         $config = array_merge($defaultConfig, (array) get('sentry'));
