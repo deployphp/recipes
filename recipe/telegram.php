@@ -6,7 +6,7 @@
     2. Take telegrambot token (Like: 123456789:SOME_STRING) and set `telegram_token` parameter
     3. Send /start to your bot, open https://api.telegram.org/bot{telegram_token}/getUpdates
     4. Take chat_id from response, and set `telegram_chat_id` parameter
-    5. If you want, you can edit `telegram_text` and `telegram_success_text`
+    5. If you want, you can edit `telegram_text`, `telegram_success_text` or `telegram_failure_text`
     6. Profit!
  */
 namespace Deployer;
@@ -31,6 +31,7 @@ set('telegram_url', function () {
 // Deploy message
 set('telegram_text', '_{{user}}_ deploying `{{branch}}` to *{{target}}*');
 set('telegram_success_text', 'Deploy to *{{target}}* successful');
+set('telegram_failure_text', 'Deploy to *{{target}}* failed');
 
 
 desc('Notifying Telegram');
@@ -78,6 +79,36 @@ task('telegram:notify', function () {
           Array (
               'chat_id' => get('telegram_chat_id'),
               'text' => get('telegram_success_text'),
+              'parse_mode' => 'Markdown',
+          )
+      );
+
+      $httpie = Httpie::get($telegramUrl);
+
+      if (get('telegram_proxy', '') !== '') {
+          $httpie = $httpie->setopt(CURLOPT_PROXY, get('telegram_proxy'));
+      }
+
+      $httpie->send();
+})
+    ->once()
+    ->shallow()
+    ->setPrivate();
+
+  desc('Notifying Telegram about deploy failure');
+  task('telegram:notify:failure', function () {
+      if (!get('telegram_token', false)) {
+          return;
+      }
+      
+      if (!get('telegram_chat_id', false)) {
+          return;
+      }
+    
+      $telegramUrl = get('telegram_url') . '?' . http_build_query (
+          Array (
+              'chat_id' => get('telegram_chat_id'),
+              'text' => get('telegram_failure_text'),
               'parse_mode' => 'Markdown',
           )
       );
