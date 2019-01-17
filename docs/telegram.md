@@ -33,12 +33,18 @@ before('deploy', 'telegram:notify');
 - `telegram_success_text` – success template, default:
   ```
   Deploy to *{{target}}* successful
+
+  ```
+- `telegram_failure_text` – failure template, default:
+  ```
+  Deploy to *{{target}}* failed
   ```
 
 ## Tasks
 
 - `telegram:notify` – send message to telegram
 - `telegram:notify:success` – send success message to telegram
+- `telegram:notify:failure` – send failure message to telegram
 
 ## Usage
 
@@ -53,4 +59,8 @@ If you want to notify about successful end of deployment add this too:
 ```php
 after('success', 'telegram:notify:success');
 ```
+If you want to notify about failed deployment add this too:
+
+```php
+after('deploy:failed', 'telegram:notify:failure');
 
