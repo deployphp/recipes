@@ -1,6 +1,8 @@
 # CIMonitor recipe
 
-https://github.com/CIMonitor/CIMonitor
+Monitor your deployments on [CIMonitor](https://github.com/CIMonitor/CIMonitor).
+
+![CIMonitorGif](https://www.steefmin.xyz/deployer-example.gif)
 
 ## Installing
 
