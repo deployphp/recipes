@@ -17,8 +17,8 @@ set('cimonitor_title', function () {
 });
 set('cimonitor_user', function () {
     return [
-      'name' => runLocally('git config --get user.name --default unknown-user'),
-      'email' => runLocally('git config --get user.email --default unknown-email'),
+      'name' => runLocally('git config --get user.name'),
+      'email' => runLocally('git config --get user.email'),
     ];
 });
 
@@ -45,11 +45,13 @@ task('cimonitor:notify', function () {
         'branch' => get('branch'),
         'title' => get('cimonitor_title'),
         'user' => get('cimonitor_user'),
-        'stage' => [get('stage', '')],
+        'stages' => [get('stage', '')],
         'jobs' => [
-            'name' => 'deploying',
-            'stage' => get('stage', ''),
-            'state' => get('cimonitor_job_state_running'),
+            [
+                'name' => 'Deploying...',
+                'stage' => '',
+                'state' => get('cimonitor_job_state_running'),
+            ]
         ],
     ];
 
@@ -65,16 +67,20 @@ task('cimonitor:notify:success', function () {
         return;
     }
 
+    $depstage = 'Deployed to '.get('stage', '');
+
     $body = [
         'state' => get('cimonitor_status_success'),
         'branch' => get('branch'),
         'title' => get('cimonitor_title'),
         'user' => get('cimonitor_user'),
-        'stage' => [get('stage', '')],
+        'stages' => [$depstage],
         'jobs' => [
-            'name' => 'deploying',
-            'stage' => get('stage', ''),
-            'state' => get('cimonitor_status_success'),
+            [
+                'name' => 'Deploy',
+                'stage' => $depstage,
+                'state' => get('cimonitor_job_state_success'),
+            ]
         ],
     ];
 
@@ -95,15 +101,17 @@ task('cimonitor:notify:failure', function () {
         'branch' => get('branch'),
         'title' => get('cimonitor_title'),
         'user' => get('cimonitor_user'),
-        'stage' => [get('stage', '')],
+        'stages' => [get('stage', '')],
         'jobs' => [
-            'name' => 'deploying',
-            'stage' => get('stage', ''),
-            'state' => get('cimonitor_status_error'),
+            [
+                'name' => 'Deploy',
+                'stage' => '',
+                'state' => get('cimonitor_job_state_error'),
+            ]
         ],
     ];
 
-        Httpie::post(get('cimonitor_webhook'))->body($body)->send();
+    Httpie::post(get('cimonitor_webhook'))->body($body)->send();
 })
     ->once()
     ->shallow()
