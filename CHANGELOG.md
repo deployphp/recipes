@@ -2,7 +2,13 @@
 
 
 ## master
-[6.1.0...master](https://github.com/deployphp/recipes/compare/6.1.0...master)
+[6.2.0...master](https://github.com/deployphp/recipes/compare/6.2.0...master)
+
+### Added
+- Add APCu support in cachetool recipe
+
+## 6.2.0
+[6.1.0...6.2.0](https://github.com/deployphp/recipes/compare/6.1.0...6.2.0)
 
 ### Fixed
 - Fixed malformed New Relic deployment payload when ID/key falsy (#193)
