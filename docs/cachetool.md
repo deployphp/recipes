@@ -38,16 +38,19 @@ By default, if no `cachetool` parameter is provided, this recipe will fallback t
 ## Tasks
 
 - `cachetool:clear:apc` – clears APC *system* cache
+- `cachetool:clear:apcu` – clears APCu cache
 - `cachetool:clear:opcache` – resets the contents of the opcode cache
 
 ## Usage
 
-Since APC and OPcache deal with compiling and caching files, they should be executed right after the symlink is created for the new release:
+Since APC/APCu and OPcache deal with compiling and caching files, they should be executed right after the symlink is created for the new release:
 
 ```php
 after('deploy:symlink', 'cachetool:clear:opcache');
 // or
 after('deploy:symlink', 'cachetool:clear:apc');
+// or
+after('deploy:symlink', 'cachetool:clear:apcu');
 ```
 
 ## Read more

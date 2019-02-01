@@ -59,3 +59,28 @@ task('cachetool:clear:opcache', function () {
 
     run("{{bin/php}} {{bin/cachetool}} opcache:reset {$options}");
 });
+
+/**
+ * Clear APCU cache
+ */
+desc('Clearing APCu system cache');
+task('cachetool:clear:apcu', function () {
+    $releasePath = get('release_path');
+    $options = get('cachetool');
+    $fullOptions = get('cachetool_args');
+
+    if (strlen($fullOptions) > 0) {
+        $options = "{$fullOptions}";
+    } elseif (strlen($options) > 0) {
+        $options = "--fcgi={$options}";
+    }
+
+    cd($releasePath);
+    $hasCachetool = run("if [ -e $releasePath/{{bin/cachetool}} ]; then echo 'true'; fi");
+
+    if ('true' !== $hasCachetool) {
+        run("curl -sO https://gordalina.github.io/cachetool/downloads/{{bin/cachetool}}");
+    }
+
+    run("{{bin/php}} {{bin/cachetool}} apcu:cache:clear {$options}");
+});
