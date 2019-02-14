@@ -36,6 +36,8 @@ set('cpanel', [
     'db_user_privileges' => getenv('CPANEL_DB_PRIVILEGES'),
     'timeout' => 500,
 
+    'allowInStage' => ['staging', 'beta', 'alpha'],
+
     'create_domain_format' => '%s-%s-%s',
     'create_domain_values' => ['staging', 'master', get('application')],
     'subdomain_prefix' => substr(md5(get('application')), 0,4) . '-',
@@ -57,6 +59,7 @@ set('cpanel', [
     - `subdomain_prefix` – cPanel has a weird way of dealing with addons and subdomains, you cannot create 2 addons with the same subdomain, so you need to change it in some way, example uses first 4 chars of md5(app_name)
     - `subdomain_suffix` – cPanel has a weird way of dealing with addons and subdomains, so the suffix needs to be your main domain for that account for deletion purposes
     - `addondir` – addon dir is different from the deploy path because cPanel "injects" /home/user/ into the path, so tilde cannot be used
+    - `allowInStage` – Define the stages that cPanel recipe actions are allowed in
 
 
 #### .env file example
@@ -116,6 +119,7 @@ set('cpanel', [
     'db_user' => getenv('CPANEL_DB_USER'),
     'db_user_privileges' => getenv('CPANEL_DB_PRIVILEGES'),
     'timeout' => 500,
+    'allowInStage' => ['staging', 'beta', 'alpha'],
 
     'create_domain_format' => '%s-%s-%s',
     'create_domain_values' => ['staging', 'master', get('application')],
