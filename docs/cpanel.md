@@ -16,8 +16,10 @@ require 'recipe/cpanel.php';
 
 ### Description
 This is a recipe that uses the [cPanel 2 API](https://documentation.cPanel.net/display/DD/Guide+to+cPanel+API+2). 
+
 Unfortunately the [UAPI](https://documentation.cPanel.net/display/DD/Guide+to+UAPI) that is recommended does not have support for creating addon domains.
-The main idea behind is for staging purposes but I guess you can use it for other interesting conecpts.
+The main idea behind is for staging purposes but I guess you can use it for other interesting concepts.
+
 The idea is, every branch possibly has its own staging domain/subdomain (staging-neat-feature.project.com) and database db_neat-feature_project so it can be tested.
 This recipe can make the domain/subdomain and database creation part of the deployment process so you don't have to manually create them through an interface.
 
@@ -81,8 +83,6 @@ SUDOMAIN_SUFFIX=.mymaindomain.com
 - `cpanel:createaddondomain` Creates an addon domain
 - `cpanel:deleteaddondomain` Removes an addon domain
 - `cpanel:createdb` Creates a new database
-
-# FOR NOW WORKS ONLY ON stages named 'staging', 'beta' and 'alpha'
 
 ### Usage
 
