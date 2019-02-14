@@ -1,4 +1,4 @@
-# Cloudflare recipe
+# cPanel recipe
 
 ### Installing
 
@@ -52,7 +52,7 @@ set('cpanel', [
 ]);
 ```
 
-- `cpanel` – array with configuration for cloudflare
+- `cpanel` – array with configuration for cPanel
     - `username` – WHM account
     - `user` – cPanel account that you want in charge of the domain
     - `token` – WHM API token
