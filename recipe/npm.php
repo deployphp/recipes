@@ -20,3 +20,9 @@ task('npm:install', function () {
     }
     run("cd {{release_path}} && {{bin/npm}} install");
 });
+
+
+desc('Install npm packages with a clean slate');
+task('npm:ci', function () {
+    run("cd {{release_path}} && {{bin/npm}} ci");
+});
