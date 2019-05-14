@@ -14,7 +14,7 @@ use Deployer\Utility\Httpie;
 desc('Notifying Sentry of deployment');
 task(
     'deploy:sentry',
-    function () {
+    static function () {
         $now = date('c');
 
         $defaultConfig = [
@@ -174,7 +174,7 @@ function getGitCommitsRefs(): Closure
 
           return array_map(
             static function (string $line): array {
-              [$ref, $authorName, $authorEmail, $timestamp] = explode('#', $line);
+              list($ref, $authorName, $authorEmail, $timestamp) = explode('#', $line);
 
               return [
                 'id' => $ref,
