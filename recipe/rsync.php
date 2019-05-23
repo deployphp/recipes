@@ -71,7 +71,7 @@ set('rsync_filter', function () {
         $filtersRsync .= " --filter='merge $filterFile'";
     }
     if (!empty($filterPerDir)) {
-        $filtersRsync .= " --filter='dir-merge $filterFile'";
+        $filtersRsync .= " --filter='dir-merge $filterPerDir'";
     }
     return $filtersRsync;
 });
