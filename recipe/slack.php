@@ -21,7 +21,7 @@ set('slack_failure_text', 'Deploy to *{{target}}* failed');
 
 // Color of attachment
 set('slack_color', '#4d91f7');
-set('slack_success_color', '{{slack_color}}');
+set('slack_success_color', '#00c100');
 set('slack_failure_color', '#ff0909');
 
 desc('Notifying Slack');
