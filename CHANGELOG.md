@@ -6,6 +6,7 @@
 
 ### Added
 - Add APCu support in cachetool recipe
+- Fixed Sentry deployment recipe, updated to work with latest deployer/deployer
 
 ## 6.2.0
 [6.1.0...6.2.0](https://github.com/deployphp/recipes/compare/6.1.0...6.2.0)
