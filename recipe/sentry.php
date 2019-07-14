@@ -18,10 +18,10 @@ task(
         $now = date('c');
 
         $defaultConfig = [
-            'version' => getReleaseGitRef(),
+            'version' => null,
             'refs' => [],
             'ref' => null,
-            'commits' => getGitCommitsRefs(),
+            'commits' => null,
             'url' => null,
             'date_released' => $now,
             'date_deploy_started' => $now,
@@ -29,8 +29,13 @@ task(
             'sentry_server' => 'https://sentry.io',
             'previous_commit' => null,
             'environment' => get('symfony_env', 'prod'),
-            'deploy_name' => null
+            'deploy_name' => null,
         ];
+
+        if (releaseIsGitDirectory()) {
+            $config['version'] = getReleaseGitRef();
+            $config['commits'] = getGitCommitsRefs();
+        }
 
         $config = array_merge($defaultConfig, (array) get('sentry'));
         array_walk(
@@ -70,7 +75,7 @@ EXAMPLE
                 'refs' => $config['refs'],
                 'ref' => $config['ref'],
                 'url' => $config['url'],
-                'commits' => array_slice($config['commits'], 0), // reset keys to serialize as array in json
+                'commits' => array_slice($config['commits'] ?? [], 0), // reset keys to serialize as array in json
                 'dateReleased' => $config['date_released'],
                 'projects' => $config['projects'],
                 'previousCommit' => $config['previous_commit'],
@@ -130,12 +135,17 @@ EXAMPLE
     }
 );
 
+function releaseIsGitDirectory()
+{
+    return (bool) run('cd {{release_path}} && git rev-parse --git-dir > /dev/null 2>&1 && echo 1');
+}
+
 function getReleaseGitRef(): Closure
 {
     return static function ($config = []): string {
         cd('{{release_path}}');
 
-        if(isset($config['git_version_command'])){
+        if (isset($config['git_version_command'])) {
             return trim(run($config['git_version_command']));
         }
 
@@ -160,33 +170,34 @@ function getGitCommitsRefs(): Closure
         }
 
         cd('{{release_path}}');
+
         try {
-          $result = run(sprintf('git rev-list --pretty="%s" %s', 'format:%H#%an#%ae#%at', $commitRange));
-          $lines = array_filter(
+            $result = run(sprintf('git rev-list --pretty="%s" %s', 'format:%H#%an#%ae#%at', $commitRange));
+            $lines = array_filter(
             // limit number of commits for first release with many commits
-            array_map('trim', array_slice(explode("\n", $result), 0, 200)),
-            static function (string $line): bool {
-              return !empty($line) && strpos($line, 'commit') !== 0;
-            }
-          );
+                array_map('trim', array_slice(explode("\n", $result), 0, 200)),
+                static function (string $line): bool {
+                    return !empty($line) && strpos($line, 'commit') !== 0;
+                }
+            );
 
-          return array_map(
-            static function (string $line): array {
-              list($ref, $authorName, $authorEmail, $timestamp) = explode('#', $line);
+            return array_map(
+                static function (string $line): array {
+                    list($ref, $authorName, $authorEmail, $timestamp) = explode('#', $line);
 
-              return [
-                'id' => $ref,
-                'author_name' => $authorName,
-                'author_email' => $authorEmail,
-                'timestamp' => date(DateTime::ATOM, (int) $timestamp),
-              ];
-            },
-            $lines
-          );
+                    return [
+                        'id' => $ref,
+                        'author_name' => $authorName,
+                        'author_email' => $authorEmail,
+                        'timestamp' => date(DateTime::ATOM, (int) $timestamp),
+                    ];
+                },
+                $lines
+            );
 
         } catch (\Deployer\Exception\RuntimeException $e) {
-          writeln($e->getMessage());
-          return [];
+            writeln($e->getMessage());
+            return [];
         }
     };
 }
