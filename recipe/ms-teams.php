@@ -3,22 +3,22 @@
  * Based on Slack notifier recipe by Anton Medvedev
  *
  * Setup:
- *   0.) Open MS Teams
- *   1.) Navigate to Teams section
- *   2.) Select existing or create new team
- *   3.) Select existing or create new channel
- *   4.) Hover over channel to get tree dots, click, in menu select "Connectors"
- *   5.) Search for and configure "Incoming Webhook"
- *   6.) Confirm/create and copy your Webhook URL
- *   7.) Setup deploy.php
+ *   1.) Open MS Teams
+ *   2.) Navigate to Teams section
+ *   3.) Select existing or create new team
+ *   4.) Select existing or create new channel
+ *   5.) Hover over channel to get tree dots, click, in menu select "Connectors"
+ *   6.) Search for and configure "Incoming Webhook"
+ *   7.) Confirm/create and copy your Webhook URL
+ *   8.) Setup deploy.php
  *       Add in header:
  *        require 'vendor/deployer/recipes/recipe/ms-teams.php';
  *        set('teams_webhook', '<YOUR_WEBHOOK_URL>');
  *       Add in content:
  *        before('deploy', 'teams:notify');
  *        after('success', 'teams:notify:success');
- *        after('failure', 'teams:notify:failure');
- *   x.) Sip your coffee
+ *        after('deploy:failed', 'teams:notify:failure');
+ *   9.) Sip your coffee
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
