@@ -27,6 +27,7 @@ require 'recipe/slack.php';
 | discord    | [read](docs/discord.md)
 | hipchat    | [read](docs/hipchat.md)
 | newrelic   | [read](docs/newrelic.md)
+| ms-teams   | [read](docs/ms-teams.md)
 | npm        | [read](docs/npm.md)
 | phinx      | [read](docs/phinx.md)
 | rabbit     | [read](docs/rabbit.md)
