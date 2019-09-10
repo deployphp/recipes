@@ -7,6 +7,7 @@
 ### Added
 - Add APCu support in cachetool recipe
 - Fixed Sentry deployment recipe, updated to work with latest deployer/deployer
+- Added check in NPM recipe to check if `package.json` has changed before running `npm install`
 
 ## 6.2.0
 [6.1.0...6.2.0](https://github.com/deployphp/recipes/compare/6.1.0...6.2.0)
