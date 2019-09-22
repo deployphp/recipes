@@ -15,6 +15,8 @@ require 'recipe/sentry.php';
 - **token** *(required)*: authentication token. Can be created at [https://sentry.io/settings/account/api/auth-tokens/]
 - **version** *(required)* – a version identifier for this release. 
 Can be a version number, a commit hash etc. (Defaults is set to git log -n 1 --format="%h".)
+- **version_prefix** *(optional)* - a string prefixed to version.
+Releases are global per organization so indipentent projects needs to prefix version number with unique string to avoid conflicts
 - **environment** *(optional)* - the environment you’re deploying to. By default framework's environment is used. 
 For example for symfony, *symfony_env* configuration is read otherwise defaults to 'prod'.
 - **ref** *(optional)* – an optional commit reference. This is useful if a tagged version has been provided.
