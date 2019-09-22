@@ -5,6 +5,7 @@
 [6.2.0...master](https://github.com/deployphp/recipes/compare/6.2.0...master)
 
 ### Added
+- Added workplace recipe, based on rocketchat recipe
 - Add APCu support in cachetool recipe
 - Fixed Sentry deployment recipe, updated to work with latest deployer/deployer
 - Added check in NPM recipe to check if `package.json` has changed before running `npm install`
