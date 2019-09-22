@@ -19,6 +19,7 @@ task(
 
         $defaultConfig = [
             'version' => null,
+            'version_prefix' => null,
             'refs' => [],
             'ref' => null,
             'commits' => null,
@@ -71,7 +72,7 @@ EXAMPLE
 
         $releaseData = array_filter(
             [
-                'version' => $config['version'],
+                'version' => ($config['version_prefix'] ?? '') . $config['version'],
                 'refs' => $config['refs'],
                 'ref' => $config['ref'],
                 'url' => $config['url'],
