@@ -34,8 +34,8 @@ task(
         ];
 
         if (releaseIsGitDirectory()) {
-            $config['version'] = getReleaseGitRef();
-            $config['commits'] = getGitCommitsRefs();
+            $defaultConfig['version'] = getReleaseGitRef();
+            $defaultConfig['commits'] = getGitCommitsRefs();
         }
 
         $config = array_merge($defaultConfig, (array) get('sentry'));
