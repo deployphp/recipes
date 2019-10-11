@@ -26,6 +26,7 @@ require 'recipe/slack.php';
 | cloudflare | [read](docs/cloudflare.md)
 | discord    | [read](docs/discord.md)
 | hipchat    | [read](docs/hipchat.md)
+| mattermost | [read](docs/mattermost.md)
 | newrelic   | [read](docs/newrelic.md)
 | ms-teams   | [read](docs/ms-teams.md)
 | npm        | [read](docs/npm.md)
