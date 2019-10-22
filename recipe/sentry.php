@@ -173,7 +173,7 @@ function getGitCommitsRefs(): Closure
         cd('{{release_path}}');
 
         try {
-            $result = run(sprintf('git rev-list --pretty="%s" %s', 'format:%H#%an#%ae#%at', $commitRange));
+            $result = run(sprintf('git rev-list --pretty="%s" %s', 'format:%H#%an#%ae#%at#%s', $commitRange));
             $lines = array_filter(
             // limit number of commits for first release with many commits
                 array_map('trim', array_slice(explode("\n", $result), 0, 200)),
@@ -184,12 +184,13 @@ function getGitCommitsRefs(): Closure
 
             return array_map(
                 static function (string $line): array {
-                    list($ref, $authorName, $authorEmail, $timestamp) = explode('#', $line);
+                    list($ref, $authorName, $authorEmail, $timestamp, $message) = explode('#', $line, 5);
 
                     return [
                         'id' => $ref,
                         'author_name' => $authorName,
                         'author_email' => $authorEmail,
+                        'message' => $message,
                         'timestamp' => date(DateTime::ATOM, (int) $timestamp),
                     ];
                 },
