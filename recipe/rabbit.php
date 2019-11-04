@@ -24,8 +24,17 @@ task('deploy:rabbit', function () {
     if (!isset($config['message'])) {
         $releasePath = get('release_path');
         $host = Context::get()->getHost();
-        $prod = get('env', 'production');
-        $config['message'] = "Deployment to '{$host}' on *{$prod}* was successful\n($releasePath)";
+
+        $stage = get('stage', false);
+        $stageInfo = ($stage) ? sprintf(' on *%s*', $stage) : '';
+
+        $message = "Deployment to '%s'%s was successful\n(%s)";
+        $config['message'] = sprintf(
+            $message,
+            $host,
+            $stageInfo,
+            $releasePath
+        );
     }
 
     $defaultConfig = array(

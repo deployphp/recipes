@@ -11,6 +11,9 @@
 - Added check in NPM recipe to check if `package.json` has changed before running `npm install`
 - Added optional version prefix to Sentry recipe
 
+### Fixed
+- Fixed rabbit recipe (#244)
+
 ## 6.2.0
 [6.1.0...6.2.0](https://github.com/deployphp/recipes/compare/6.1.0...6.2.0)
 
