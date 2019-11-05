@@ -53,23 +53,21 @@ set('bin/phinx', function () {
  *
  * @return string Phinx command to execute
  */
-set('phinx_get_cmd', function () {
-    return function ($cmdName, $conf) {
-        $phinx = get('phinx_path') ?: get('bin/phinx');
+function phinx_get_cmd($cmdName, $conf) {
+    $phinx = get('phinx_path') ?: get('bin/phinx');
 
-        $phinxCmd = "$phinx $cmdName";
+    $phinxCmd = "$phinx $cmdName";
 
-        $options = '';
+    $options = '';
 
-        foreach ($conf as $name => $value) {
-            $options .= " --$name $value";
-        }
+    foreach ($conf as $name => $value) {
+        $options .= " --$name $value";
+    }
 
-        $phinxCmd .= $options;
+    $phinxCmd .= $options;
 
-        return $phinxCmd;
-    };
-});
+    return $phinxCmd;
+}
 
 /**
  * Returns options array that allowed for command
@@ -78,22 +76,21 @@ set('phinx_get_cmd', function () {
  *
  * @return array Array of options
  */
-set('phinx_get_allowed_config', function () {
-    return function ($allowedOptions) {
-        $opts = [];
+function phinx_get_allowed_config($allowedOptions) {
+    $opts = [];
 
-        try {
-            foreach (get('phinx') as $key => $val) {
-                if (in_array($key, $allowedOptions)) {
-                    $opts[$key] = $val;
-                }
+    try {
+        foreach (get('phinx') as $key => $val) {
+            if (in_array($key, $allowedOptions)) {
+                $opts[$key] = $val;
             }
-        } catch (\RuntimeException $e) {
         }
+    } catch (\RuntimeException $e) {
+    }
 
-        return $opts;
-    };
-});
+    return $opts;
+}
+
 
 desc('Migrating database with phinx');
 task('phinx:migrate', function () {
@@ -105,11 +102,11 @@ task('phinx:migrate', function () {
         'parser'
     ];
 
-    $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS);
+    $conf = phinx_get_allowed_config($ALLOWED_OPTIONS);
 
     cd('{{release_path}}');
 
-    $phinxCmd = get('phinx_get_cmd')('migrate', $conf);
+    $phinxCmd = phinx_get_cmd('migrate', $conf);
 
     run($phinxCmd);
 
@@ -127,11 +124,11 @@ task('phinx:rollback', function () {
         'parser'
     ];
 
-    $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS);
+    $conf = phinx_get_allowed_config($ALLOWED_OPTIONS);
 
     cd('{{release_path}}');
 
-    $phinxCmd = get('phinx_get_cmd')('rollback', $conf);
+    $phinxCmd = phinx_get_cmd('rollback', $conf);
 
     run($phinxCmd);
 
@@ -148,11 +145,11 @@ task('phinx:seed', function () {
         'seed'
     ];
 
-    $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS);
+    $conf = phinx_get_allowed_config($ALLOWED_OPTIONS);
 
     cd('{{release_path}}');
 
-    $phinxCmd = get('phinx_get_cmd')('seed:run', $conf);
+    $phinxCmd = phinx_get_cmd('seed:run', $conf);
 
     run($phinxCmd);
 
@@ -169,11 +166,11 @@ task('phinx:breakpoint', function () {
         'target'
     ];
 
-    $conf = get('phinx_get_allowed_config')($ALLOWED_OPTIONS);
+    $conf = phinx_get_allowed_config($ALLOWED_OPTIONS);
 
     cd('{{release_path}}');
 
-    $phinxCmd = get('phinx_get_cmd')('breakpoint', $conf);
+    $phinxCmd = phinx_get_cmd('breakpoint', $conf);
 
     run($phinxCmd);
 
