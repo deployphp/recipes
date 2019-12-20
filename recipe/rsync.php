@@ -9,7 +9,7 @@
 
 namespace Deployer;
 
-set('rsync', [
+$defaults = [
     'exclude' => [
         '.git',
         'deploy.php',
@@ -23,13 +23,17 @@ set('rsync', [
     'flags' => 'rz',
     'options' => ['delete'],
     'timeout' => 300,
-]);
+];
+set('rsync', $defaults);
+set('rsync_config', static function() use ($defaults) {
+    return array_merge($defaults, get('rsync'));
+});
 
 set('rsync_src', __DIR__);
 set('rsync_dest', '{{release_path}}');
 
 set('rsync_excludes', function () {
-    $config = get('rsync');
+    $config = get('rsync_config');
     $excludes = $config['exclude'];
     $excludeFile = $config['exclude-file'];
     $excludesRsync = '';
@@ -44,7 +48,7 @@ set('rsync_excludes', function () {
 });
 
 set('rsync_includes', function () {
-    $config = get('rsync');
+    $config = get('rsync_config');
     $includes = $config['include'];
     $includeFile = $config['include-file'];
     $includesRsync = '';
@@ -59,7 +63,7 @@ set('rsync_includes', function () {
 });
 
 set('rsync_filter', function () {
-    $config = get('rsync');
+    $config = get('rsync_config');
     $filters = $config['filter'];
     $filterFile = $config['filter-file'];
     $filterPerDir = $config['filter-perdir'];
@@ -77,7 +81,7 @@ set('rsync_filter', function () {
 });
 
 set('rsync_options', function () {
-    $config = get('rsync');
+    $config = get('rsync_config');
     $options = $config['options'];
     $optionsRsync = [];
     foreach ($options as $option) {
@@ -89,7 +93,7 @@ set('rsync_options', function () {
 
 desc('Warmup remote Rsync target');
 task('rsync:warmup', function() {
-    $config = get('rsync');
+    $config = get('rsync_config');
 
     $source = "{{deploy_path}}/current";
     $destination = "{{deploy_path}}/release";
@@ -104,7 +108,7 @@ task('rsync:warmup', function() {
 
 desc('Rsync local->remote');
 task('rsync', function() {
-    $config = get('rsync');
+    $config = get('rsync_config');
 
     $src = get('rsync_src');
     while (is_callable($src)) {
