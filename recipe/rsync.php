@@ -30,8 +30,8 @@ set('rsync_dest', '{{release_path}}');
 
 set('rsync_excludes', function () {
     $config = get('rsync');
-    $excludes = $config['exclude'];
-    $excludeFile = $config['exclude-file'];
+    $excludes = $config['exclude'] ?? [];
+    $excludeFile = $config['exclude-file'] ?? null;
     $excludesRsync = '';
     foreach ($excludes as $exclude) {
         $excludesRsync.=' --exclude=' . escapeshellarg($exclude);
@@ -45,8 +45,8 @@ set('rsync_excludes', function () {
 
 set('rsync_includes', function () {
     $config = get('rsync');
-    $includes = $config['include'];
-    $includeFile = $config['include-file'];
+    $includes = $config['include'] ?? [];
+    $includeFile = $config['include-file'] ?? null;
     $includesRsync = '';
     foreach ($includes as $include) {
         $includesRsync.=' --include=' . escapeshellarg($include);
@@ -60,9 +60,9 @@ set('rsync_includes', function () {
 
 set('rsync_filter', function () {
     $config = get('rsync');
-    $filters = $config['filter'];
-    $filterFile = $config['filter-file'];
-    $filterPerDir = $config['filter-perdir'];
+    $filters = $config['filter'] ?? [];
+    $filterFile = $config['filter-file'] ?? null;
+    $filterPerDir = $config['filter-perdir'] ?? null;
     $filtersRsync = '';
     foreach ($filters as $filter) {
         $filtersRsync.=" --filter='$filter'";
@@ -78,7 +78,7 @@ set('rsync_filter', function () {
 
 set('rsync_options', function () {
     $config = get('rsync');
-    $options = $config['options'];
+    $options = $config['options'] ?? [];
     $optionsRsync = [];
     foreach ($options as $option) {
         $optionsRsync[] = "--$option";
@@ -86,16 +86,22 @@ set('rsync_options', function () {
     return implode(' ', $optionsRsync);
 });
 
+set('rsync_flags', function () {
+    $config = get('rsync');
+    if (!isset($config['flags'])) {
+        return '';
+    }
+
+    return '-'.$config['flags'];
+});
 
 desc('Warmup remote Rsync target');
 task('rsync:warmup', function() {
-    $config = get('rsync');
-
     $source = "{{deploy_path}}/current";
     $destination = "{{deploy_path}}/release";
 
     if (test("[ -d $(echo $source) ]")) {
-        run("rsync -{$config['flags']} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} $source/ $destination/");
+        run("rsync {{rsync_flags}} {{rsync_options}}{{rsync_excludes}}{{rsync_includes}}{{rsync_filter}} $source/ $destination/");
     } else {
         writeln("<comment>No way to warmup rsync.</comment>");
     }
@@ -132,7 +138,7 @@ task('rsync', function() {
 
     $server = \Deployer\Task\Context::get()->getHost();
     if ($server instanceof \Deployer\Host\Localhost) {
-        runLocally("rsync -{$config['flags']} {{rsync_options}}{{rsync_includes}}{{rsync_excludes}}{{rsync_filter}} '$src/' '$dst/'", $config);
+        runLocally("rsync {{rsync_flags}} {{rsync_options}}{{rsync_includes}}{{rsync_excludes}}{{rsync_filter}} '$src/' '$dst/'", $config);
         return;
     }
 
@@ -141,5 +147,5 @@ task('rsync', function() {
     $sshArguments = $server->getSshArguments();
     $user = !$server->getUser() ? '' : $server->getUser() . '@';
 
-    runLocally("rsync -{$config['flags']} -e 'ssh$port $sshArguments' {{rsync_options}}{{rsync_includes}}{{rsync_excludes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config);
+    runLocally("rsync {{rsync_flags}} -e 'ssh$port $sshArguments' {{rsync_options}}{{rsync_includes}}{{rsync_excludes}}{{rsync_filter}} '$src/' '$user$host:$dst/'", $config);
 });
