@@ -39,9 +39,9 @@ or by deployer dot notation (to change one option).
 ```php
 $phinx_env_vars = [
   'environment' => 'development',
-  'configuration' => './migration/.phinx.yml'
+  'configuration' => './migration/.phinx.yml',
   'target' => '20120103083322',
-  'remove-all' => ''
+  'remove-all' => '',
 ];
 
 set('phinx_path', '/usr/local/phinx/bin/phinx');
