@@ -8,7 +8,7 @@
 - Added workplace recipe, based on rocketchat recipe
 - Add APCu support in cachetool recipe
 - Fixed Sentry deployment recipe, updated to work with latest deployer/deployer
-- Added check in NPM recipe to check if `package.json` has changed before running `npm install`
+- Added check in NPM and Yarn recipes to check if `package.json` has changed before running `npm install`/`yarn install`
 - Added optional version prefix to Sentry recipe
 
 ### Fixed
