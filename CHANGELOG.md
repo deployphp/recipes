@@ -13,6 +13,7 @@
 
 ### Fixed
 - Fixed rabbit recipe (#244)
+- Fixed sentry releases, if git does not exist
 
 ## 6.2.0
 [6.1.0...6.2.0](https://github.com/deployphp/recipes/compare/6.1.0...6.2.0)
