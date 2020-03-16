@@ -138,7 +138,7 @@ EXAMPLE
 
 function releaseIsGitDirectory()
 {
-    return (bool) run('cd {{release_path}} && git rev-parse --git-dir > /dev/null 2>&1 && echo 1');
+    return (bool) run('cd {{release_path}} && git rev-parse --git-dir > /dev/null 2>&1 && echo 1 || echo 0');
 }
 
 function getReleaseGitRef(): Closure
