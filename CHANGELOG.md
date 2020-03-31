@@ -1,5 +1,8 @@
 # Changelog
 
+### Fixed
+
+- Adding the ability to pick a release from the 4.X cachetool family, which works with PHP >=7.1
 
 ## master
 [6.2.0...master](https://github.com/deployphp/recipes/compare/6.2.0...master)
