@@ -31,5 +31,4 @@ task('rollbar:notify', function () {
         ->send();
 })
     ->once()
-    ->shallow()
-    ->setPrivate();
+    ->shallow();
