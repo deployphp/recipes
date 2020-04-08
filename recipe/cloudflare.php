@@ -1,6 +1,6 @@
 <?php
 /* (c) David Jordan / CyberDuck <david@cyber-duck.co.uk>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -35,14 +35,16 @@ task('deploy:cloudflare', function () {
     $makeRequest = function ($url, $opts = []) use ($headers) {
         $ch = curl_init("https://api.cloudflare.com/client/v4/$url");
 
-        $parsedHeaders = [];
+        $parsedHeaders = ["Method: DELETE"];
         foreach($headers as $key => $value){
             $parsedHeaders[] = "$key: $value";
         }
 
         curl_setopt_array($ch, [
             CURLOPT_HTTPHEADER     => $parsedHeaders,
-            CURLOPT_RETURNTRANSFER => true
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_POSTFIELDS => '{"purge_everything": true}'
         ]);
 
         curl_setopt_array($ch, $opts);
@@ -60,13 +62,13 @@ task('deploy:cloudflare', function () {
 
     // get the mysterious zone id from Cloud Flare
     $zones = json_decode($makeRequest(
-        "zones?name={$config['domain']}"
+        "zones/{$config['domain']}/purge_cache"
     ), true);
 
     if (empty($zones['success']) || !empty($zones['errors'])) {
-        throw new \RuntimeException("Problem with zone data");
+        throw new \RuntimeException(sprintf("Problem: %s", $zones['errors'][0]['message']));
     } else {
-        $zoneId = current($zones['result'])['id'];
+        $zoneId = $zones['result']['id'];
     }
 
     // make purge request
