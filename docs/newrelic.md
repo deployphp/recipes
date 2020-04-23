@@ -29,7 +29,7 @@ require 'recipe/newrelic.php';
 
 ## Usage
 
-Since you should only notify New Relic of a successfull deployment, the `newrelic:notify` task should be executed right at the end.
+Since you should only notify New Relic of a successful deployment, the `newrelic:notify` task should be executed right at the end.
 
 ```php
 after('deploy', 'newrelic:notify');

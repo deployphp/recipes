@@ -26,7 +26,7 @@ require 'recipe/bugsnag.php';
 
 ## Usage
 
-Since you should only notify Bugsnag of a successfull deployment, the `bugsnag:notify` task should be executed right at the end.
+Since you should only notify Bugsnag of a successful deployment, the `bugsnag:notify` task should be executed right at the end.
 
 ```php
 after('deploy', 'bugsnag:notify');

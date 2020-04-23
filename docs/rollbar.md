@@ -29,7 +29,7 @@ require 'recipe/rollbar.php';
 
 ## Usage
 
-Since you should only notify Rollbar channel of a successfull deployment, the `rollbar:notify` task should be executed right at the end.
+Since you should only notify Rollbar channel of a successful deployment, the `rollbar:notify` task should be executed right at the end.
 
 ```php
 after('deploy', 'rollbar:notify');
