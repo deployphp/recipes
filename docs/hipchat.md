@@ -29,7 +29,7 @@ require 'recipe/hipchat.php';
 
 ## Usage
 
-Since you should only notify Hipchat room of a successfull deployment, the `hipchat:notify` task should be executed right at the end.
+Since you should only notify Hipchat room of a successful deployment, the `hipchat:notify` task should be executed right at the end.
 
 ```php
 after('deploy', 'hipchat:notify');

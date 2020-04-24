@@ -30,7 +30,7 @@ require 'recipe/raygun.php';
 
 ## Usage
 
-To notify Raygun of a succesful deployment, you can use the 'raygun:notify' task after a deployment.
+To notify Raygun of a successful deployment, you can use the 'raygun:notify' task after a deployment.
 
 ```php
 after('deploy', 'raygun:notify');

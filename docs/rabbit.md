@@ -43,7 +43,7 @@ set('rabbit', [
 
 ### Suggested Usage
 
-Since you should only notify RabbitMQ channel of a successfull deployment, the `deploy:rabbit` task should be executed right at the end.
+Since you should only notify RabbitMQ channel of a successful deployment, the `deploy:rabbit` task should be executed right at the end.
 
 ```php
 // deploy.php

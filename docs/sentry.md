@@ -34,7 +34,7 @@ unless it's a first release, then only first 200 will be sent.
 - **date_deploy_started** *(optional)* - date that indicates when the deploy started. Defaults to current time.
 - **date_deploy_finished** *(optional)* - date that indicates when the deploy ended. If not provided, the current time is used.
 - **deploy_name** *(optional)* - name of the deploy 
-- **git_version_command** *(optional)* - the commmand that retrieves the git version information (Defaults is set to git log -n 1 --format="%h", other options are git describe --tags --abbrev=0)
+- **git_version_command** *(optional)* - the command that retrieves the git version information (Defaults is set to git log -n 1 --format="%h", other options are git describe --tags --abbrev=0)
 
 ```php
 // deploy.php
