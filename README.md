@@ -1,4 +1,6 @@
-# Deployer Recipes
+> All recipes moved into https://github.com/deployphp/deployer/tree/master/contrib
+
+## Deployer Recipes
 
 This repository contains third party recipes to integrate with deployer.
 
